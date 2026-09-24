@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kello.ai — Your next great hire is already out there.</title>
+<meta name="description" content="Kello's AI sourcer searches 100M+ profiles, finds the candidates worth calling, and delivers your shortlist in minutes.">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <link rel="apple-touch-icon" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,9 +55,11 @@
   }
 
   *{box-sizing:border-box;}
-  /* overflow-x lives on html, not body: on body it makes body a scroll
-     container and silently breaks position:sticky further down the page */
-  html{scroll-behavior:smooth;overflow-x:hidden;}
+  /* no overflow-x on html/body: on html it clips the page below body's
+     min-width with no way to scroll to it, and on body it breaks
+     position:sticky. The only thing wider than the page is the glow
+     layer, so that clips itself (.page-glows). */
+  html{scroll-behavior:smooth;}
   body{
     margin:0;
     font-family:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -72,8 +75,16 @@
   ul{margin:0;padding:0;list-style:none;}
   h1,h2,h3,h4,p{margin:0;}
 
-  .wrap{max-width:var(--container);margin:0 auto;padding:0;}
+  /* 32px gutters once the viewport is narrower than container + gutters */
+  .wrap{width:min(var(--container), 100% - 2 * var(--space-8));margin:0 auto;padding:0;}
 
+  .page-glows{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+    z-index:-1;
+    pointer-events:none;
+  }
   .page-glow{
     position:absolute;
     top:400px;
@@ -674,7 +685,7 @@
   }
   .cta-band{
     position:relative;
-    max-width:var(--container);
+    width:min(var(--container), 100% - 2 * var(--space-8));
     margin:0 auto;
     border-radius:var(--radius-xl);
     padding:56px 40px;
@@ -743,7 +754,9 @@
     font-size:12px;font-weight:700;letter-spacing:0.05em;
     color:var(--ink-700);
     box-shadow:var(--shadow-sm);
+    transition:border-color .15s ease, color .15s ease;
   }
+  .talk-human:hover{border-color:var(--olive-900);color:var(--olive-900);}
   .talk-human svg{width:16px;height:16px;}
 
   .footer-links{
@@ -784,13 +797,22 @@
   }
   .social-icons a:hover{background:var(--olive-900);color:#fff;border-color:var(--olive-900);}
   .social-icons svg{width:15px;height:15px;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .ticker-track{animation:none;}
+    .btn, .btn:hover, .btn:active{transform:none;transition:none;}
+    .faq-a{transition:none;}
+  }
 </style>
 </head>
 <body>
 
 <div class="bg-pattern"></div>
-<div class="page-glow"></div>
-<div class="page-glow page-glow-2"></div>
+<div class="page-glows" aria-hidden="true">
+  <div class="page-glow"></div>
+  <div class="page-glow page-glow-2"></div>
+</div>
 
 <header class="site-header">
   <div class="header-blur" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
@@ -817,7 +839,7 @@
   <div class="hero-bg"></div>
   <div class="wrap">
     <div class="hero-inner">
-      <span class="hero-badge"><span class="tag">NEW</span> 100M+ profile reviewed</span>
+      <span class="hero-badge"><span class="tag">NEW</span> 100M+ profiles reviewed</span>
       <h1>Your next great hire is<br>already out there.</h1>
       <p class="hero-sub">Kello's AI sourcer searches 100M+ profiles, finds the candidates worth calling, and delivers your shortlist in minutes.</p>
       <div class="hero-ctas">
@@ -847,16 +869,16 @@
       <h2>Stop searching.<br>Start hiring.</h2>
     </div>
 
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="understand">Understand</button>
-      <button class="tab-btn" data-tab="calibrate">Calibrate</button>
-      <button class="tab-btn" data-tab="explore">Explore</button>
-      <button class="tab-btn" data-tab="review">Review</button>
-      <button class="tab-btn" data-tab="delivery">Profile Delivery</button>
+    <div class="tabs" role="tablist" aria-label="How Kello sources">
+      <button class="tab-btn active" data-tab="understand" role="tab" id="tab-understand" aria-controls="panel-understand" aria-selected="true">Understand</button>
+      <button class="tab-btn" data-tab="calibrate" role="tab" id="tab-calibrate" aria-controls="panel-calibrate" aria-selected="false" tabindex="-1">Calibrate</button>
+      <button class="tab-btn" data-tab="explore" role="tab" id="tab-explore" aria-controls="panel-explore" aria-selected="false" tabindex="-1">Explore</button>
+      <button class="tab-btn" data-tab="review" role="tab" id="tab-review" aria-controls="panel-review" aria-selected="false" tabindex="-1">Review</button>
+      <button class="tab-btn" data-tab="delivery" role="tab" id="tab-delivery" aria-controls="panel-delivery" aria-selected="false" tabindex="-1">Profile Delivery</button>
     </div>
 
     <div class="tab-panel-frame">
-      <div class="tab-panel active" data-panel="understand">
+      <div class="tab-panel active" data-panel="understand" role="tabpanel" id="panel-understand" aria-labelledby="tab-understand">
         <div class="tab-copy">
           <h3>We read between the lines</h3>
           <p>Kello goes beyond keywords to understand what the role actually demands — from must-have skills to the experience signals that separate a good match from a great one.</p>
@@ -905,7 +927,7 @@
         </div>
       </div>
 
-      <div class="tab-panel" data-panel="calibrate">
+      <div class="tab-panel" data-panel="calibrate" role="tabpanel" id="panel-calibrate" aria-labelledby="tab-calibrate">
         <div class="tab-copy">
           <h3>Calibrated to your bar</h3>
           <p>Kello learns from every candidate you approve or reject, tightening its sense of what "good" looks like for your team with each round.</p>
@@ -935,7 +957,7 @@
         </div>
       </div>
 
-      <div class="tab-panel" data-panel="explore">
+      <div class="tab-panel" data-panel="explore" role="tabpanel" id="panel-explore" aria-labelledby="tab-explore">
         <div class="tab-copy">
           <h3>Explores every corner of the web</h3>
           <p>Kello searches across 100M+ profiles and public signals to surface people who fit — including candidates who never show up in a keyword search.</p>
@@ -965,7 +987,7 @@
         </div>
       </div>
 
-      <div class="tab-panel" data-panel="review">
+      <div class="tab-panel" data-panel="review" role="tabpanel" id="panel-review" aria-labelledby="tab-review">
         <div class="tab-copy">
           <h3>Every match, reasoned out</h3>
           <p>No black box scores. Each candidate comes with a clear, readable write-up of why they're a fit — so you can review fast and with confidence.</p>
@@ -995,7 +1017,7 @@
         </div>
       </div>
 
-      <div class="tab-panel" data-panel="delivery">
+      <div class="tab-panel" data-panel="delivery" role="tabpanel" id="panel-delivery" aria-labelledby="tab-delivery">
         <div class="tab-copy">
           <h3>Straight to your inbox</h3>
           <p>Your shortlist lands where your team already works — email, Slack, or your ATS — ready to move to outreach.</p>
@@ -1033,7 +1055,7 @@
   <div class="wrap">
     <div class="section-head">
       <div class="eyebrow">WORD OF MOUTH</div>
-      <h2>Don't take our words for it.<br>Hear it from our partners.</h2>
+      <h2>Don't take our word for it.<br>Hear it from our partners.</h2>
     </div>
 
     <div class="wom-grid">
@@ -1046,7 +1068,7 @@
 
       <div class="wom-card video">
         <img src="assets/photo-karan.jpg" alt="Karan Mehta">
-        <span class="play-btn">
+        <span class="play-btn" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </span>
         <div class="video-caption">
@@ -1077,58 +1099,58 @@
 
       <div class="faq-right">
         <div class="faq-item open">
-          <button class="faq-q-btn">
-            <span class="faq-q">What is Kello?</span>
-            <span class="faq-icon">
+          <button class="faq-q-btn" aria-expanded="true" aria-controls="faq-a-1">
+            <span class="faq-q" id="faq-q-1">What is Kello?</span>
+            <span class="faq-icon" aria-hidden="true">
               <svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
               <svg class="minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
             </span>
           </button>
-          <div class="faq-a">Kello is an AI-native sourcing platform that helps recruiting teams find qualified candidates without spending hours manually searching profiles. Send Kello a job description, and it researches the role, explores multiple candidate profiles, evaluates potential matches, and delivers a focused shortlist.</div>
+          <div class="faq-a" id="faq-a-1" role="region" aria-labelledby="faq-q-1">Kello is an AI-native sourcing platform that helps recruiting teams find qualified candidates without spending hours manually searching profiles. Send Kello a job description, and it researches the role, explores multiple candidate profiles, evaluates potential matches, and delivers a focused shortlist.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q-btn">
-            <span class="faq-q">How does Kello work?</span>
-            <span class="faq-icon">
+          <button class="faq-q-btn" aria-expanded="false" aria-controls="faq-a-2">
+            <span class="faq-q" id="faq-q-2">How does Kello work?</span>
+            <span class="faq-icon" aria-hidden="true">
               <svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
               <svg class="minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
             </span>
           </button>
-          <div class="faq-a">You send Kello a job description or a quick brief. It reads between the lines to understand the role, searches across 100M+ profiles, evaluates each candidate against your bar, and returns a reasoned shortlist ready for outreach.</div>
+          <div class="faq-a" id="faq-a-2" role="region" aria-labelledby="faq-q-2">You send Kello a job description or a quick brief. It reads between the lines to understand the role, searches across 100M+ profiles, evaluates each candidate against your bar, and returns a reasoned shortlist ready for outreach.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q-btn">
-            <span class="faq-q">How many profiles does Kello search?</span>
-            <span class="faq-icon">
+          <button class="faq-q-btn" aria-expanded="false" aria-controls="faq-a-3">
+            <span class="faq-q" id="faq-q-3">How many profiles does Kello search?</span>
+            <span class="faq-icon" aria-hidden="true">
               <svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
               <svg class="minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
             </span>
           </button>
-          <div class="faq-a">Kello has reviewed over 100M profiles and counting, spanning active job seekers and passive candidates who rarely surface in a keyword search.</div>
+          <div class="faq-a" id="faq-a-3" role="region" aria-labelledby="faq-q-3">Kello has reviewed over 100M profiles and counting, spanning active job seekers and passive candidates who rarely surface in a keyword search.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q-btn">
-            <span class="faq-q">How quickly can I get candidates?</span>
-            <span class="faq-icon">
+          <button class="faq-q-btn" aria-expanded="false" aria-controls="faq-a-4">
+            <span class="faq-q" id="faq-q-4">How quickly can I get candidates?</span>
+            <span class="faq-icon" aria-hidden="true">
               <svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
               <svg class="minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
             </span>
           </button>
-          <div class="faq-a">Most teams get their first shortlist within minutes of sending a job description, with fresh candidates continuing to arrive as Kello keeps searching.</div>
+          <div class="faq-a" id="faq-a-4" role="region" aria-labelledby="faq-q-4">Most teams get their first shortlist within minutes of sending a job description, with fresh candidates continuing to arrive as Kello keeps searching.</div>
         </div>
 
         <div class="faq-item">
-          <button class="faq-q-btn">
-            <span class="faq-q">How does Kello know what makes a good candidate?</span>
-            <span class="faq-icon">
+          <button class="faq-q-btn" aria-expanded="false" aria-controls="faq-a-5">
+            <span class="faq-q" id="faq-q-5">How does Kello know what makes a good candidate?</span>
+            <span class="faq-icon" aria-hidden="true">
               <svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
               <svg class="minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
             </span>
           </button>
-          <div class="faq-a">Kello learns your bar from the job description and from every candidate you approve or reject, calibrating its sense of a "good match" to your team over time.</div>
+          <div class="faq-a" id="faq-a-5" role="region" aria-labelledby="faq-q-5">Kello learns your bar from the job description and from every candidate you approve or reject, calibrating its sense of a "good match" to your team over time.</div>
         </div>
 
         <div class="faq-ask">Anything else you'd like to ask? Type it here...</div>
@@ -1164,10 +1186,10 @@
           <span class="fine">First 2 jobs free  ·  No tooling  ·  No training</span>
         </div>
       </div>
-      <div class="talk-human">
+      <a class="talk-human" href="mailto:support@kello.ai">
         TALK TO A HUMAN
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </div>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
     </div>
 
     <div class="footer-links">
@@ -1229,23 +1251,50 @@
 </footer>
 
 <script>
-  document.querySelectorAll('.tab-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelector('.tab-panel[data-panel="'+btn.dataset.tab+'"]').classList.add('active');
+  const tabBtns = [...document.querySelectorAll('.tab-btn')];
+  function selectTab(btn){
+    tabBtns.forEach(b=>{
+      const on = b === btn;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-selected', on);
+      b.tabIndex = on ? 0 : -1;
+    });
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active', p.dataset.panel === btn.dataset.tab));
+  }
+  tabBtns.forEach((btn, i)=>{
+    btn.addEventListener('click', ()=>selectTab(btn));
+    // roving focus per the ARIA tabs pattern: arrows / Home / End move between tabs
+    btn.addEventListener('keydown', e=>{
+      const n = tabBtns.length;
+      const to = {ArrowRight:(i+1)%n, ArrowLeft:(i-1+n)%n, Home:0, End:n-1}[e.key];
+      if(to === undefined) return;
+      e.preventDefault();
+      tabBtns[to].focus();
+      selectTab(tabBtns[to]);
     });
   });
 
-  document.querySelectorAll('.faq-q-btn').forEach(btn=>{
+  const faqBtns = document.querySelectorAll('.faq-q-btn');
+  faqBtns.forEach(btn=>{
     btn.addEventListener('click', ()=>{
       const item = btn.closest('.faq-item');
       const wasOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
-      if(!wasOpen) item.classList.add('open');
+      faqBtns.forEach(b=>{
+        b.closest('.faq-item').classList.remove('open');
+        b.setAttribute('aria-expanded', 'false');
+      });
+      if(!wasOpen){
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
     });
   });
+
+  // the CTA card's SMIL streaks can't be paused from CSS
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const depth = document.querySelector('.cta-depth-svg');
+    if (depth) depth.pauseAnimations();
+  }
 
   /* footer curtain reveal: freeze the whole page once the CTA card sits
      120px above the viewport bottom, then blur it back as the footer
@@ -1287,6 +1336,9 @@
     addEventListener('scroll', onScroll, {passive:true});
     addEventListener('resize', ()=>{ measure(); paint(); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{ measure(); paint(); });
+    // the pin depends on the stack's height, which changes whenever an FAQ
+    // opens/closes or a different-height tab panel is shown -- re-pin then too
+    if ('ResizeObserver' in window) new ResizeObserver(()=>{ measure(); paint(); }).observe(stack);
   })();
 </script>
 
