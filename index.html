@@ -53,7 +53,8 @@
 
     --container:1280px;
     --rule-line:#dcdcdc;
-    --section-gap:180px;      /* space between one section's content and the next */
+    --section-gap:180px;
+    --src-step:60vh;          /* scroll distance per sourcing tab */      /* space between one section's content and the next */
   }
 
   *{box-sizing:border-box;}
@@ -405,13 +406,37 @@
      bar, then copy on the left and a green product visual on the right */
   .sourcing{position:relative;}
   .sourcing .section-head{margin-bottom:56px;}
+  /* scroll-driven tabs: the frame pins in the middle of the screen while
+     a runway below it scrolls past (one --src-step per tab change); only
+     after the last tab does the page move on */
+  .src-track{position:relative;}
+  .src-track .src-frame{
+    position:sticky;
+    top:max(88px, calc(50vh - 320px));      /* centred; never under the header */
+    z-index:1;
+  }
+  .src-runway{height:calc(4 * var(--src-step, 60vh));}
   .tabs{
+    position:relative;
     display:grid;
     grid-template-columns:repeat(5, 1fr);
     gap:12px;
     padding:12px;
     background:#f4f4f2;
   }
+  /* the white highlight glides with the scroll position (--tab-pos runs
+     0..4, set by JS) instead of snapping from tab to tab */
+  .tab-glider{
+    position:absolute;
+    left:12px;top:12px;
+    width:calc((100% - 24px - 4 * 12px) / 5);
+    height:52px;
+    background:#fff;
+    border:1px solid #ececec;
+    transform:translateX(calc(var(--tab-pos, 0) * (100% + 12px)));
+    pointer-events:none;
+  }
+  .tab-btn{position:relative;z-index:1;}
   .tab-btn{
     height:52px;
     background:transparent;
@@ -424,8 +449,6 @@
   }
   .tab-btn:hover{color:var(--ink-800);}
   .tab-btn.active{
-    background:#fff;
-    border-color:#ececec;
     color:var(--ink-900);
     font-weight:500;
   }
@@ -442,6 +465,13 @@
     padding:8px 8px 8px 0;
   }
   .tab-panel.active{display:grid;}
+  /* per-word reveal: JS wraps each word in .w with --i = its index within
+     the block; blocks start together and words follow 0.1s apart */
+  .tab-panel .w{display:inline-block;}
+  .tab-panel.reveal .w{animation:word-in .5s cubic-bezier(.2, .7, .2, 1) both;animation-delay:calc(var(--i) * 0.1s + var(--d, 0s));}
+  .tab-panel.reveal .tab-visual{animation:visual-in .45s ease both;}
+  @keyframes word-in{from{opacity:0;transform:translateY(6px);filter:blur(4px);}to{opacity:1;transform:none;filter:none;}}
+  @keyframes visual-in{from{opacity:0;}to{opacity:1;}}
   /* 32px from the panel's left, top and bottom edges (8px of which is the
      panel's own padding); heading + copy sit at the top, the points and
      CTA at the bottom */
@@ -1048,6 +1078,7 @@
     .ticker-track{animation:none;}
     .btn, .btn:hover, .btn:active{transform:none;transition:none;}
     .faq-a{transition:none;}
+    .tab-panel.reveal .w, .tab-panel.reveal .tab-visual{animation:none;}
   }
 </style>
 </head>
@@ -1114,8 +1145,10 @@
       <h2>Stop searching.<br>Start hiring.</h2>
     </div>
 
+    <div class="src-track">
     <div class="src-frame ruled-frame">
     <div class="tabs" role="tablist" aria-label="How Kello sources">
+      <span class="tab-glider" aria-hidden="true"></span>
       <button class="tab-btn active" data-tab="understand" role="tab" id="tab-understand" aria-controls="panel-understand" aria-selected="true">Understand</button>
       <button class="tab-btn" data-tab="calibrate" role="tab" id="tab-calibrate" aria-controls="panel-calibrate" aria-selected="false" tabindex="-1">Calibrate</button>
       <button class="tab-btn" data-tab="explore" role="tab" id="tab-explore" aria-controls="panel-explore" aria-selected="false" tabindex="-1">Explore</button>
@@ -1314,6 +1347,8 @@
       <span class="ruled-corner tr" aria-hidden="true"></span>
       <span class="ruled-corner bl" aria-hidden="true"></span>
       <span class="ruled-corner br" aria-hidden="true"></span>
+    </div>
+    <div class="src-runway" aria-hidden="true"></div>
     </div>
   </div>
 </section>
@@ -1659,28 +1694,117 @@
 </footer>
 
 <script>
-  const tabBtns = [...document.querySelectorAll('.tab-btn')];
-  function selectTab(btn){
-    tabBtns.forEach(b=>{
-      const on = b === btn;
-      b.classList.toggle('active', on);
-      b.setAttribute('aria-selected', on);
-      b.tabIndex = on ? 0 : -1;
+  // sourcing tabs, driven by scroll: while the frame is pinned, the scroll
+  // position through the runway picks the tab and glides the highlight;
+  // clicking a tab (or arrow keys) scrolls to that tab's point
+  (function(){
+    const track  = document.querySelector('.src-track');
+    const frame  = track && track.querySelector('.src-frame');
+    const tabs   = frame && frame.querySelector('.tabs');
+    const btns   = frame ? [...frame.querySelectorAll('.tab-btn')] : [];
+    const panels = frame ? [...frame.querySelectorAll('.tab-panel')] : [];
+    if (!track || !btns.length) return;
+    const N = btns.length;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // wrap every word of the heading, copy and points in .w for the reveal
+    panels.forEach(panel=>{
+      panel.querySelectorAll('.tab-copy h3, .tab-copy > p, .check-list li').forEach((block, b)=>{
+        let n = 0;
+        block.style.setProperty('--d', (block.matches('li') ? 0.2 + 0.1 * [...block.parentNode.children].indexOf(block) : block.matches('p') ? 0.15 : 0) + 's');
+        [...block.childNodes].forEach(node=>{
+          if (node.nodeType !== 3 || !node.textContent.trim()) return;
+          const frag = document.createDocumentFragment();
+          node.textContent.split(/(\s+)/).forEach(part=>{
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            const w = document.createElement('span');
+            w.className = 'w'; w.textContent = part; w.style.setProperty('--i', n++);
+            frag.appendChild(w);
+          });
+          // points are flex rows with a gap, so keep their words in one box
+          if (block.matches('li')) { const t = document.createElement('span'); t.appendChild(frag); node.replaceWith(t); }
+          else node.replaceWith(frag);
+        });
+      });
     });
-    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active', p.dataset.panel === btn.dataset.tab));
-  }
-  tabBtns.forEach((btn, i)=>{
-    btn.addEventListener('click', ()=>selectTab(btn));
-    // roving focus per the ARIA tabs pattern: arrows / Home / End move between tabs
-    btn.addEventListener('keydown', e=>{
-      const n = tabBtns.length;
-      const to = {ArrowRight:(i+1)%n, ArrowLeft:(i-1+n)%n, Home:0, End:n-1}[e.key];
-      if(to === undefined) return;
-      e.preventDefault();
-      tabBtns[to].focus();
-      selectTab(tabBtns[to]);
+
+    let current = -1, lockTo = -1, lockTimer = 0;
+    function show(i){
+      if (i === current) return;
+      current = i;
+      btns.forEach((b, k)=>{
+        const on = k === i;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-selected', on);
+        b.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((p, k)=>{
+        p.classList.toggle('active', k === i);
+        p.classList.remove('reveal');
+      });
+      if (!still && revealed) { panels[i].offsetWidth; panels[i].classList.add('reveal'); }
+    }
+    function geometry(){
+      const top = parseFloat(getComputedStyle(frame).top) || 0;
+      const travel = Math.max(1, track.offsetHeight - frame.offsetHeight);
+      return {top, travel};
+    }
+    function progress(){
+      const {top, travel} = geometry();
+      return Math.min(1, Math.max(0, (top - track.getBoundingClientRect().top) / travel));
+    }
+    let ticking = false;
+    function update(){
+      ticking = false;
+      const pos = progress() * (N - 1);
+      tabs.style.setProperty('--tab-pos', pos.toFixed(4));
+      const i = Math.round(pos);
+      if (lockTo >= 0) { if (i === lockTo) lockTo = -1; else return; }
+      show(i);
+    }
+    addEventListener('scroll', ()=>{ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, {passive:true});
+    addEventListener('resize', update);
+
+    function goTo(i){
+      const {top, travel} = geometry();
+      const trackTop = track.getBoundingClientRect().top + scrollY;
+      lockTo = i; clearTimeout(lockTimer); lockTimer = setTimeout(()=>{ lockTo = -1; update(); }, 1500);
+      show(i);
+      scrollTo({top: trackTop - top + travel * i / (N - 1), behavior: still ? 'auto' : 'smooth'});
+    }
+    btns.forEach((btn, i)=>{
+      btn.addEventListener('click', ()=>goTo(i));
+      btn.addEventListener('keydown', e=>{
+        const to = {ArrowRight:(i + 1) % N, ArrowLeft:(i - 1 + N) % N, Home:0, End:N - 1}[e.key];
+        if (to === undefined) return;
+        e.preventDefault();
+        btns[to].focus();
+        goTo(to);
+      });
     });
-  });
+
+    // play the first reveal when the frame first comes into view
+    let revealed = still;
+    const io = 'IntersectionObserver' in window && new IntersectionObserver(([e])=>{
+      if (!e.isIntersecting) return;
+      revealed = true; io.disconnect();
+      if (!still) { panels[current].classList.remove('reveal'); panels[current].offsetWidth; panels[current].classList.add('reveal'); }
+    }, {threshold:0.35});
+    if (io) io.observe(frame); else revealed = true;
+    current = -1; update();
+  })();
+
+  // the FAQ glow sits at a fixed page offset, so re-anchor it to the FAQs
+  // whenever the page's height changes (the sourcing runway moves them)
+  (function(){
+    const glow = document.querySelector('.page-glow-2'), faq = document.getElementById('faq');
+    if (!glow || !faq) return;
+    const place = ()=>{ glow.style.top = Math.round(faq.getBoundingClientRect().top + scrollY) + 'px'; };
+    place();
+    addEventListener('resize', place);
+    if ('ResizeObserver' in window) new ResizeObserver(place).observe(document.body);
+  })();
 
   const faqBtns = document.querySelectorAll('.faq-q-btn');
   faqBtns.forEach(btn=>{
