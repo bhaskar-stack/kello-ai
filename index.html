@@ -778,71 +778,116 @@
     background-attachment:fixed;
   }
   .site-footer .wrap{padding:0;}
+  /* layout and type follow the Figma "footer" frame (Kello revamp, 140:17203) */
+  .site-footer{
+    --footer-line:#e4e4e2;
+    --footer-text:#505050;
+    padding-bottom:80px;
+    color:var(--footer-text);
+    font-size:18px;
+    line-height:24px;
+    letter-spacing:-0.02em;
+  }
   .footer-top{
     display:flex;
     justify-content:space-between;
     align-items:flex-end;
-    gap:40px;
-    padding-bottom:64px;
+    border-bottom:1px solid var(--footer-line);
   }
-  .footer-top h2{font-size:34px;font-weight:700;letter-spacing:-0.02em;max-width:480px;line-height:1.2;}
-  .footer-top .sub{font-size:15px;color:var(--ink-500);margin-top:14px;}
-  .footer-cta{margin-top:24px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
-  .footer-cta .fine{font-size:12.5px;color:var(--ink-400);}
+  .footer-pitch{width:640px;padding-bottom:24px;}
+  .footer-pitch h2{
+    font-size:40px;font-weight:500;line-height:1.2;letter-spacing:-0.02em;
+    color:var(--ink-900);
+    white-space:nowrap;
+  }
+  .footer-pitch .sub{
+    margin-top:16px;
+    font-size:24px;line-height:32px;letter-spacing:-0.02em;
+  }
+  .footer-cta{margin-top:24px;display:flex;flex-direction:column;align-items:flex-start;gap:16px;}
+  .footer-cta .btn{
+    height:48px;width:160px;padding:0 16px;justify-content:center;
+    font-size:18px;line-height:24px;
+    box-shadow:
+      0 1.128px 1.128px 0 rgba(8,8,8,0.2),
+      0 4.514px 2.257px 0 rgba(8,8,8,0.08),
+      inset 0 1.128px 1.128px 0 rgba(255,255,255,0.2),
+      inset 0 6.771px 13.542px 0 rgba(255,255,255,0.12);
+  }
+  .footer-meta{display:flex;flex-wrap:wrap;align-items:center;}
+  .footer-cta .footer-meta{font-size:16px;letter-spacing:-0.02em;}
+  /* the design separates these runs with a centred dot in a fixed-width slot */
+  .footer-meta .dot{
+    width:24px;height:24px;flex-shrink:0;
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .footer-meta .dot::before{content:"";width:3px;height:3px;border-radius:50%;background:currentColor;}
   .talk-human{
     display:flex;align-items:center;justify-content:space-between;
     gap:24px;
-    min-width:360px;
-    padding:20px 24px;
+    width:640px;height:64px;
+    padding:0 19px 0 20px;
     background:#fff;
-    border:1px solid var(--line-200);
-    border-radius:var(--radius-md);
-    font-size:12px;font-weight:700;letter-spacing:0.05em;
-    color:var(--ink-700);
-    box-shadow:var(--shadow-sm);
+    border:1px solid var(--footer-line);
+    /* sits on the rule below it rather than doubling it */
+    margin-bottom:-1px;
+    font-size:16px;letter-spacing:-0.02em;
+    color:var(--footer-text);
     transition:border-color .15s ease, color .15s ease;
   }
   .talk-human:hover{border-color:var(--olive-900);color:var(--olive-900);}
-  .talk-human svg{width:16px;height:16px;}
+  .talk-human svg{width:24px;height:24px;color:var(--ink-900);}
 
+  /* four equal columns with a 1px divider 40px either side of each gap */
   .footer-links{
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:32px;
+    grid-template-columns:1fr 1px 1fr 1px 1fr 1px 1fr;
+    column-gap:40px;
     padding:40px 0;
-    border-top:1px solid var(--line-200);
+    border-bottom:1px solid var(--footer-line);
   }
+  .footer-divider{background:var(--footer-line);}
   .footer-col h5{
-    font-size:12px;font-weight:700;letter-spacing:0.06em;
-    color:var(--ink-400);text-transform:uppercase;
-    margin-bottom:18px;
+    font-size:inherit;font-weight:400;text-transform:uppercase;
+    margin:0 0 12px;
   }
-  .footer-col ul{display:flex;flex-direction:column;gap:14px;}
-  .footer-col a{font-size:14px;color:var(--ink-700);transition:color .15s ease;}
+  .footer-col ul{display:flex;flex-direction:column;gap:12px;}
+  .footer-col a{transition:color .15s ease;}
   .footer-col a:hover{color:var(--olive-900);}
 
   .footer-bottom{
-    border-top:1px solid var(--line-200);
-    padding:28px 0 32px;
+    padding-top:40px;
     display:flex;
     justify-content:space-between;
-    align-items:flex-end;
+    align-items:flex-start;
   }
-  .footer-brand{display:flex;flex-direction:column;gap:10px;}
-  .footer-brand .logo img{height:calc(28px * 47 / 36);}
-  .footer-copy{font-size:12.5px;color:var(--ink-400);letter-spacing:0.01em;}
-  .footer-social{display:flex;flex-direction:column;align-items:flex-end;gap:14px;}
-  .footer-social .label{font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--ink-400);}
-  .social-icons{display:flex;gap:10px;}
+  .footer-brand{display:flex;flex-direction:column;gap:12px;}
+  .footer-logo{display:flex;align-items:center;gap:16px;}
+  .footer-mark{
+    position:relative;
+    width:40px;height:40px;flex-shrink:0;
+    border-radius:6px;
+    background:var(--olive-900);
+    box-shadow:
+      0 1.128px 1.128px 0 rgba(8,8,8,0.2),
+      0 4.514px 2.257px 0 rgba(8,8,8,0.08),
+      inset 0 1.128px 1.128px 0 rgba(255,255,255,0.2),
+      inset 0 6.771px 13.542px 0 rgba(255,255,255,0.12);
+  }
+  .footer-mark svg{position:absolute;left:4px;top:4px;width:32px;height:32px;}
+  .footer-wordmark{font-size:24px;font-weight:500;line-height:32px;letter-spacing:-0.01em;color:#1e1e1e;}
+  .footer-copy{gap:4px;}
+  .footer-copy .dot{width:27px;}
+  .footer-social{display:flex;flex-direction:column;align-items:flex-end;gap:12px;}
+  .social-icons{display:flex;gap:24px;}
   .social-icons a{
-    width:34px;height:34px;border-radius:50%;
-    border:1px solid var(--line-200);
+    width:40px;height:40px;
     display:flex;align-items:center;justify-content:center;
-    color:var(--ink-800);
-    transition:background .15s ease, color .15s ease;
+    color:var(--footer-text);
+    transition:color .15s ease;
   }
-  .social-icons a:hover{background:var(--olive-900);color:#fff;border-color:var(--olive-900);}
-  .social-icons svg{width:15px;height:15px;}
+  .social-icons a:hover{color:var(--olive-900);}
+  .social-icons svg{width:24px;height:24px;}
 
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
@@ -1274,17 +1319,17 @@
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-top">
-      <div>
+      <div class="footer-pitch">
         <h2>Ready to stop sourcing manually?</h2>
         <p class="sub">Send Kello a JD. Get your first shortlist in minutes.</p>
         <div class="footer-cta">
-          <a href="#" class="btn btn-primary">Send a JD</a>
-          <span class="fine">First 2 jobs free  ·  No tooling  ·  No training</span>
+          <a href="#" class="btn btn-primary">Send us the JD</a>
+          <p class="footer-meta">First 2 jobs free<span class="dot" aria-hidden="true"></span>No tooling<span class="dot" aria-hidden="true"></span>No training</p>
         </div>
       </div>
       <a class="talk-human" href="mailto:support@kello.ai">
         TALK TO A HUMAN
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M18.5 12L4.99997 12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/><path d="M13 18C13 18 19 13.5811 19 12C19 10.4188 13 6 13 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>
       </a>
     </div>
 
@@ -1299,6 +1344,7 @@
           <li><a href="#">FAQs</a></li>
         </ul>
       </div>
+      <span class="footer-divider" aria-hidden="true"></span>
       <div class="footer-col">
         <h5>Resources</h5>
         <ul>
@@ -1309,6 +1355,7 @@
           <li><a href="#">Documentation</a></li>
         </ul>
       </div>
+      <span class="footer-divider" aria-hidden="true"></span>
       <div class="footer-col">
         <h5>Company</h5>
         <ul>
@@ -1317,6 +1364,7 @@
           <li><a href="#">Careers</a></li>
         </ul>
       </div>
+      <span class="footer-divider" aria-hidden="true"></span>
       <div class="footer-col">
         <h5>Legal</h5>
         <ul>
@@ -1329,10 +1377,11 @@
 
     <div class="footer-bottom">
       <div class="footer-brand">
-        <a class="logo" href="#">
-          <img src="assets/brand-logo.svg" alt="Kello.ai">
+        <a class="footer-logo" href="#" aria-label="Kello.ai home">
+          <span class="footer-mark" aria-hidden="true"><svg viewBox="6.514 3.128 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32.514 20.1285C33.6185 20.1285 34.514 21.024 34.514 22.1285V29.4869C34.514 30.3934 33.779 31.1283 32.8724 31.1285C32.6363 31.1285 32.4025 31.0774 32.1879 30.9791L22.5433 26.5591C21.4604 26.0627 21.0495 24.7355 21.6615 23.7134L23.2259 21.1011C23.5872 20.498 24.2387 20.1285 24.9418 20.1285H32.514ZM19.3832 20.1285C19.8172 20.1285 20.0452 20.6432 19.7533 20.9644L11.3841 30.1714C11.0768 30.5095 10.5143 30.2923 10.514 29.8355V22.1285C10.514 21.0239 11.4095 20.1285 12.514 20.1285H19.3832ZM12.1556 7.12847C12.3916 7.12848 12.6247 7.1796 12.8392 7.27789L22.4838 11.6978C23.5667 12.1942 23.9785 13.5215 23.3666 14.5435L21.8021 17.1558C21.4409 17.759 20.7894 18.1285 20.0863 18.1285H12.514C11.4095 18.1285 10.514 17.233 10.514 16.1285V8.77007C10.5141 7.86343 11.249 7.12847 12.1556 7.12847ZM33.6439 8.0855C33.9513 7.74742 34.5138 7.96465 34.514 8.42144V16.1285C34.514 17.233 33.6185 18.1284 32.514 18.1285H25.6439C25.2102 18.1283 24.9824 17.6137 25.2738 17.2925L33.6439 8.0855Z" fill="#fff"/></svg></span>
+          <span class="footer-wordmark" aria-hidden="true">Kello.ai</span>
         </a>
-        <span class="footer-copy">© 2026  ·  XXV Century Private Limited  ·  ALL RIGHTS RESERVED</span>
+        <p class="footer-meta footer-copy">© 2026<span class="dot" aria-hidden="true"></span>XXV Century Private Limited<span class="dot" aria-hidden="true"></span>ALL RIGHTS RESERVED</p>
       </div>
       <div class="footer-social">
         <span class="label">FIND US ON</span>
