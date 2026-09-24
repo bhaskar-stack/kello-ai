@@ -412,7 +412,7 @@
   .src-track{position:relative;}
   .src-track .src-frame{
     position:sticky;
-    top:max(88px, calc(50vh - 320px));      /* centred; never under the header */
+    top:max(88px, calc(50vh - 315px));      /* centred (frame is 629px); never under the header */
     z-index:1;
   }
   .src-runway{height:calc(4 * var(--src-step, 60vh));}
@@ -421,16 +421,16 @@
     display:grid;
     grid-template-columns:repeat(5, 1fr);
     gap:12px;
-    padding:12px;
+    padding:8px;
     background:#f4f4f2;
   }
   /* the white highlight rests behind the active tab and glides over to
      the next one when the tab changes (--tab-pos = active index, set by JS) */
   .tab-glider{
     position:absolute;
-    left:12px;top:12px;
-    width:calc((100% - 24px - 4 * 12px) / 5);
-    height:52px;
+    left:8px;top:8px;
+    width:calc((100% - 16px - 4 * 12px) / 5);
+    height:48px;
     background:#fff;
     border:1px solid #ececec;
     transform:translateX(calc(var(--tab-pos, 0) * (100% + 12px)));
@@ -439,7 +439,7 @@
   }
   .tab-btn{position:relative;z-index:1;}
   .tab-btn{
-    height:52px;
+    height:48px;
     background:transparent;
     border:1px solid transparent;
     font-size:18px;
