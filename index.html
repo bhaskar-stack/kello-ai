@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kello.ai — Your next great hire is already out there.</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --olive-900:#2B3200;
+    --olive-800:#37400a;
+    --sage-500:#688169;
+    --sage-200:#c9d9c4;
+    --sage-100:#e3ecdd;
+    --ink-900:#18181B;
+    --ink-800:#212121;
+    --ink-700:#333333;
+    --ink-500:#505050;
+    --ink-400:#747476;
+    --line-200:#e2e2e3;
+    --line-100:#ececec;
+    --surface-0:#FAFAF8;
+    --surface-50:#fafaf8;
+    --surface-100:#f4f6fa;
+    --surface-200:#f1f0f0;
+
+    --space-1:4px;
+    --space-2:8px;
+    --space-3:12px;
+    --space-4:16px;
+    --space-6:24px;
+    --space-8:32px;
+    --space-12:48px;
+    --space-16:64px;
+    --space-20:80px;
+    --space-24:96px;
+    --space-32:128px;
+
+    --radius-sm:8px;
+    --radius-md:12px;
+    --radius-lg:20px;
+    --radius-xl:24px;
+    --radius-pill:999px;
+
+    --shadow-sm:0 1px 2px rgba(24,24,27,0.06), 0 1px 1px rgba(24,24,27,0.04);
+    --shadow-md:0 8px 24px rgba(24,24,27,0.08), 0 2px 6px rgba(24,24,27,0.04);
+    --shadow-lg:0 20px 48px rgba(24,24,27,0.10), 0 4px 12px rgba(24,24,27,0.05);
+
+    --container:1280px;
+  }
+
+  *{box-sizing:border-box;}
+  /* overflow-x lives on html, not body: on body it makes body a scroll
+     container and silently breaks position:sticky further down the page */
+  html{scroll-behavior:smooth;overflow-x:hidden;}
+  body{
+    margin:0;
+    font-family:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color:var(--ink-900);
+    background:var(--surface-0);
+    -webkit-font-smoothing:antialiased;
+    min-width:1120px;
+    position:relative;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;}
+  ul{margin:0;padding:0;list-style:none;}
+  h1,h2,h3,h4,p{margin:0;}
+
+  .wrap{max-width:var(--container);margin:0 auto;padding:0;}
+
+  .page-glow{
+    position:absolute;
+    top:400px;
+    left:50%;
+    transform:translateX(-50%);
+    width:1440px;
+    height:800px;
+    background:url('assets/bg.svg') no-repeat center top;
+    background-size:100% 100%;
+    filter:blur(220px);
+    z-index:-1;
+    pointer-events:none;
+  }
+  .page-glow-2{
+    top:2000px;
+    height:600px;
+    transform:translateX(-50%) scaleY(-1);
+  }
+
+  .bg-pattern{
+    position:fixed;
+    inset:0;
+    z-index:-3;
+    background-image:url('assets/bg-pattern-tile.svg');
+    background-repeat:repeat;
+    background-size:10.028px 7px;
+    pointer-events:none;
+  }
+
+  .eyebrow{
+    font-family:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size:16px;
+    font-weight:400;
+    line-height:20px;
+    letter-spacing:0;
+    text-transform:uppercase;
+    color:var(--olive-900);
+    margin-bottom:var(--space-4);
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    height:44px;
+    padding:0 22px;
+    border-radius:var(--radius-pill);
+    font-size:14px;
+    font-weight:600;
+    border:1px solid transparent;
+    white-space:nowrap;
+    transform:translateY(0) scale(1);
+    transition:transform .16s ease, box-shadow .16s ease, background-color .16s ease;
+  }
+  .btn:hover{transform:translateY(-2px) scale(1.0025);}
+  .btn:active{transform:translateY(0) scale(0.98);}
+  .btn-primary{
+    background:var(--olive-900);
+    color:#fff;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:400;
+    line-height:20px;
+    box-shadow:
+      0 4.51px 4.51px 0 rgba(8,8,8,0.08),
+      inset 0 1.13px 1.13px 0 rgba(255,255,255,0.20),
+      inset 0 6.77px 13.54px 0 rgba(255,255,255,0.12);
+  }
+  .btn-primary:hover{
+    box-shadow:
+      0 4.51px 4.51px 0 rgba(8,8,8,0.14),
+      inset 0 1.13px 1.13px 0 rgba(255,255,255,0.24),
+      inset 0 6.77px 13.54px 0 rgba(255,255,255,0.16);
+  }
+  .btn-secondary{
+    background-color:#f5f4f4;
+    color:var(--ink-800);
+    border-color:#fefeff;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:400;
+    line-height:20px;
+    box-shadow:var(--shadow-sm);
+  }
+  .btn-secondary:hover{background-color:#eceaea;}
+  .btn-ghost{
+    background:transparent;
+    color:var(--ink-800);
+    border-color:var(--line-200);
+    height:40px;
+    font-weight:500;
+  }
+  .btn-ghost:hover{background:var(--surface-200);}
+  .btn svg{width:16px;height:16px;flex-shrink:0;}
+
+  /* ---------- Header ---------- */
+  .site-header{
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  .header-blur{
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    overflow:hidden;
+    pointer-events:none;
+  }
+  .header-blur span{
+    position:absolute;
+    inset:0;
+    display:block;
+    background:rgba(250,250,248,0.55);
+  }
+  .header-blur span:nth-child(1){
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+    mask-image:linear-gradient(to bottom, #000 0%, #000 20%, transparent 40%);
+    -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 20%, transparent 40%);
+  }
+  .header-blur span:nth-child(2){
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    mask-image:linear-gradient(to bottom, transparent 0%, #000 20%, #000 40%, transparent 60%);
+    -webkit-mask-image:linear-gradient(to bottom, transparent 0%, #000 20%, #000 40%, transparent 60%);
+  }
+  .header-blur span:nth-child(3){
+    backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+    mask-image:linear-gradient(to bottom, transparent 20%, #000 40%, #000 60%, transparent 80%);
+    -webkit-mask-image:linear-gradient(to bottom, transparent 20%, #000 40%, #000 60%, transparent 80%);
+  }
+  .header-blur span:nth-child(4){
+    backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
+    mask-image:linear-gradient(to bottom, transparent 40%, #000 60%, #000 80%, transparent 100%);
+    -webkit-mask-image:linear-gradient(to bottom, transparent 40%, #000 60%, #000 80%, transparent 100%);
+  }
+  .header-blur span:nth-child(5){
+    backdrop-filter:blur(1px); -webkit-backdrop-filter:blur(1px);
+    mask-image:linear-gradient(to bottom, transparent 60%, #000 80%, #000 100%);
+    -webkit-mask-image:linear-gradient(to bottom, transparent 60%, #000 80%, #000 100%);
+  }
+  .site-header .wrap{
+    height:72px;
+    padding:0;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    justify-self:start;
+  }
+  .logo img{
+    height:47px;
+    width:auto;
+    display:block;
+  }
+  /* the logo's 47px box carries ~10px of drop-shadow bleed below the mark,
+     so centring the box leaves the mark sitting 4.37px high — nudge it back */
+  .site-header .logo img{transform:translateY(4.37px);}
+
+  .main-nav{display:flex;align-items:center;justify-self:center;gap:32px;}
+  .main-nav a{
+    font-family:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size:18px;
+    font-weight:400;
+    line-height:normal;
+    letter-spacing:0;
+    color:var(--ink-800);
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    transition:color .15s ease;
+  }
+  .main-nav a:hover{color:var(--olive-900);}
+  /* sparkle sits superscript against the label, and inherits the link
+     colour (incl. hover) because the paths are drawn in currentColor */
+  .nav-star{
+    width:12px;
+    height:12px;
+    flex-shrink:0;
+    transform:translateY(-5px);
+  }
+
+  .header-actions{display:flex;align-items:center;justify-self:end;gap:16px;}
+  .header-actions .btn{height:40px;padding:0 20px;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    padding:88px 0 80px;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    background:transparent;
+  }
+  .hero-inner{max-width:880px;margin:0 auto;text-align:center;
+    display:flex;flex-direction:column;align-items:center;}
+  .hero-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:4px 8px 4px 4px;
+    border:1px solid var(--line-200);
+    border-radius:4px;
+    background:none;
+    font-size:14px;
+    font-weight:400;
+    line-height:20px;
+    color:var(--ink-900);
+    margin-bottom:20px;
+  }
+  .hero-badge .tag{
+    background:var(--olive-900);
+    color:#fff;
+    font-size:14px;
+    font-weight:400;
+    line-height:20px;
+    letter-spacing:normal;
+    padding:2px 4px;
+    border-radius:2px;
+  }
+  .hero h1{
+    font-family:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size:56px;
+    line-height:1.2;
+    font-weight:500;
+    letter-spacing:-0.02em;
+    color:var(--ink-900);
+  }
+  .hero-sub{
+    margin:20px auto 0;
+    max-width:600px;
+    font-size:18px;
+    line-height:1.6;
+    color:var(--ink-500);
+  }
+  .hero-ctas{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin-top:48px;
+  }
+  .hero-ctas .btn{height:40px;padding:0 20px;font-size:16px;justify-content:center;}
+  .hero-ctas .btn-primary{width:180px;}
+  .hero-ctas .btn-secondary{width:160px;}
+
+  .trust-row{
+    margin-top:120px;
+    display:flex;
+    align-items:center;
+    gap:40px;
+  }
+  .trust-label{
+    font-family:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-weight:400;
+    font-size:20px;
+    line-height:28px;
+    letter-spacing:-0.02em;
+    color:var(--ink-900);
+    flex-shrink:0;
+    width:150px;
+  }
+  .ticker{
+    flex:1;
+    min-width:0;
+    overflow:hidden;
+    -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+    mask-image:linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  }
+  .ticker-track{
+    display:flex;
+    align-items:center;
+    width:max-content;
+    animation:ticker-scroll 26s linear infinite;
+  }
+  .ticker-track img{
+    height:56px;
+    width:auto;
+    display:block;
+    margin-right:0;
+    flex-shrink:0;
+    opacity:0.85;
+    filter:grayscale(1);
+  }
+  @keyframes ticker-scroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
+  /* ---------- Section shared ---------- */
+  section{padding:80px 0;}
+  .section-head{margin:0 0 64px;text-align:left;}
+  .section-head h2{
+    font-family:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size:40px;
+    line-height:1.2;
+    font-weight:500;
+    letter-spacing:-0.04em;
+    color:var(--ink-900);
+  }
+
+  /* ---------- Sourcing ---------- */
+  .sourcing{
+    position:relative;
+  }
+  .tabs{
+    display:flex;
+    background:var(--surface-200);
+    border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+    padding:6px 6px 0;
+    border:1px solid var(--line-100);
+    border-bottom:none;
+  }
+  .tab-btn{
+    flex:1;
+    background:transparent;
+    border:none;
+    padding:16px 12px;
+    font-size:15px;
+    font-weight:500;
+    color:var(--ink-400);
+    border-radius:var(--radius-md) var(--radius-md) 0 0;
+    transition:background .15s ease, color .15s ease;
+  }
+  .tab-btn:hover{color:var(--ink-800);}
+  .tab-btn.active{
+    background:#fff;
+    color:var(--ink-900);
+    font-weight:700;
+    box-shadow:0 -1px 0 rgba(24,24,27,0.02) inset;
+  }
+  .tab-panel-frame{
+    border:1px solid var(--line-100);
+    border-radius:0 0 var(--radius-lg) var(--radius-lg);
+    background:#fff;
+    box-shadow:var(--shadow-md);
+    overflow:hidden;
+  }
+  .tab-panel{
+    display:none;
+    grid-template-columns:1fr 1fr;
+    min-height:480px;
+  }
+  .tab-panel.active{display:grid;}
+  .tab-copy{
+    padding:56px 56px 56px 48px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .tab-copy h3{
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin-bottom:16px;
+  }
+  .tab-copy > p{
+    font-size:15.5px;
+    line-height:1.65;
+    color:var(--ink-500);
+    margin-bottom:32px;
+  }
+  .check-list{display:flex;flex-direction:column;}
+  .check-list li{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px 0;
+    border-bottom:1px dashed var(--line-200);
+    font-size:15px;
+    font-weight:500;
+    color:var(--ink-800);
+  }
+  .check-list li:last-child{border-bottom:none;}
+  .check-dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--sage-500);
+    flex-shrink:0;
+    box-shadow:0 0 0 4px rgba(104,129,105,0.15);
+  }
+  .tab-copy .btn{margin-top:32px;align-self:flex-start;}
+
+  .tab-visual{
+    position:relative;
+    background:var(--surface-100);
+    border-left:1px solid var(--line-100);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px;
+  }
+  .mock-card{
+    width:100%;
+    max-width:420px;
+    background:#fff;
+    border-radius:var(--radius-lg);
+    border:1px solid var(--line-100);
+    box-shadow:var(--shadow-lg);
+    padding:24px;
+  }
+  .mock-card-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;}
+  .pdf-icon{
+    width:36px;height:36px;border-radius:8px;
+    background:linear-gradient(160deg,#f04a3f,#c8271b);
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-size:10px;font-weight:800;flex-shrink:0;
+  }
+  .mock-card-head .title-row{flex:1;display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+  .mock-card-head h4{font-size:15.5px;font-weight:700;color:var(--ink-900);}
+  .mock-card-head .meta{font-size:12.5px;color:var(--ink-400);margin-top:4px;}
+  .upload-pill{
+    font-size:10.5px;font-weight:600;color:var(--sage-500);
+    background:rgba(104,129,105,0.12);
+    padding:4px 9px;border-radius:var(--radius-pill);
+    white-space:nowrap;flex-shrink:0;
+  }
+  .insight-card{
+    background:#fff;
+    border:1px solid var(--line-100);
+    border-radius:14px;
+    padding:14px 16px;
+    box-shadow:0 4px 14px rgba(24,24,27,0.05);
+    margin-bottom:12px;
+  }
+  .insight-card:last-child{margin-bottom:0;}
+  .insight-label{
+    display:flex;align-items:center;gap:8px;
+    font-size:11px;font-weight:700;letter-spacing:0.04em;
+    color:var(--ink-400);margin-bottom:6px;
+  }
+  .insight-icon{
+    width:18px;height:18px;border-radius:50%;
+    background:conic-gradient(from 180deg,#6366f1,#a855f7,#6366f1);
+    flex-shrink:0;
+  }
+  .insight-card p{font-size:13.5px;color:var(--ink-800);line-height:1.5;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .tag-chip{
+    font-size:12px;font-weight:500;
+    color:var(--ink-700);
+    background:var(--surface-100);
+    border:1px solid var(--line-100);
+    padding:7px 12px;border-radius:8px;
+  }
+
+  /* ---------- WOM ---------- */
+  .wom{position:relative;}
+  .wom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .wom-card{
+    border:1px solid var(--line-100);
+    border-radius:var(--radius-lg);
+    padding:28px 26px;
+    display:flex;
+    flex-direction:column;
+    background:#fff;
+    box-shadow:var(--shadow-sm);
+  }
+  .wom-avatar{
+    width:48px;height:48px;border-radius:50%;
+    object-fit:cover;
+    margin-bottom:20px;
+    background:var(--surface-200);
+  }
+  .wom-quote{
+    font-size:15px;
+    line-height:1.65;
+    color:var(--ink-800);
+    flex:1;
+    margin-bottom:28px;
+  }
+  .wom-sig{
+    font-family:'Segoe Script','Brush Script MT',cursive;
+    font-size:22px;
+    color:var(--ink-900);
+    margin-bottom:4px;
+  }
+  .wom-role{font-size:13px;color:var(--ink-400);}
+
+  .wom-card.video{
+    position:relative;
+    padding:0;
+    overflow:hidden;
+    min-height:400px;
+    color:#fff;
+    justify-content:flex-end;
+  }
+  .wom-card.video img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;
+  }
+  .wom-card.video::after{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(24,24,27,0.05) 0%, rgba(24,24,27,0.15) 55%, rgba(24,24,27,0.65) 100%);
+    z-index:1;
+  }
+  .play-btn{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:56px;height:56px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.22);
+    backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.5);
+    display:flex;align-items:center;justify-content:center;
+    z-index:2;
+  }
+  .play-btn svg{width:18px;height:18px;fill:#fff;margin-left:2px;}
+  .video-caption{position:relative;z-index:2;padding:24px 26px;}
+  .video-caption .wom-sig{color:#fff;}
+  .video-caption .wom-role{color:rgba(255,255,255,0.75);}
+
+  /* ---------- FAQ ---------- */
+  .faq{position:relative;}
+  .faq-grid{display:grid;grid-template-columns:0.85fr 1.4fr;gap:80px;}
+  .faq-left h2{font-family:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;font-size:40px;font-weight:500;letter-spacing:-0.04em;line-height:1.2;margin-bottom:24px;}
+  .faq-left p{font-size:14.5px;color:var(--ink-500);line-height:1.6;margin-bottom:20px;}
+  /* scoped to the paragraph so it can't override the .btn styling below it */
+  .faq-left p a{color:var(--olive-900);font-weight:600;text-decoration:underline;text-underline-offset:2px;}
+  .faq-left .btn{height:40px;margin-top:8px;}
+
+  /* dashed rule: 8px dash / 8px gap, 1px, #DCDCDC, round caps.
+     border-bottom:dashed can't set dash length or caps, so it's drawn as a
+     repeating 16px tile (dash inset by 0.5px each side so the round caps
+     land exactly on the 8px boundary rather than being clipped). */
+  .faq-item{
+    padding:22px 0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='1'%3E%3Cline x1='0.5' y1='0.5' x2='7.5' y2='0.5' stroke='%23DCDCDC' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:repeat-x;
+    background-position:left bottom;
+    background-size:16px 1px;
+  }
+  .faq-item:first-child{padding-top:0;}
+  .faq-q{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;
+    font-size:16px;font-weight:600;color:var(--ink-900);
+  }
+  .faq-q-btn{
+    background:none;border:none;padding:0;width:100%;
+    display:flex;align-items:center;justify-content:space-between;text-align:left;
+    font:inherit;color:inherit;
+  }
+  .faq-icon{
+    width:22px;height:22px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink-500);
+  }
+  .faq-icon svg{width:14px;height:14px;}
+  .faq-a{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .28s ease, opacity .2s ease, margin-top .28s ease;
+    opacity:0;
+    font-size:14.5px;
+    line-height:1.7;
+    color:var(--ink-500);
+  }
+  .faq-item.open .faq-a{max-height:240px;opacity:1;margin-top:14px;}
+  .faq-item.open .faq-icon svg.plus{display:none;}
+  .faq-item:not(.open) .faq-icon svg.minus{display:none;}
+
+  .faq-ask{
+    margin-top:8px;
+    display:flex;align-items:center;
+    font-size:14px;color:var(--ink-400);
+    padding:16px 0 0;
+  }
+
+  /* ---------- CTA Card ---------- */
+  .cta-band-wrap{padding:80px 0;}
+
+  /* --- footer curtain reveal ---------------------------------------
+     The whole page (header through the CTA card) is one tall sticky
+     block. Being taller than the viewport it pins by its BOTTOM edge:
+     once the card sits 120px above the viewport bottom the entire page
+     freezes, and only the footer keeps scrolling, sliding over the top.
+     --stack-pin is measured in JS so the CARD (not the wrapper's
+     padding) is what lands 120px up. z-index:0 is deliberate: it makes
+     the stack a stacking context so the sticky header's z-index:50
+     can't escape above the footer curtain. */
+  .page-stack{
+    position:sticky;
+    top:var(--stack-pin, 0px);
+    z-index:0;
+  }
+  /* blurs whatever is painted behind it (the frozen page) without having
+     to rasterise the full-height stack through a filter */
+  .page-blur{
+    position:fixed;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+  }
+  .cta-band{
+    position:relative;
+    max-width:var(--container);
+    margin:0 auto;
+    border-radius:var(--radius-xl);
+    padding:56px 40px;
+    text-align:center;
+    overflow:hidden;
+    background:#ffffff;
+    border:0.5px solid #C7DBC5;
+  }
+  .cta-depth-svg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+    pointer-events:none;
+  }
+  .cta-band-content{position:relative;z-index:1;}
+  .cta-band h2{
+    font-family:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    font-size:40px;
+    line-height:1.2;
+    font-weight:500;
+    letter-spacing:-0.04em;
+    color:var(--ink-900);
+  }
+  .cta-band p{
+    max-width:520px;margin:18px auto 0;
+    font-size:15.5px;line-height:1.6;color:var(--ink-500);
+  }
+  .cta-band .btn{margin-top:32px;height:46px;padding:0 26px;}
+
+  /* ---------- Footer ---------- */
+  /* opaque so it reads as a layer sliding over the card; it carries its own
+     copy of the dot grid (background-attachment:fixed so it stays registered
+     with the page-wide fixed pattern underneath it) */
+  .site-footer{
+    padding-top:80px;
+    position:relative;
+    z-index:2;
+    background-color:var(--surface-0);
+    background-image:url('assets/bg-pattern-tile.svg');
+    background-repeat:repeat;
+    background-size:10.028px 7px;
+    background-attachment:fixed;
+  }
+  .site-footer .wrap{padding:0;}
+  .footer-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:40px;
+    padding-bottom:64px;
+  }
+  .footer-top h2{font-size:34px;font-weight:700;letter-spacing:-0.02em;max-width:480px;line-height:1.2;}
+  .footer-top .sub{font-size:15px;color:var(--ink-500);margin-top:14px;}
+  .footer-cta{margin-top:24px;display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
+  .footer-cta .fine{font-size:12.5px;color:var(--ink-400);}
+  .talk-human{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:24px;
+    min-width:360px;
+    padding:20px 24px;
+    background:#fff;
+    border:1px solid var(--line-200);
+    border-radius:var(--radius-md);
+    font-size:12px;font-weight:700;letter-spacing:0.05em;
+    color:var(--ink-700);
+    box-shadow:var(--shadow-sm);
+  }
+  .talk-human svg{width:16px;height:16px;}
+
+  .footer-links{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:32px;
+    padding:40px 0;
+    border-top:1px solid var(--line-200);
+  }
+  .footer-col h5{
+    font-size:12px;font-weight:700;letter-spacing:0.06em;
+    color:var(--ink-400);text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .footer-col ul{display:flex;flex-direction:column;gap:14px;}
+  .footer-col a{font-size:14px;color:var(--ink-700);transition:color .15s ease;}
+  .footer-col a:hover{color:var(--olive-900);}
+
+  .footer-bottom{
+    border-top:1px solid var(--line-200);
+    padding:28px 0 32px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+  }
+  .footer-brand{display:flex;flex-direction:column;gap:10px;}
+  .footer-brand .logo img{height:calc(28px * 47 / 36);}
+  .footer-copy{font-size:12.5px;color:var(--ink-400);letter-spacing:0.01em;}
+  .footer-social{display:flex;flex-direction:column;align-items:flex-end;gap:14px;}
+  .footer-social .label{font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--ink-400);}
+  .social-icons{display:flex;gap:10px;}
+  .social-icons a{
+    width:34px;height:34px;border-radius:50%;
+    border:1px solid var(--line-200);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--ink-800);
+    transition:background .15s ease, color .15s ease;
+  }
+  .social-icons a:hover{background:var(--olive-900);color:#fff;border-color:var(--olive-900);}
+  .social-icons svg{width:15px;height:15px;}
+</style>
+</head>
+<body>
+
+<div class="bg-pattern"></div>
+<div class="page-glow"></div>
+<div class="page-glow page-glow-2"></div>
+
+<header class="site-header">
+  <div class="header-blur" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <div class="wrap">
+    <a class="logo" href="#">
+      <img src="assets/brand-logo.svg" alt="Kello.ai">
+    </a>
+    <nav class="main-nav">
+      <a href="#sourcing">How it works</a>
+      <a href="#">MCP</a>
+      <a href="#">Pricing</a>
+      <a href="#">Meet Kello<svg class="nav-star" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.7135 4.04198C6.40035 2.92136 6.1613 2 5.5002 2C4.83912 2 4.59982 2.92137 4.28655 4.042C4.15927 4.49733 4.09562 4.72499 3.91021 4.91039C3.7248 5.0958 3.49717 5.1594 3.0419 5.2866C1.92136 5.59975 1 5.83875 1 6.5C1 7.16125 1.92136 7.40025 3.0419 7.7134C3.49717 7.8406 3.7248 7.9042 3.91021 8.0896C4.09562 8.275 4.15927 8.5027 4.28655 8.958C4.59982 10.0787 4.83912 11 5.5002 11C6.1613 11 6.40035 10.0787 6.7135 8.958C6.84075 8.5027 6.90435 8.27505 7.08975 8.08965C7.2752 7.90425 7.5028 7.8406 7.9581 7.7134C9.07865 7.40025 10 7.16125 10 6.5C10 5.83875 9.07865 5.59975 7.9581 5.2866C7.5028 5.1594 7.2752 5.09575 7.08975 4.91035C6.90435 4.72493 6.84075 4.49728 6.7135 4.04198Z" fill="currentColor" stroke="currentColor" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.75 1.46875V2.25M9.75 2.25V3.03125M9.75 2.25H9.125M9.75 2.25H10.375M11 2.25L10.774 2.17467C10.4249 2.05829 10.2503 2.00009 10.1251 1.8749C9.9999 1.74971 9.9417 1.57514 9.82535 1.22599L9.75 1L9.67465 1.22599C9.5583 1.57514 9.5001 1.74971 9.3749 1.8749C9.2497 2.00009 9.07515 2.05829 8.726 2.17467L8.5 2.25L8.726 2.32533C9.07515 2.44171 9.2497 2.4999 9.3749 2.62509C9.5001 2.75029 9.5583 2.92486 9.67465 3.27401L9.75 3.5L9.82535 3.27401C9.9417 2.92486 9.9999 2.75029 10.1251 2.62509C10.2503 2.4999 10.4249 2.44171 10.774 2.32533L11 2.25Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </nav>
+    <div class="header-actions">
+      <a href="#" class="btn btn-secondary">Signup</a>
+      <a href="#" class="btn btn-primary">Login</a>
+    </div>
+  </div>
+</header>
+
+<div class="page-stack">
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="wrap">
+    <div class="hero-inner">
+      <span class="hero-badge"><span class="tag">NEW</span> 100M+ profile reviewed</span>
+      <h1>Your next great hire is<br>already out there.</h1>
+      <p class="hero-sub">Kello's AI sourcer searches 100M+ profiles, finds the candidates worth calling, and delivers your shortlist in minutes.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-primary">Try Kello for free
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.5 12L4.99997 12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/><path d="M13 18C13 18 19 13.5811 19 12C19 10.4188 13 6 13 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>
+        </a>
+        <a href="#" class="btn btn-secondary">See how it works</a>
+      </div>
+    </div>
+
+    <div class="trust-row">
+      <span class="trust-label">Already<br>trusted by</span>
+      <div class="ticker">
+        <div class="ticker-track">
+          <img src="assets/logos.svg" alt="Trusted by JUSPAY, Tesla, Snapmint, Razorpay, Microsoft, Swiggy, Instagram, navi and Google">
+          <img src="assets/logos.svg" alt="" aria-hidden="true">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sourcing" id="sourcing">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">AI-NATIVE SOURCING</div>
+      <h2>Stop searching.<br>Start hiring.</h2>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="understand">Understand</button>
+      <button class="tab-btn" data-tab="calibrate">Calibrate</button>
+      <button class="tab-btn" data-tab="explore">Explore</button>
+      <button class="tab-btn" data-tab="review">Review</button>
+      <button class="tab-btn" data-tab="delivery">Profile Delivery</button>
+    </div>
+
+    <div class="tab-panel-frame">
+      <div class="tab-panel active" data-panel="understand">
+        <div class="tab-copy">
+          <h3>We read between the lines</h3>
+          <p>Kello goes beyond keywords to understand what the role actually demands — from must-have skills to the experience signals that separate a good match from a great one.</p>
+          <ul class="check-list">
+            <li><span class="check-dot"></span>Understands the role beyond the JD</li>
+            <li><span class="check-dot"></span>Identifies critical experience signals</li>
+            <li><span class="check-dot"></span>Expands the search beyond exact keywords</li>
+          </ul>
+          <a href="#" class="btn btn-primary">See it in action
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="tab-visual">
+          <div class="mock-card">
+            <div class="mock-card-head">
+              <div class="pdf-icon">PDF</div>
+              <div class="title-row">
+                <div>
+                  <h4>Senior Product Designer</h4>
+                  <div class="meta">Bangalore · 4-6 YOE · Full-time · Hybrid</div>
+                </div>
+                <span class="upload-pill">Upload complete ✓</span>
+              </div>
+            </div>
+            <div class="insight-card">
+              <div class="insight-label"><span class="insight-icon"></span>CORE INTENT</div>
+              <p>Design &amp; own end-to-end consumer experience</p>
+            </div>
+            <div class="insight-card">
+              <div class="insight-label"><span class="insight-icon"></span>KEY SIGNALS</div>
+              <p>End-to-end product design: should be able to handle the full lifecycle</p>
+            </div>
+            <div class="insight-card">
+              <div class="insight-label"><span class="insight-icon"></span>ALSO CONSIDERING</div>
+              <div class="tag-row">
+                <span class="tag-chip">UX Research</span>
+                <span class="tag-chip">Growth</span>
+                <span class="tag-chip">A/B Testing</span>
+                <span class="tag-chip">Product Thinking</span>
+                <span class="tag-chip">Cross-functional collaboration</span>
+                <span class="tag-chip">Stakeholder management</span>
+                <span class="tag-chip">Product Strategy</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="calibrate">
+        <div class="tab-copy">
+          <h3>Calibrated to your bar</h3>
+          <p>Kello learns from every candidate you approve or reject, tightening its sense of what "good" looks like for your team with each round.</p>
+          <ul class="check-list">
+            <li><span class="check-dot"></span>Learns from your shortlist decisions</li>
+            <li><span class="check-dot"></span>Adjusts weighting on must-have signals</li>
+            <li><span class="check-dot"></span>Keeps every hiring manager aligned</li>
+          </ul>
+          <a href="#" class="btn btn-primary">See it in action
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="tab-visual">
+          <div class="mock-card">
+            <div class="mock-card-head">
+              <div class="pdf-icon">✓</div>
+              <div class="title-row">
+                <div>
+                  <h4>Calibration in progress</h4>
+                  <div class="meta">12 candidates reviewed</div>
+                </div>
+              </div>
+            </div>
+            <div class="insight-card"><p>Matched your bar on 9 / 12 profiles this week.</p></div>
+            <div class="insight-card"><p>Signal weighting updated for "ownership".</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="explore">
+        <div class="tab-copy">
+          <h3>Explores every corner of the web</h3>
+          <p>Kello searches across 100M+ profiles and public signals to surface people who fit — including candidates who never show up in a keyword search.</p>
+          <ul class="check-list">
+            <li><span class="check-dot"></span>Searches 100M+ candidate profiles</li>
+            <li><span class="check-dot"></span>Finds adjacent, non-obvious matches</li>
+            <li><span class="check-dot"></span>Covers passive candidates too</li>
+          </ul>
+          <a href="#" class="btn btn-primary">See it in action
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="tab-visual">
+          <div class="mock-card">
+            <div class="mock-card-head">
+              <div class="pdf-icon">⌕</div>
+              <div class="title-row">
+                <div>
+                  <h4>Searching profiles</h4>
+                  <div class="meta">100M+ indexed</div>
+                </div>
+              </div>
+            </div>
+            <div class="insight-card"><p>428 candidates matched core intent.</p></div>
+            <div class="insight-card"><p>62 passive candidates surfaced.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="review">
+        <div class="tab-copy">
+          <h3>Every match, reasoned out</h3>
+          <p>No black box scores. Each candidate comes with a clear, readable write-up of why they're a fit — so you can review fast and with confidence.</p>
+          <ul class="check-list">
+            <li><span class="check-dot"></span>Plain-language match reasoning</li>
+            <li><span class="check-dot"></span>Strengths and gaps, side by side</li>
+            <li><span class="check-dot"></span>Built for quick human review</li>
+          </ul>
+          <a href="#" class="btn btn-primary">See it in action
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="tab-visual">
+          <div class="mock-card">
+            <div class="mock-card-head">
+              <div class="pdf-icon">★</div>
+              <div class="title-row">
+                <div>
+                  <h4>Review queue</h4>
+                  <div class="meta">8 candidates ready</div>
+                </div>
+              </div>
+            </div>
+            <div class="insight-card"><p>Strong fit: 6+ yrs owning 0→1 product design.</p></div>
+            <div class="insight-card"><p>Gap: limited B2B experience.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="delivery">
+        <div class="tab-copy">
+          <h3>Straight to your inbox</h3>
+          <p>Your shortlist lands where your team already works — email, Slack, or your ATS — ready to move to outreach.</p>
+          <ul class="check-list">
+            <li><span class="check-dot"></span>Delivered in minutes, not weeks</li>
+            <li><span class="check-dot"></span>Syncs with your existing ATS</li>
+            <li><span class="check-dot"></span>Ready for outreach on arrival</li>
+          </ul>
+          <a href="#" class="btn btn-primary">See it in action
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <div class="tab-visual">
+          <div class="mock-card">
+            <div class="mock-card-head">
+              <div class="pdf-icon">✉</div>
+              <div class="title-row">
+                <div>
+                  <h4>Shortlist delivered</h4>
+                  <div class="meta">Synced to Greenhouse</div>
+                </div>
+                <span class="upload-pill">Sent ✓</span>
+              </div>
+            </div>
+            <div class="insight-card"><p>10 profiles delivered to #hiring-design.</p></div>
+            <div class="insight-card"><p>ATS records created automatically.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wom" id="wom">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">WORD OF MOUTH</div>
+      <h2>Don't take our words for it.<br>Hear it from our partners.</h2>
+    </div>
+
+    <div class="wom-grid">
+      <div class="wom-card">
+        <img class="wom-avatar" src="assets/avatar-ananya.jpg" alt="Ananya Iyer">
+        <p class="wom-quote">"Kello gives us back our time. I can focus on conversations and closing hires instead of endless searches. The candidate write-ups are incredibly helpful and make it easy to prioritize."</p>
+        <div class="wom-sig">Ananya Iyer</div>
+        <div class="wom-role">Recruiting Manager at Zepto</div>
+      </div>
+
+      <div class="wom-card video">
+        <img src="assets/photo-karan.jpg" alt="Karan Mehta">
+        <span class="play-btn">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+        <div class="video-caption">
+          <div class="wom-sig">Karan Mehta</div>
+          <div class="wom-role">Head of Talent at PhysicsWallah</div>
+        </div>
+      </div>
+
+      <div class="wom-card">
+        <img class="wom-avatar" src="assets/avatar-riya.jpg" alt="Riya Sharma">
+        <p class="wom-quote">"Kello has completely changed the way we source. What used to take weeks of manual search now lands in our inbox in under an hour, with high-quality candidates and clear reasoning."</p>
+        <div class="wom-sig">Riya Sharma</div>
+        <div class="wom-role">Talent Acquisition Lead at Razorpay</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="faq-grid">
+      <div class="faq-left">
+        <div class="eyebrow">FAQS</div>
+        <h2>Questions?<br>We've got the answers.</h2>
+        <p>Can't find what you're looking for?<br>Reach out to us at <a href="mailto:support@kello.ai">support@kello.ai</a> or</p>
+        <a href="#" class="btn btn-primary">Contact Us</a>
+      </div>
+
+      <div class="faq-right">
+        <div class="faq-item open">
+          <button class="faq-q-btn">
+            <span class="faq-q">What is Kello?</span>
+            <span class="faq-icon">
+              <svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-a">Kello is an AI-native sourcing platform that helps recruiting teams find qualified candidates without spending hours manually searching profiles. Send Kello a job description, and it researches the role, explores multiple candidate profiles, evaluates potential matches, and delivers a focused shortlist.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q-btn">
+            <span class="faq-q">How does Kello work?</span>
+            <span class="faq-icon">
+              <svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-a">You send Kello a job description or a quick brief. It reads between the lines to understand the role, searches across 100M+ profiles, evaluates each candidate against your bar, and returns a reasoned shortlist ready for outreach.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q-btn">
+            <span class="faq-q">How many profiles does Kello search?</span>
+            <span class="faq-icon">
+              <svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-a">Kello has reviewed over 100M profiles and counting, spanning active job seekers and passive candidates who rarely surface in a keyword search.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q-btn">
+            <span class="faq-q">How quickly can I get candidates?</span>
+            <span class="faq-icon">
+              <svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-a">Most teams get their first shortlist within minutes of sending a job description, with fresh candidates continuing to arrive as Kello keeps searching.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q-btn">
+            <span class="faq-q">How does Kello know what makes a good candidate?</span>
+            <span class="faq-icon">
+              <svg class="plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+              <svg class="minus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg>
+            </span>
+          </button>
+          <div class="faq-a">Kello learns your bar from the job description and from every candidate you approve or reject, calibrating its sense of a "good match" to your team over time.</div>
+        </div>
+
+        <div class="faq-ask">Anything else you'd like to ask? Type it here...</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band-wrap">
+  <div class="cta-band">
+    <svg class="cta-depth-svg" viewBox="0 0 1280 306" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="dRayL" x1="0" y1="0" x2="426.9" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5C9655" stop-opacity="0"/><stop offset="0.07" stop-color="#5C9655" stop-opacity="0.55"/><stop offset="0.35" stop-color="#5C9655" stop-opacity="0.38"/><stop offset="0.7" stop-color="#5C9655" stop-opacity="0.16"/><stop offset="1" stop-color="#5C9655" stop-opacity="0"/></linearGradient><linearGradient id="dRayR" x1="1280" y1="0" x2="853.1" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5C9655" stop-opacity="0"/><stop offset="0.07" stop-color="#5C9655" stop-opacity="0.55"/><stop offset="0.35" stop-color="#5C9655" stop-opacity="0.38"/><stop offset="0.7" stop-color="#5C9655" stop-opacity="0.16"/><stop offset="1" stop-color="#5C9655" stop-opacity="0"/></linearGradient><linearGradient id="dRayT" x1="0" y1="-16.5" x2="0" y2="100.6" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5C9655" stop-opacity="0"/><stop offset="0.07" stop-color="#5C9655" stop-opacity="0.55"/><stop offset="0.35" stop-color="#5C9655" stop-opacity="0.38"/><stop offset="0.7" stop-color="#5C9655" stop-opacity="0.16"/><stop offset="1" stop-color="#5C9655" stop-opacity="0"/></linearGradient><linearGradient id="dRayB" x1="0" y1="334.5" x2="0" y2="217.4" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5C9655" stop-opacity="0"/><stop offset="0.07" stop-color="#5C9655" stop-opacity="0.55"/><stop offset="0.35" stop-color="#5C9655" stop-opacity="0.38"/><stop offset="0.7" stop-color="#5C9655" stop-opacity="0.16"/><stop offset="1" stop-color="#5C9655" stop-opacity="0"/></linearGradient><linearGradient id="dVert" x1="0" y1="0" x2="0" y2="306" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5C9655" stop-opacity="0"/><stop offset="0.3" stop-color="#5C9655" stop-opacity="0.9"/><stop offset="0.5" stop-color="#5C9655" stop-opacity="1"/><stop offset="0.7" stop-color="#5C9655" stop-opacity="0.9"/><stop offset="1" stop-color="#5C9655" stop-opacity="0"/></linearGradient><linearGradient id="dRung" x1="0" y1="0" x2="1280" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#5C9655" stop-opacity="0"/><stop offset="0.09" stop-color="#5C9655" stop-opacity="1"/><stop offset="0.91" stop-color="#5C9655" stop-opacity="1"/><stop offset="1" stop-color="#5C9655" stop-opacity="0"/></linearGradient><radialGradient id="dGlow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#9DC099" stop-opacity="0.72"/><stop offset="0.26" stop-color="#9DC099" stop-opacity="0.56"/><stop offset="0.5" stop-color="#9DC099" stop-opacity="0.34"/><stop offset="0.72" stop-color="#9DC099" stop-opacity="0.15"/><stop offset="0.88" stop-color="#9DC099" stop-opacity="0.05"/><stop offset="1" stop-color="#9DC099" stop-opacity="0"/></radialGradient><filter id="dSoft" x="-60%" y="-120%" width="220%" height="340%"><feGaussianBlur stdDeviation="72"/></filter></defs><g filter="url(#dSoft)"><ellipse cx="640" cy="153" rx="760" ry="215" fill="url(#dGlow)"/></g><g stroke="url(#dVert)" stroke-width="1"><line x1="73.6" y1="3.7" x2="73.6" y2="314.3" opacity="0.5"/><line x1="1206.4" y1="3.7" x2="1206.4" y2="314.3" opacity="0.5"/><line x1="138.7" y1="21.6" x2="138.7" y2="296.4" opacity="0.457"/><line x1="1141.3" y1="21.6" x2="1141.3" y2="296.4" opacity="0.457"/><line x1="196.4" y1="37.4" x2="196.4" y2="280.6" opacity="0.413"/><line x1="1083.6" y1="37.4" x2="1083.6" y2="280.6" opacity="0.413"/><line x1="247.4" y1="51.3" x2="247.4" y2="266.7" opacity="0.367"/><line x1="1032.6" y1="51.3" x2="1032.6" y2="266.7" opacity="0.367"/><line x1="292.5" y1="63.7" x2="292.5" y2="254.3" opacity="0.319"/><line x1="987.5" y1="63.7" x2="987.5" y2="254.3" opacity="0.319"/><line x1="332.5" y1="74.7" x2="332.5" y2="243.3" opacity="0.269"/><line x1="947.5" y1="74.7" x2="947.5" y2="243.3" opacity="0.269"/><line x1="367.9" y1="84.4" x2="367.9" y2="233.6" opacity="0.215"/><line x1="912.1" y1="84.4" x2="912.1" y2="233.6" opacity="0.215"/><line x1="399.2" y1="93.0" x2="399.2" y2="225.0" opacity="0.156"/><line x1="880.8" y1="93.0" x2="880.8" y2="225.0" opacity="0.156"/><line x1="426.9" y1="100.6" x2="426.9" y2="217.4" opacity="0.075"/><line x1="853.1" y1="100.6" x2="853.1" y2="217.4" opacity="0.075"/></g><g stroke="url(#dRung)" stroke-width="1"><line x1="73.6" y1="3.7" x2="1206.4" y2="3.7" opacity="0.5"/><line x1="73.6" y1="314.3" x2="1206.4" y2="314.3" opacity="0.5"/><line x1="138.7" y1="21.6" x2="1141.3" y2="21.6" opacity="0.457"/><line x1="138.7" y1="296.4" x2="1141.3" y2="296.4" opacity="0.457"/><line x1="196.4" y1="37.4" x2="1083.6" y2="37.4" opacity="0.413"/><line x1="196.4" y1="280.6" x2="1083.6" y2="280.6" opacity="0.413"/><line x1="247.4" y1="51.3" x2="1032.6" y2="51.3" opacity="0.367"/><line x1="247.4" y1="266.7" x2="1032.6" y2="266.7" opacity="0.367"/><line x1="292.5" y1="63.7" x2="987.5" y2="63.7" opacity="0.319"/><line x1="292.5" y1="254.3" x2="987.5" y2="254.3" opacity="0.319"/><line x1="332.5" y1="74.7" x2="947.5" y2="74.7" opacity="0.269"/><line x1="332.5" y1="243.3" x2="947.5" y2="243.3" opacity="0.269"/><line x1="367.9" y1="84.4" x2="912.1" y2="84.4" opacity="0.215"/><line x1="367.9" y1="233.6" x2="912.1" y2="233.6" opacity="0.215"/><line x1="399.2" y1="93.0" x2="880.8" y2="93.0" opacity="0.156"/><line x1="399.2" y1="225.0" x2="880.8" y2="225.0" opacity="0.156"/><line x1="426.9" y1="100.6" x2="853.1" y2="100.6" opacity="0.075"/><line x1="426.9" y1="217.4" x2="853.1" y2="217.4" opacity="0.075"/></g><g stroke-width="1"><line x1="0" y1="-16.5" x2="426.9" y2="100.6" stroke="url(#dRayL)"/><line x1="0" y1="27.4" x2="426.9" y2="115.2" stroke="url(#dRayL)"/><line x1="0" y1="71.3" x2="426.9" y2="129.8" stroke="url(#dRayL)"/><line x1="0" y1="115.1" x2="426.9" y2="144.4" stroke="url(#dRayL)"/><line x1="0" y1="159.0" x2="426.9" y2="159.0" stroke="url(#dRayL)"/><line x1="0" y1="202.9" x2="426.9" y2="173.6" stroke="url(#dRayL)"/><line x1="0" y1="246.7" x2="426.9" y2="188.2" stroke="url(#dRayL)"/><line x1="0" y1="290.6" x2="426.9" y2="202.8" stroke="url(#dRayL)"/><line x1="0" y1="334.5" x2="426.9" y2="217.4" stroke="url(#dRayL)"/><line x1="1280" y1="-16.5" x2="853.1" y2="100.6" stroke="url(#dRayR)"/><line x1="1280" y1="27.4" x2="853.1" y2="115.2" stroke="url(#dRayR)"/><line x1="1280" y1="71.3" x2="853.1" y2="129.8" stroke="url(#dRayR)"/><line x1="1280" y1="115.1" x2="853.1" y2="144.4" stroke="url(#dRayR)"/><line x1="1280" y1="159.0" x2="853.1" y2="159.0" stroke="url(#dRayR)"/><line x1="1280" y1="202.9" x2="853.1" y2="173.6" stroke="url(#dRayR)"/><line x1="1280" y1="246.7" x2="853.1" y2="188.2" stroke="url(#dRayR)"/><line x1="1280" y1="290.6" x2="853.1" y2="202.8" stroke="url(#dRayR)"/><line x1="1280" y1="334.5" x2="853.1" y2="217.4" stroke="url(#dRayR)"/><line x1="142.2" y1="-16.5" x2="474.2" y2="100.6" stroke="url(#dRayT)"/><line x1="284.4" y1="-16.5" x2="521.6" y2="100.6" stroke="url(#dRayT)"/><line x1="426.7" y1="-16.5" x2="569.0" y2="100.6" stroke="url(#dRayT)"/><line x1="568.9" y1="-16.5" x2="616.3" y2="100.6" stroke="url(#dRayT)"/><line x1="711.1" y1="-16.5" x2="663.7" y2="100.6" stroke="url(#dRayT)"/><line x1="853.3" y1="-16.5" x2="711.0" y2="100.6" stroke="url(#dRayT)"/><line x1="995.6" y1="-16.5" x2="758.4" y2="100.6" stroke="url(#dRayT)"/><line x1="1137.8" y1="-16.5" x2="805.8" y2="100.6" stroke="url(#dRayT)"/><line x1="142.2" y1="334.5" x2="474.2" y2="217.4" stroke="url(#dRayB)"/><line x1="284.4" y1="334.5" x2="521.6" y2="217.4" stroke="url(#dRayB)"/><line x1="426.7" y1="334.5" x2="569.0" y2="217.4" stroke="url(#dRayB)"/><line x1="568.9" y1="334.5" x2="616.3" y2="217.4" stroke="url(#dRayB)"/><line x1="711.1" y1="334.5" x2="663.7" y2="217.4" stroke="url(#dRayB)"/><line x1="853.3" y1="334.5" x2="711.0" y2="217.4" stroke="url(#dRayB)"/><line x1="995.6" y1="334.5" x2="758.4" y2="217.4" stroke="url(#dRayB)"/><line x1="1137.8" y1="334.5" x2="805.8" y2="217.4" stroke="url(#dRayB)"/></g><g stroke="#5C9655" stroke-width="1.6" stroke-linecap="round"><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.45s" begin="0.0s" repeatCount="indefinite" rotate="auto" path="M0,27.4 L426.9,115.2"/><animate attributeName="opacity" dur="1.45s" begin="0.0s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.44s" begin="0.75s" repeatCount="indefinite" rotate="auto" path="M0,71.3 L426.9,129.8"/><animate attributeName="opacity" dur="1.44s" begin="0.75s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.42s" begin="1.5s" repeatCount="indefinite" rotate="auto" path="M0,159.0 L426.9,159.0"/><animate attributeName="opacity" dur="1.42s" begin="1.5s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.44s" begin="2.25s" repeatCount="indefinite" rotate="auto" path="M0,246.7 L426.9,188.2"/><animate attributeName="opacity" dur="1.44s" begin="2.25s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.45s" begin="3.0s" repeatCount="indefinite" rotate="auto" path="M0,290.6 L426.9,202.8"/><animate attributeName="opacity" dur="1.45s" begin="3.0s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.45s" begin="0.55s" repeatCount="indefinite" rotate="auto" path="M1280,27.4 L853.1,115.2"/><animate attributeName="opacity" dur="1.45s" begin="0.55s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.44s" begin="1.3s" repeatCount="indefinite" rotate="auto" path="M1280,71.3 L853.1,129.8"/><animate attributeName="opacity" dur="1.44s" begin="1.3s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.42s" begin="2.05s" repeatCount="indefinite" rotate="auto" path="M1280,159.0 L853.1,159.0"/><animate attributeName="opacity" dur="1.42s" begin="2.05s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.44s" begin="2.8s" repeatCount="indefinite" rotate="auto" path="M1280,246.7 L853.1,188.2"/><animate attributeName="opacity" dur="1.44s" begin="2.8s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.45s" begin="3.55s" repeatCount="indefinite" rotate="auto" path="M1280,290.6 L853.1,202.8"/><animate attributeName="opacity" dur="1.45s" begin="3.55s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.1s" begin="0.9s" repeatCount="indefinite" rotate="auto" path="M284.4,-16.5 L521.6,100.6"/><animate attributeName="opacity" dur="1.1s" begin="0.9s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.1s" begin="1.65s" repeatCount="indefinite" rotate="auto" path="M568.9,-16.5 L616.3,100.6"/><animate attributeName="opacity" dur="1.1s" begin="1.65s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.1s" begin="2.4s" repeatCount="indefinite" rotate="auto" path="M995.6,-16.5 L758.4,100.6"/><animate attributeName="opacity" dur="1.1s" begin="2.4s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.1s" begin="1.5s" repeatCount="indefinite" rotate="auto" path="M284.4,334.5 L521.6,217.4"/><animate attributeName="opacity" dur="1.1s" begin="1.5s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.1s" begin="2.25s" repeatCount="indefinite" rotate="auto" path="M711.1,334.5 L663.7,217.4"/><animate attributeName="opacity" dur="1.1s" begin="2.25s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line><line x1="-8" y1="0" x2="0" y2="0" opacity="0"><animateMotion dur="1.1s" begin="3.0s" repeatCount="indefinite" rotate="auto" path="M995.6,334.5 L758.4,217.4"/><animate attributeName="opacity" dur="1.1s" begin="3.0s" repeatCount="indefinite" values="0;0.85;0.7;0" keyTimes="0;0.18;0.6;1"/></line></g></svg>
+    <div class="cta-band-content">
+      <h2>Your AI sourcer, on demand.</h2>
+      <p>Kello finds the candidates worth calling, so your team can spend less time sourcing and more time hiring.</p>
+      <a href="#" class="btn btn-primary">Try Kello for free
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+</div><!-- /.page-stack -->
+
+<div class="page-blur" aria-hidden="true"></div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <h2>Ready to stop sourcing manually?</h2>
+        <p class="sub">Send Kello a JD. Get your first shortlist in minutes.</p>
+        <div class="footer-cta">
+          <a href="#" class="btn btn-primary">Send a JD</a>
+          <span class="fine">First 2 jobs free  ·  No tooling  ·  No training</span>
+        </div>
+      </div>
+      <div class="talk-human">
+        TALK TO A HUMAN
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <div class="footer-col">
+        <h5>Product</h5>
+        <ul>
+          <li><a href="#">How Kello Works</a></li>
+          <li><a href="#">Sourcing</a></li>
+          <li><a href="#">Candidate Reviews</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <ul>
+          <li><a href="#">How AI Sourcing Works</a></li>
+          <li><a href="#">Recruiting Guides</a></li>
+          <li><a href="#">Hiring Insights</a></li>
+          <li><a href="#">Customer Stories</a></li>
+          <li><a href="#">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About Kello</a></li>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-brand">
+        <a class="logo" href="#">
+          <img src="assets/brand-logo.svg" alt="Kello.ai">
+        </a>
+        <span class="footer-copy">© 2026  ·  XXV Century Private Limited  ·  ALL RIGHTS RESERVED</span>
+      </div>
+      <div class="footer-social">
+        <span class="label">FIND US ON</span>
+        <div class="social-icons">
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 8.98h4v12.02H3zM9.5 8.98h3.83v1.64h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1v6.34h-4V15.4c0-1.5-.03-3.43-2.09-3.43-2.1 0-2.42 1.64-2.42 3.32v5.71h-4z"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 3H21l-6.55 7.49L22 21h-6.31l-4.94-6.46L5.1 21H3l7.02-8.02L2.4 3h6.47l4.47 5.9L18.9 3zm-1.1 16.17h1.17L7.28 4.75H6.02L17.8 19.17z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17.2" cy="6.8" r="1"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelector('.tab-panel[data-panel="'+btn.dataset.tab+'"]').classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.faq-q-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const item = btn.closest('.faq-item');
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+      if(!wasOpen) item.classList.add('open');
+    });
+  });
+
+  /* footer curtain reveal: freeze the whole page once the CTA card sits
+     120px above the viewport bottom, then blur it back as the footer
+     scrolls up over the top. */
+  (function(){
+    const stack  = document.querySelector('.page-stack');
+    const card   = document.querySelector('.cta-band');
+    const blur   = document.querySelector('.page-blur');
+    const footer = document.querySelector('.site-footer');
+    if(!stack || !card || !blur || !footer) return;
+
+    const GAP = 120, MAX_BLUR = 10;
+    let ticking = false;
+
+    function measure(){
+      // The stack is far taller than the viewport, so it pins via a NEGATIVE
+      // sticky top: it holds once its own top has scrolled that far up, which
+      // is exactly when its bottom edge reaches the viewport bottom.
+      // `tail` is the slack below the card (the wrapper's bottom padding), so
+      // subtracting it lands the CARD -- not the wrapper -- GAP px up.
+      const tail = stack.getBoundingClientRect().bottom - card.getBoundingClientRect().bottom;
+      const top  = Math.min(0, window.innerHeight - stack.offsetHeight + tail - GAP);
+      document.documentElement.style.setProperty('--stack-pin', Math.round(top) + 'px');
+    }
+
+    function paint(){
+      ticking = false;
+      const vh = window.innerHeight;
+      const travel = Math.max(1, vh - card.getBoundingClientRect().top);
+      const p = Math.min(1, Math.max(0, (vh - footer.getBoundingClientRect().top) / travel));
+      const css = p ? 'blur(' + (p * MAX_BLUR).toFixed(2) + 'px)' : '';
+      blur.style.backdropFilter = css;
+      blur.style.webkitBackdropFilter = css;
+    }
+
+    function onScroll(){ if(!ticking){ ticking = true; requestAnimationFrame(paint); } }
+
+    measure(); paint();
+    addEventListener('scroll', onScroll, {passive:true});
+    addEventListener('resize', ()=>{ measure(); paint(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{ measure(); paint(); });
+  })();
+</script>
+
+</body>
+</html>
