@@ -54,6 +54,7 @@
     --container:1280px;
     --rule-line:#dcdcdc;
     --section-gap:180px;
+    --footer-gap:200px;       /* CTA card to the footer's content */
     --src-step:60vh;          /* scroll distance per sourcing tab */      /* space between one section's content and the next */
   }
 
@@ -412,7 +413,7 @@
   .src-track{position:relative;}
   .src-track .src-frame{
     position:sticky;
-    top:max(88px, calc(50vh - 320px));      /* centred; never under the header */
+    top:max(88px, calc(50vh - 315px));      /* centred (frame is 629px); never under the header */
     z-index:1;
   }
   .src-runway{height:calc(4 * var(--src-step, 60vh));}
@@ -421,24 +422,25 @@
     display:grid;
     grid-template-columns:repeat(5, 1fr);
     gap:12px;
-    padding:12px;
+    padding:8px;
     background:#f4f4f2;
   }
-  /* the white highlight glides with the scroll position (--tab-pos runs
-     0..4, set by JS) instead of snapping from tab to tab */
+  /* the white highlight rests behind the active tab and glides over to
+     the next one when the tab changes (--tab-pos = active index, set by JS) */
   .tab-glider{
     position:absolute;
-    left:12px;top:12px;
-    width:calc((100% - 24px - 4 * 12px) / 5);
-    height:52px;
+    left:8px;top:8px;
+    width:calc((100% - 16px - 4 * 12px) / 5);
+    height:48px;
     background:#fff;
     border:1px solid #ececec;
     transform:translateX(calc(var(--tab-pos, 0) * (100% + 12px)));
+    transition:transform .4s cubic-bezier(.25, .46, .45, .94);
     pointer-events:none;
   }
   .tab-btn{position:relative;z-index:1;}
   .tab-btn{
-    height:52px;
+    height:48px;
     background:transparent;
     border:1px solid transparent;
     font-size:18px;
@@ -498,7 +500,7 @@
     display:flex;
     align-items:center;
     gap:12px;
-    padding:18px 0;
+    padding:12px 0;
     font-size:18px;
     line-height:28px;
     letter-spacing:-0.02em;
@@ -514,7 +516,7 @@
     background:radial-gradient(circle at 35% 30%, #b3c9ae 0%, #7f9b7d 55%, #5d7a5f 100%);
   }
   .tab-copy .btn{
-    width:100%;height:48px;margin-top:20px;justify-content:center;gap:6px;
+    width:100%;height:48px;margin-top:32px;justify-content:center;gap:6px;
     font-size:16px;line-height:24px;
     box-shadow:
       0 1.128px 1.128px 0 rgba(8,8,8,0.2),
@@ -901,7 +903,7 @@
   }
 
   /* ---------- CTA Card ---------- */
-  .cta-band-wrap{padding:calc(var(--section-gap) / 2) 0 calc(var(--section-gap) - 80px);}
+  .cta-band-wrap{padding:calc(var(--section-gap) / 2) 0 calc(var(--footer-gap) - 80px);}
 
   /* --- footer curtain reveal ---------------------------------------
      The whole page (header through the CTA card) is one tall sticky
@@ -1091,7 +1093,7 @@
     .btn, .btn:hover, .btn:active{transform:none;transition:none;}
     .faq-a{transition:none;}
     .tab-panel.reveal .w{animation:none;}
-    .stage-slide{transition:none;}
+    .stage-slide, .tab-glider{transition:none;}
   }
 </style>
 </head>
@@ -1779,6 +1781,7 @@
         p.classList.toggle('active', k === i);
         p.classList.remove('reveal');
       });
+      tabs.style.setProperty('--tab-pos', i);
       if (stage) {
         stage.style.setProperty('--stage', i);
         slides.forEach((sl, k)=>sl.setAttribute('aria-hidden', k === i ? 'false' : 'true'));
@@ -1798,7 +1801,6 @@
     function update(){
       ticking = false;
       const pos = progress() * (N - 1);
-      tabs.style.setProperty('--tab-pos', pos.toFixed(4));
       const i = Math.round(pos);
       if (lockTo >= 0) { if (i === lockTo) lockTo = -1; else return; }
       show(i);
