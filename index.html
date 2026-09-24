@@ -655,20 +655,23 @@
     border-left:1px solid var(--rule-line);
     border-right:1px solid var(--rule-line);
   }
+  /* 25px crosses whose 1px arms sit on exactly the same pixel row and
+     column as the frame's rules: the rules are drawn inside the frame's
+     edges (x/y 0 at the top-left, the last pixel at the bottom-right),
+     so each cross is offset to land its arms on those pixels */
   .ruled-corner{
     position:absolute;
-    width:24px;height:24px;
-    margin:-12px 0 0 -12px;
-    z-index:1;
+    width:25px;height:25px;
+    z-index:2;                 /* above the frame's own rules (z-index 1) */
+    --rule-mark:#18181b;
     background:
-      linear-gradient(var(--rule-mark), var(--rule-mark)) center / 1px 100% no-repeat,
-      linear-gradient(var(--rule-mark), var(--rule-mark)) center / 100% 1px no-repeat;
-    --rule-mark:#b4b4b4;
+      linear-gradient(var(--rule-mark), var(--rule-mark)) 12px 0 / 1px 100% no-repeat,
+      linear-gradient(var(--rule-mark), var(--rule-mark)) 0 12px / 100% 1px no-repeat;
   }
-  .ruled-corner.tl{left:0;top:0;}
-  .ruled-corner.tr{left:100%;top:0;}
-  .ruled-corner.bl{left:0;top:100%;}
-  .ruled-corner.br{left:100%;top:100%;}
+  .ruled-corner.tl{left:-12px;top:-12px;}
+  .ruled-corner.tr{left:calc(100% - 13px);top:-12px;}
+  .ruled-corner.bl{left:-12px;top:calc(100% - 13px);}
+  .ruled-corner.br{left:calc(100% - 13px);top:calc(100% - 13px);}
 
   /* ---------- Pricing ---------- */
   /* follows the Figma "Pricing" frame (Kello revamp, 142:17287) */
