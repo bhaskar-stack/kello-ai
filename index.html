@@ -710,10 +710,10 @@
   /* --- footer curtain reveal ---------------------------------------
      The whole page (header through the CTA card) is one tall sticky
      block. Being taller than the viewport it pins by its BOTTOM edge:
-     once the card sits 120px above the viewport bottom the entire page
+     once the card sits 200px above the viewport bottom the entire page
      freezes, and only the footer keeps scrolling, sliding over the top.
      --stack-pin is measured in JS so the CARD (not the wrapper's
-     padding) is what lands 120px up. z-index:0 is deliberate: it makes
+     padding) is what lands 200px up. z-index:0 is deliberate: it makes
      the stack a stacking context so the sticky header's z-index:50
      can't escape above the footer curtain. */
   .page-stack{
@@ -1424,7 +1424,7 @@
   }
 
   /* footer curtain reveal: freeze the whole page once the CTA card sits
-     120px above the viewport bottom, then blur it back as the footer
+     200px above the viewport bottom, then blur it back as the footer
      scrolls up over the top. */
   (function(){
     const stack  = document.querySelector('.page-stack');
@@ -1433,7 +1433,7 @@
     const footer = document.querySelector('.site-footer');
     if(!stack || !card || !blur || !footer) return;
 
-    const GAP = 120, MAX_BLUR = 10;
+    const GAP = 200, MAX_BLUR = 10;
     let ticking = false;
 
     function measure(){
