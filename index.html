@@ -465,10 +465,11 @@
     padding:8px 8px 8px 0;
   }
   .tab-panel.active{display:grid;}
-  /* per-word reveal: JS wraps each word in .w with --i = its index within
-     the block; blocks start together and words follow 0.1s apart */
+  /* per-line reveal: JS wraps each word in .w and gives it --i = the index
+     of the rendered line it sits on, counting down the whole column
+     (heading, copy, then each point); lines follow each other 0.1s apart */
   .tab-panel .w{display:inline-block;}
-  .tab-panel.reveal .w{animation:word-in .5s cubic-bezier(.2, .7, .2, 1) both;animation-delay:calc(var(--i) * 0.1s + var(--d, 0s));}
+  .tab-panel.reveal .w{animation:word-in .5s cubic-bezier(.2, .7, .2, 1) both;animation-delay:calc(var(--i, 0) * 0.1s);}
   .tab-panel.reveal .tab-visual{animation:visual-in .45s ease both;}
   @keyframes word-in{from{opacity:0;transform:translateY(6px);filter:blur(4px);}to{opacity:1;transform:none;filter:none;}}
   @keyframes visual-in{from{opacity:0;}to{opacity:1;}}
@@ -1710,8 +1711,6 @@
     // wrap every word of the heading, copy and points in .w for the reveal
     panels.forEach(panel=>{
       panel.querySelectorAll('.tab-copy h3, .tab-copy > p, .check-list li').forEach((block, b)=>{
-        let n = 0;
-        block.style.setProperty('--d', (block.matches('li') ? 0.2 + 0.1 * [...block.parentNode.children].indexOf(block) : block.matches('p') ? 0.15 : 0) + 's');
         [...block.childNodes].forEach(node=>{
           if (node.nodeType !== 3 || !node.textContent.trim()) return;
           const frag = document.createDocumentFragment();
@@ -1719,7 +1718,7 @@
             if (!part) return;
             if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
             const w = document.createElement('span');
-            w.className = 'w'; w.textContent = part; w.style.setProperty('--i', n++);
+            w.className = 'w'; w.textContent = part;
             frag.appendChild(w);
           });
           // points are flex rows with a gap, so keep their words in one box
@@ -1728,6 +1727,25 @@
         });
       });
     });
+
+    // number the rendered lines of a visible panel, top to bottom
+    function numberLines(panel){
+      let line = -1;
+      panel.querySelectorAll('.tab-copy h3, .tab-copy > p, .check-list li').forEach(block=>{
+        let lastTop = null;
+        block.querySelectorAll('.w').forEach(w=>{
+          const top = Math.round(w.getBoundingClientRect().top);
+          if (lastTop === null || Math.abs(top - lastTop) > 2) { line++; lastTop = top; }
+          w.style.setProperty('--i', line);
+        });
+      });
+    }
+    function replay(panel){
+      panel.classList.remove('reveal');
+      numberLines(panel);                     // measured while nothing is animating
+      panel.offsetWidth;
+      panel.classList.add('reveal');
+    }
 
     let current = -1, lockTo = -1, lockTimer = 0;
     function show(i){
@@ -1743,7 +1761,7 @@
         p.classList.toggle('active', k === i);
         p.classList.remove('reveal');
       });
-      if (!still && revealed) { panels[i].offsetWidth; panels[i].classList.add('reveal'); }
+      if (!still && revealed) replay(panels[i]);
     }
     function geometry(){
       const top = parseFloat(getComputedStyle(frame).top) || 0;
@@ -1789,7 +1807,7 @@
     const io = 'IntersectionObserver' in window && new IntersectionObserver(([e])=>{
       if (!e.isIntersecting) return;
       revealed = true; io.disconnect();
-      if (!still) { panels[current].classList.remove('reveal'); panels[current].offsetWidth; panels[current].classList.add('reveal'); }
+      if (!still) replay(panels[current]);
     }, {threshold:0.35});
     if (io) io.observe(frame); else revealed = true;
     current = -1; update();
