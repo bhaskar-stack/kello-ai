@@ -536,29 +536,62 @@
 
   /* ---------- WOM ---------- */
   .wom{position:relative;}
-  .wom-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  /* full-bleed running ticker; slower than the logo ticker (~30px/s vs
+     ~46px/s) and it pauses while hovered or while a card has focus */
+  .wom-ticker{
+    overflow:hidden;
+    -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+    mask-image:linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  }
+  .wom-track{
+    display:flex;
+    width:max-content;
+    /* room for the cards' shadow inside the clipped ticker */
+    padding:4px 0 24px;
+  }
+  /* JS clones the set once and adds .running, so the -50% loop is seamless;
+     cards carry their spacing as margin (not gap) so both halves are equal */
+  .wom-track.running{animation:wom-scroll 96s linear infinite;}
+  .wom-ticker:hover .wom-track,
+  .wom-ticker:focus-within .wom-track{animation-play-state:paused;}
+  @keyframes wom-scroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
   .wom-card{
+    flex:0 0 460px;
+    width:460px;
+    height:560px;
+    margin-right:24px;
+    padding:32px;
     border:1px solid var(--line-100);
     border-radius:var(--radius-lg);
-    padding:28px 26px;
     display:flex;
     flex-direction:column;
+    gap:32px;
     background:#fff;
     box-shadow:var(--shadow-sm);
   }
   .wom-avatar{
     width:48px;height:48px;border-radius:50%;
     object-fit:cover;
-    margin-bottom:20px;
+    flex-shrink:0;
     background:var(--surface-200);
   }
-  .wom-quote{
-    font-size:15px;
-    line-height:1.65;
-    color:var(--ink-800);
-    flex:1;
-    margin-bottom:28px;
+  /* stand-in until a real headshot is added */
+  .wom-avatar.initials{
+    display:flex;align-items:center;justify-content:center;
+    background:var(--sage-100);
+    color:var(--olive-900);
+    font-size:16px;font-weight:600;
   }
+  .wom-quote{
+    font-size:18px;
+    line-height:1.6;
+    color:var(--ink-800);
+  }
+  /* signature + designation sit on the card's bottom edge */
+  .wom-author{margin-top:auto;}
   .wom-sig{
     font-family:'Segoe Script','Brush Script MT',cursive;
     font-size:22px;
@@ -569,14 +602,18 @@
 
   .wom-card.video{
     position:relative;
-    padding:0;
     overflow:hidden;
-    min-height:400px;
     color:#fff;
-    justify-content:flex-end;
   }
-  .wom-card.video img{
+  .wom-card.video img,
+  .wom-poster{
     position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;
+  }
+  /* stand-in video poster until a real photo is added */
+  .wom-poster{
+    background:
+      radial-gradient(120% 80% at 30% 20%, rgba(201,217,196,0.35) 0%, rgba(201,217,196,0) 60%),
+      linear-gradient(160deg, var(--sage-500) 0%, var(--olive-800) 70%, var(--olive-900) 100%);
   }
   .wom-card.video::after{
     content:"";
@@ -597,9 +634,9 @@
     z-index:2;
   }
   .play-btn svg{width:18px;height:18px;fill:#fff;margin-left:2px;}
-  .video-caption{position:relative;z-index:2;padding:24px 26px;}
-  .video-caption .wom-sig{color:#fff;}
-  .video-caption .wom-role{color:rgba(255,255,255,0.75);}
+  .wom-card.video .wom-author{position:relative;z-index:2;}
+  .wom-card.video .wom-sig{color:#fff;}
+  .wom-card.video .wom-role{color:rgba(255,255,255,0.75);}
 
   /* ---------- FAQ ---------- */
   .faq{position:relative;}
@@ -801,6 +838,7 @@
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     .ticker-track{animation:none;}
+    .wom-ticker{overflow-x:auto;}
     .btn, .btn:hover, .btn:active{transform:none;transition:none;}
     .faq-a{transition:none;}
   }
@@ -1057,13 +1095,17 @@
       <div class="eyebrow">WORD OF MOUTH</div>
       <h2>Don't take our word for it.<br>Hear it from our partners.</h2>
     </div>
+  </div>
 
-    <div class="wom-grid">
+  <div class="wom-ticker">
+    <div class="wom-track">
       <div class="wom-card">
         <img class="wom-avatar" src="assets/avatar-ananya.jpg" alt="Ananya Iyer">
         <p class="wom-quote">"Kello gives us back our time. I can focus on conversations and closing hires instead of endless searches. The candidate write-ups are incredibly helpful and make it easy to prioritize."</p>
-        <div class="wom-sig">Ananya Iyer</div>
-        <div class="wom-role">Recruiting Manager at Zepto</div>
+        <div class="wom-author">
+          <div class="wom-sig">Ananya Iyer</div>
+          <div class="wom-role">Recruiting Manager at Zepto</div>
+        </div>
       </div>
 
       <div class="wom-card video">
@@ -1071,7 +1113,7 @@
         <span class="play-btn" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </span>
-        <div class="video-caption">
+        <div class="wom-author">
           <div class="wom-sig">Karan Mehta</div>
           <div class="wom-role">Head of Talent at PhysicsWallah</div>
         </div>
@@ -1080,8 +1122,44 @@
       <div class="wom-card">
         <img class="wom-avatar" src="assets/avatar-riya.jpg" alt="Riya Sharma">
         <p class="wom-quote">"Kello has completely changed the way we source. What used to take weeks of manual search now lands in our inbox in under an hour, with high-quality candidates and clear reasoning."</p>
-        <div class="wom-sig">Riya Sharma</div>
-        <div class="wom-role">Talent Acquisition Lead at Razorpay</div>
+        <div class="wom-author">
+          <div class="wom-sig">Riya Sharma</div>
+          <div class="wom-role">Talent Acquisition Lead at Razorpay</div>
+        </div>
+      </div>
+
+      <!-- placeholder testimonial: swap in a real customer's name, role, quote and photo -->
+      <div class="wom-card video">
+        <div class="wom-poster" role="img" aria-label="Arjun Nair"></div>
+        <span class="play-btn" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+        <div class="wom-author">
+          <div class="wom-sig">Arjun Nair</div>
+          <div class="wom-role">Director of Talent at Swiggy</div>
+        </div>
+      </div>
+
+      <!-- placeholder testimonial: swap in a real customer's name, role, quote and photo -->
+      <div class="wom-card">
+        <span class="wom-avatar initials" aria-hidden="true">MK</span>
+        <p class="wom-quote">"We filled two senior engineering roles in our first month. Kello surfaced people our team had never come across, and every profile came with reasoning we could forward straight to the hiring manager."</p>
+        <div class="wom-author">
+          <div class="wom-sig">Meera Kapoor</div>
+          <div class="wom-role">HR Business Partner at Snapmint</div>
+        </div>
+      </div>
+
+      <!-- placeholder testimonial: swap in a real customer's name, role, quote and photo -->
+      <div class="wom-card video">
+        <div class="wom-poster" role="img" aria-label="Vikram Rao"></div>
+        <span class="play-btn" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </span>
+        <div class="wom-author">
+          <div class="wom-sig">Vikram Rao</div>
+          <div class="wom-role">VP of People at JUSPAY</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1289,6 +1367,21 @@
       }
     });
   });
+
+  // testimonial ticker: append one aria-hidden copy of the cards so the
+  // -50% loop is seamless. Skipped for reduced motion (the row just scrolls).
+  (function(){
+    const track = document.querySelector('.wom-track');
+    if (!track || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    [...track.children].forEach(card=>{
+      const copy = card.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      copy.querySelectorAll('img').forEach(img=>img.alt = '');
+      copy.querySelectorAll('[role="img"]').forEach(el=>el.removeAttribute('aria-label'));
+      track.appendChild(copy);
+    });
+    track.classList.add('running');
+  })();
 
   // the CTA card's SMIL streaks can't be paused from CSS
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
