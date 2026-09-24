@@ -52,6 +52,7 @@
     --shadow-lg:0 20px 48px rgba(24,24,27,0.10), 0 4px 12px rgba(24,24,27,0.05);
 
     --container:1280px;
+    --rule-line:#dcdcdc;
   }
 
   *{box-sizing:border-box;}
@@ -76,6 +77,7 @@
   h1,h2,h3,h4,p{margin:0;}
 
   /* 32px gutters once the viewport is narrower than container + gutters */
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;}
   .wrap{width:min(var(--container), 100% - 2 * var(--space-8));margin:0 auto;padding:0;}
 
   .page-glows{
@@ -545,42 +547,23 @@
   .wom-nav{display:flex;gap:12px;flex-shrink:0;}
   /* square versions of .btn-secondary */
   .wom-arrow{width:40px;height:40px;padding:0;justify-content:center;}
-  .wom-arrow:disabled{opacity:0.4;cursor:default;}
-  .wom-arrow:disabled:hover,
-  .wom-arrow:disabled:active{transform:none;background-color:#f5f4f4;}
-  /* full-bleed scroller; --edge lines the first and last card up with
-     .wrap's edges (it resolves against the scroller's width) */
-  .wom-carousel{
-    --edge:calc((100% - min(var(--container), 100% - 2 * var(--space-8))) / 2);
-    overflow-x:auto;
-    overflow-y:hidden;
-    scroll-snap-type:x mandatory;
-    scroll-padding-inline:var(--edge);
-    scrollbar-width:none;
-  }
-  .wom-carousel::-webkit-scrollbar{display:none;}
-  .wom-carousel:focus-visible{outline:2px solid var(--olive-900);outline-offset:-2px;}
-  .wom-track{
-    display:flex;
-    gap:24px;
-    width:max-content;
-    /* room for the cards' shadow inside the clipped scroller */
-    padding:4px var(--edge) 24px;
-  }
+  /* three cards per batch in the same ruled frame as pricing; the arrows
+     step through batches and wrap around at either end */
+  .wom-frame{display:grid;grid-template-columns:repeat(3, 1fr);}
+  .wom-frame.is-leaving{opacity:0;transform:translateX(calc(var(--wom-dir, 1) * -12px));}
+  .wom-frame.is-entering{opacity:0;transform:translateX(calc(var(--wom-dir, 1) * 12px));transition:none;}
+  .wom-frame{transition:opacity .22s ease, transform .22s ease;}
   .wom-card{
-    flex:0 0 460px;
-    width:460px;
     height:560px;
     padding:32px;
-    scroll-snap-align:start;
-    border:1px solid var(--line-100);
-    border-radius:var(--radius-lg);
     display:flex;
     flex-direction:column;
     gap:32px;
-    background:#fff;
-    box-shadow:var(--shadow-sm);
+    background:var(--surface-0);
   }
+  .wom-card[hidden]{display:none;}
+  /* a divider between the cells of each row of three */
+  .wom-card:not(:nth-child(3n+1)){border-left:1px solid var(--rule-line);}
   .wom-avatar{
     width:48px;height:48px;border-radius:50%;
     object-fit:cover;
@@ -613,6 +596,7 @@
     position:relative;
     overflow:hidden;
     color:#fff;
+    background:var(--olive-900);
   }
   .wom-card.video img,
   .wom-poster{
@@ -647,55 +631,55 @@
   .wom-card.video .wom-sig{color:#fff;}
   .wom-card.video .wom-role{color:rgba(255,255,255,0.75);}
 
-  /* ---------- Pricing ---------- */
-  /* follows the Figma "Pricing" frame (Kello revamp, 142:17287) */
-  .pricing{
-    --price-line:#dcdcdc;
-    --price-ink:#202939;
-    --price-label:#414651;
-    --price-muted:#717680;
-  }
-  .pricing .section-head{margin-bottom:56px;}
-  /* three plans in one ruled frame; the outer rules run 32px past each
+  /* ---------- Ruled frame (pricing, testimonials) ---------- */
+  /* a row of cells in one ruled box: the outer rules run 32px past each
      edge and a small cross marks every corner */
-  .price-frame{
-    position:relative;
-    display:grid;
-    grid-template-columns:1fr 1fr 1fr;
-  }
-  .price-frame::before,
-  .price-frame::after{content:"";position:absolute;pointer-events:none;}
-  .price-frame::before{
+  .ruled-frame{position:relative;}
+  .ruled-frame::before,
+  .ruled-frame::after{content:"";position:absolute;pointer-events:none;z-index:1;}
+  .ruled-frame::before{
     inset:0 -32px;
-    border-top:1px solid var(--price-line);
-    border-bottom:1px solid var(--price-line);
+    border-top:1px solid var(--rule-line);
+    border-bottom:1px solid var(--rule-line);
   }
-  .price-frame::after{
+  .ruled-frame::after{
     inset:-32px 0;
-    border-left:1px solid var(--price-line);
-    border-right:1px solid var(--price-line);
+    border-left:1px solid var(--rule-line);
+    border-right:1px solid var(--rule-line);
   }
-  .price-corner{
+  .ruled-corner{
     position:absolute;
     width:24px;height:24px;
     margin:-12px 0 0 -12px;
     z-index:1;
     background:
-      linear-gradient(var(--price-mark), var(--price-mark)) center / 1px 100% no-repeat,
-      linear-gradient(var(--price-mark), var(--price-mark)) center / 100% 1px no-repeat;
-    --price-mark:#b4b4b4;
+      linear-gradient(var(--rule-mark), var(--rule-mark)) center / 1px 100% no-repeat,
+      linear-gradient(var(--rule-mark), var(--rule-mark)) center / 100% 1px no-repeat;
+    --rule-mark:#b4b4b4;
   }
-  .price-corner.tl{left:0;top:0;}
-  .price-corner.tr{left:100%;top:0;}
-  .price-corner.bl{left:0;top:100%;}
-  .price-corner.br{left:100%;top:100%;}
+  .ruled-corner.tl{left:0;top:0;}
+  .ruled-corner.tr{left:100%;top:0;}
+  .ruled-corner.bl{left:0;top:100%;}
+  .ruled-corner.br{left:100%;top:100%;}
+
+  /* ---------- Pricing ---------- */
+  /* follows the Figma "Pricing" frame (Kello revamp, 142:17287) */
+  .pricing{
+    --price-ink:#202939;
+    --price-label:#414651;
+    --price-muted:#717680;
+  }
+  .pricing .section-head,
+  .wom .section-head{margin-bottom:56px;}
+  .price-frame{display:grid;grid-template-columns:1fr 1fr 1fr;}
+
 
   .plan{
     padding:24px;
     background:var(--surface-0);
     color:var(--price-ink);
   }
-  .plan + .plan{border-left:1px solid var(--price-line);}
+  .plan + .plan{border-left:1px solid var(--rule-line);}
   .plan-tags{display:flex;align-items:center;gap:12px;}
   .plan-chip{
     padding:4px 8px;
@@ -703,7 +687,7 @@
     background:linear-gradient(180deg, #f5f4f4, #efeeee);
     font-size:14px;line-height:16px;letter-spacing:-0.02em;
   }
-  .plan-tags .rule{width:1px;height:16px;background:var(--price-line);}
+  .plan-tags .rule{width:1px;height:16px;background:var(--rule-line);}
   .plan-for{
     font-size:14px;line-height:20px;letter-spacing:-0.02em;
     text-transform:uppercase;
@@ -1030,6 +1014,7 @@
     .ticker-track{animation:none;}
     .btn, .btn:hover, .btn:active{transform:none;transition:none;}
     .faq-a{transition:none;}
+    .wom-frame, .wom-frame.is-leaving{transition:none;transform:none;}
   }
 </style>
 </head>
@@ -1286,18 +1271,17 @@
         <h2>Don't take our word for it.<br>Hear it from our partners.</h2>
       </div>
       <div class="wom-nav">
-        <button type="button" class="btn btn-secondary wom-arrow" data-dir="-1" aria-label="Previous testimonial" aria-controls="wom-carousel" disabled>
+        <button type="button" class="btn btn-secondary wom-arrow" data-dir="-1" aria-label="Previous testimonials" aria-controls="wom-frame">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
         </button>
-        <button type="button" class="btn btn-secondary wom-arrow" data-dir="1" aria-label="Next testimonial" aria-controls="wom-carousel">
+        <button type="button" class="btn btn-secondary wom-arrow" data-dir="1" aria-label="Next testimonials" aria-controls="wom-frame">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
         </button>
       </div>
     </div>
-  </div>
 
-  <div class="wom-carousel" id="wom-carousel" tabindex="0" role="region" aria-label="Customer testimonials">
-    <div class="wom-track">
+    <p class="sr-only" id="wom-status" aria-live="polite"></p>
+    <div class="wom-frame ruled-frame" id="wom-frame" role="region" aria-label="Customer testimonials">
       <div class="wom-card">
         <img class="wom-avatar" src="assets/avatar-ananya.jpg" alt="Ananya Iyer">
         <p class="wom-quote">"Kello gives us back our time. I can focus on conversations and closing hires instead of endless searches. The candidate write-ups are incredibly helpful and make it easy to prioritize."</p>
@@ -1360,6 +1344,10 @@
           <div class="wom-role">VP of People at JUSPAY</div>
         </div>
       </div>
+      <span class="ruled-corner tl" aria-hidden="true"></span>
+      <span class="ruled-corner tr" aria-hidden="true"></span>
+      <span class="ruled-corner bl" aria-hidden="true"></span>
+      <span class="ruled-corner br" aria-hidden="true"></span>
     </div>
   </div>
 </section>
@@ -1371,7 +1359,7 @@
       <h2>Find the plan<br>that suits your hiring needs</h2>
     </div>
 
-    <div class="price-frame">
+    <div class="price-frame ruled-frame">
       <div class="plan">
         <div class="plan-tags">
           <span class="plan-chip">PAY PER JOB</span>
@@ -1435,10 +1423,10 @@
           <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated support manager</li>
         </ul>
       </div>
-      <span class="price-corner tl" aria-hidden="true"></span>
-      <span class="price-corner tr" aria-hidden="true"></span>
-      <span class="price-corner bl" aria-hidden="true"></span>
-      <span class="price-corner br" aria-hidden="true"></span>
+      <span class="ruled-corner tl" aria-hidden="true"></span>
+      <span class="ruled-corner tr" aria-hidden="true"></span>
+      <span class="ruled-corner bl" aria-hidden="true"></span>
+      <span class="ruled-corner br" aria-hidden="true"></span>
     </div>
   </div>
 </section>
@@ -1650,35 +1638,41 @@
     });
   });
 
-  // testimonial carousel: arrows step one card at a time and grey out at
-  // either end; trackpad, touch and arrow keys scroll it natively too
+  // testimonials: show three at a time; the arrows step a whole batch and
+  // wrap around, so "next" alone cycles through every card
   (function(){
-    const scroller = document.querySelector('.wom-carousel');
+    const frame = document.querySelector('.wom-frame');
+    const status = document.getElementById('wom-status');
     const arrows = document.querySelectorAll('.wom-arrow');
-    if (!scroller || !arrows.length) return;
-    const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!frame || !arrows.length) return;
+    const cards = [...frame.querySelectorAll('.wom-card')];
+    const PER = 3, pages = Math.ceil(cards.length / PER);
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let page = 0, busy = false;
 
-    function step(){
-      const cards = scroller.querySelectorAll('.wom-card');
-      return cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : scroller.clientWidth;
+    function show(n){
+      page = (n + pages) % pages;
+      cards.forEach((card, i)=>{ card.hidden = Math.floor(i / PER) !== page; });
+      const first = page * PER + 1, last = Math.min(cards.length, first + PER - 1);
+      status.textContent = 'Showing testimonials ' + first + ' to ' + last + ' of ' + cards.length;
     }
-    function update(){
-      const max = scroller.scrollWidth - scroller.clientWidth;
-      arrows.forEach(btn=>{
-        btn.disabled = btn.dataset.dir < 0 ? scroller.scrollLeft <= 1 : scroller.scrollLeft >= max - 1;
-      });
+    function go(dir){
+      if (busy) return;
+      if (still) { show(page + dir); return; }
+      busy = true;
+      frame.style.setProperty('--wom-dir', dir);
+      frame.classList.add('is-leaving');
+      setTimeout(()=>{
+        show(page + dir);
+        frame.classList.remove('is-leaving');
+        frame.classList.add('is-entering');
+        frame.offsetWidth;                       // commit the start state
+        frame.classList.remove('is-entering');
+        setTimeout(()=>{ busy = false; }, 220);
+      }, 220);
     }
-    arrows.forEach(btn=>btn.addEventListener('click', ()=>{
-      scroller.scrollBy({left: btn.dataset.dir * step(), behavior: smooth ? 'smooth' : 'auto'});
-    }));
-    let queued = false;
-    scroller.addEventListener('scroll', ()=>{
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(()=>{ queued = false; update(); });
-    }, {passive:true});
-    addEventListener('resize', update);
-    update();
+    arrows.forEach(btn=>btn.addEventListener('click', ()=>go(Number(btn.dataset.dir))));
+    show(0);
   })();
 
   // the CTA card's SMIL streaks can't be paused from CSS
