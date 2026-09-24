@@ -53,7 +53,8 @@
 
     --container:1280px;
     --rule-line:#dcdcdc;
-    --section-gap:180px;      /* space between one section's content and the next */
+    --section-gap:180px;
+    --src-step:60vh;          /* scroll distance per sourcing tab */      /* space between one section's content and the next */
   }
 
   *{box-sizing:border-box;}
@@ -405,13 +406,37 @@
      bar, then copy on the left and a green product visual on the right */
   .sourcing{position:relative;}
   .sourcing .section-head{margin-bottom:56px;}
+  /* scroll-driven tabs: the frame pins in the middle of the screen while
+     a runway below it scrolls past (one --src-step per tab change); only
+     after the last tab does the page move on */
+  .src-track{position:relative;}
+  .src-track .src-frame{
+    position:sticky;
+    top:max(88px, calc(50vh - 320px));      /* centred; never under the header */
+    z-index:1;
+  }
+  .src-runway{height:calc(4 * var(--src-step, 60vh));}
   .tabs{
+    position:relative;
     display:grid;
     grid-template-columns:repeat(5, 1fr);
     gap:12px;
     padding:12px;
     background:#f4f4f2;
   }
+  /* the white highlight glides with the scroll position (--tab-pos runs
+     0..4, set by JS) instead of snapping from tab to tab */
+  .tab-glider{
+    position:absolute;
+    left:12px;top:12px;
+    width:calc((100% - 24px - 4 * 12px) / 5);
+    height:52px;
+    background:#fff;
+    border:1px solid #ececec;
+    transform:translateX(calc(var(--tab-pos, 0) * (100% + 12px)));
+    pointer-events:none;
+  }
+  .tab-btn{position:relative;z-index:1;}
   .tab-btn{
     height:52px;
     background:transparent;
@@ -424,13 +449,11 @@
   }
   .tab-btn:hover{color:var(--ink-800);}
   .tab-btn.active{
-    background:#fff;
-    border-color:#ececec;
     color:var(--ink-900);
     font-weight:500;
   }
   .tab-btn:focus-visible{outline:2px solid var(--olive-900);outline-offset:-2px;}
-  .tab-panel-frame{background:#fff;}
+  .tab-panel-frame{position:relative;background:#fff;}
   /* copy | 48px | visual. The visual keeps 8px to the panel's top, right
      and bottom edges and stays 778 x 549px, the exact size the exported
      tab visuals are drawn for; the copy takes the remaining width */
@@ -442,6 +465,12 @@
     padding:8px 8px 8px 0;
   }
   .tab-panel.active{display:grid;}
+  /* per-line reveal: JS wraps each word in .w and gives it --i = the index
+     of the rendered line it sits on, counting down the whole column
+     (heading, copy, then each point); lines follow each other 0.08s apart */
+  .tab-panel .w{display:inline-block;}
+  .tab-panel.reveal .w{animation:word-in .5s cubic-bezier(.2, .7, .2, 1) both;animation-delay:calc(var(--i, 0) * 0.08s);}
+  @keyframes word-in{from{opacity:0;transform:translateY(6px);filter:blur(4px);}to{opacity:1;transform:none;filter:none;}}
   /* 32px from the panel's left, top and bottom edges (8px of which is the
      panel's own padding); heading + copy sit at the top, the points and
      CTA at the bottom */
@@ -498,8 +527,12 @@
   /* green product visual, sampled from the design export: a vertical
      gradient (lightest at the top, deepest at 80%) under the page's own
      6px-dash grid (10.028 x 7px tile) drawn in 8% black */
-  .tab-visual{
-    position:relative;
+  /* the stage fills the visual cell of whichever panel is showing (8px from
+     the frame's top, right and bottom, 778 x 549px) */
+  .tab-stage{
+    position:absolute;
+    top:8px;right:8px;
+    width:778px;height:549px;
     overflow:hidden;
     background:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10.028' height='7'%3E%3Crect x='0' y='4' width='6' height='1' rx='0.5' fill='%23000' fill-opacity='0.08'/%3E%3C/svg%3E") 0 0 / 10.028px 7px repeat,
@@ -508,6 +541,15 @@
   /* an exported tab visual: the full panel at 2.57x with a transparent
      surround, laid over the green background edge to edge */
   .visual-shot{position:absolute;left:0;top:0;width:100%;height:auto;max-width:none;}
+  /* each slide is one tab's visual; all of them shift by -100% per tab
+     index, like the reference reel (0.4s, power2.out) */
+  .stage-slide{
+    position:relative;
+    height:100%;
+    overflow:hidden;
+    transform:translateY(calc(var(--stage, 0) * -100%));
+    transition:transform .4s cubic-bezier(.25, .46, .45, .94);
+  }
   .mock-card{
     position:absolute;
     left:40px;right:40px;top:40px;
@@ -1048,6 +1090,8 @@
     .ticker-track{animation:none;}
     .btn, .btn:hover, .btn:active{transform:none;transition:none;}
     .faq-a{transition:none;}
+    .tab-panel.reveal .w{animation:none;}
+    .stage-slide{transition:none;}
   }
 </style>
 </head>
@@ -1114,8 +1158,10 @@
       <h2>Stop searching.<br>Start hiring.</h2>
     </div>
 
+    <div class="src-track">
     <div class="src-frame ruled-frame">
     <div class="tabs" role="tablist" aria-label="How Kello sources">
+      <span class="tab-glider" aria-hidden="true"></span>
       <button class="tab-btn active" data-tab="understand" role="tab" id="tab-understand" aria-controls="panel-understand" aria-selected="true">Understand</button>
       <button class="tab-btn" data-tab="calibrate" role="tab" id="tab-calibrate" aria-controls="panel-calibrate" aria-selected="false" tabindex="-1">Calibrate</button>
       <button class="tab-btn" data-tab="explore" role="tab" id="tab-explore" aria-controls="panel-explore" aria-selected="false" tabindex="-1">Explore</button>
@@ -1135,22 +1181,63 @@
           </ul>
           <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
-        <div class="tab-visual">
-          <img class="visual-shot" src="assets/sourcing-understand.webp" width="2000" height="1412" alt="Kello's read of a Senior Product Designer JD: core intent 'Design and own end-to-end consumer experience', key signal 'end-to-end product design', and adjacent skills such as UX research, growth, A/B testing, product thinking and product strategy.">
-        </div>
       </div>
       <div class="tab-panel" data-panel="calibrate" role="tabpanel" id="panel-calibrate" aria-labelledby="tab-calibrate">
         <div class="tab-copy">
-          <h3>Calibrated to your bar</h3>
-          <p>Kello learns from every candidate you approve or reject, tightening its sense of what "good" looks like for your team with each round.</p>
+          <h3>Learns what great looks like.</h3>
+          <p>Kello studies your past hires to understand the patterns behind your best people — and uses that hiring bar to guide every search.</p>
           <ul class="check-list">
-            <li><span class="check-dot" aria-hidden="true"></span>Learns from your shortlist decisions</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Adjusts weighting on must-have signals</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Keeps every hiring manager aligned</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Studies previous hires</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Finds recurring career patterns</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Builds your company's hiring bar</li>
           </ul>
           <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
-        <div class="tab-visual" aria-hidden="true">
+      </div>
+      <div class="tab-panel" data-panel="explore" role="tabpanel" id="panel-explore" aria-labelledby="tab-explore">
+        <div class="tab-copy">
+          <h3>It doesn't bet on one type of candidate.</h3>
+          <p>Kello explores multiple ways to solve the role, creating distinct candidate profiles and sending each one on its own sourcing mission.</p>
+          <ul class="check-list">
+            <li><span class="check-dot" aria-hidden="true"></span>Multiple candidate profiles</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Dedicated AI sourcing paths</li>
+            <li><span class="check-dot" aria-hidden="true"></span>100M+ profiles searched</li>
+          </ul>
+          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="tab-panel" data-panel="review" role="tabpanel" id="panel-review" aria-labelledby="tab-review">
+        <div class="tab-copy">
+          <h3>Every candidate comes with a case</h3>
+          <p>Kello doesn't just surface a profile. It builds the case for why someone fits, what could make them a miss, and what you should dig into next.</p>
+          <ul class="check-list">
+            <li><span class="check-dot" aria-hidden="true"></span>Candidate thesis &amp; anti-thesis</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Evidence from their career</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Areas to probe</li>
+          </ul>
+          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="tab-panel" data-panel="delivery" role="tabpanel" id="panel-delivery" aria-labelledby="tab-delivery">
+        <div class="tab-copy">
+          <h3>30 candidates worth calling. In 60 minutes.</h3>
+          <p>Kello turns all that research into a focused shortlist, delivered straight to your inbox — ready for you to start conversations.</p>
+          <ul class="check-list">
+            <li><span class="check-dot" aria-hidden="true"></span>30 candidates worth calling</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Delivered within 60 minutes</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Give feedback directly to Kello</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Next searches get sharper</li>
+          </ul>
+          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <!-- one shared stage: the green background stays put while the
+           visuals slide through it as a vertical reel -->
+      <div class="tab-stage">
+        <div class="stage-slide" data-slide="understand">
+          <img class="visual-shot" src="assets/sourcing-understand.webp" width="2000" height="1412" alt="Kello's read of a Senior Product Designer JD: core intent 'Design and own end-to-end consumer experience', key signal 'end-to-end product design', and adjacent skills such as UX research, growth, A/B testing, product thinking and product strategy.">
+        </div>
+        <div class="stage-slide" data-slide="calibrate" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
               <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed2)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
@@ -1180,19 +1267,7 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="tab-panel" data-panel="explore" role="tabpanel" id="panel-explore" aria-labelledby="tab-explore">
-        <div class="tab-copy">
-          <h3>Explores every corner of the web</h3>
-          <p>Kello searches across 100M+ profiles and public signals to surface people who fit — including candidates who never show up in a keyword search.</p>
-          <ul class="check-list">
-            <li><span class="check-dot" aria-hidden="true"></span>Searches 100M+ candidate profiles</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Finds adjacent, non-obvious matches</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Covers passive candidates too</li>
-          </ul>
-          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-        <div class="tab-visual" aria-hidden="true">
+        <div class="stage-slide" data-slide="explore" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
               <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed3)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
@@ -1222,19 +1297,7 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="tab-panel" data-panel="review" role="tabpanel" id="panel-review" aria-labelledby="tab-review">
-        <div class="tab-copy">
-          <h3>Every match, reasoned out</h3>
-          <p>No black box scores. Each candidate comes with a clear, readable write-up of why they're a fit — so you can review fast and with confidence.</p>
-          <ul class="check-list">
-            <li><span class="check-dot" aria-hidden="true"></span>Plain-language match reasoning</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Strengths and gaps, side by side</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Built for quick human review</li>
-          </ul>
-          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-        <div class="tab-visual" aria-hidden="true">
+        <div class="stage-slide" data-slide="review" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
               <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed4)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
@@ -1264,19 +1327,7 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="tab-panel" data-panel="delivery" role="tabpanel" id="panel-delivery" aria-labelledby="tab-delivery">
-        <div class="tab-copy">
-          <h3>Straight to your inbox</h3>
-          <p>Your shortlist lands where your team already works — email, Slack, or your ATS — ready to move to outreach.</p>
-          <ul class="check-list">
-            <li><span class="check-dot" aria-hidden="true"></span>Delivered in minutes, not weeks</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Syncs with your existing ATS</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Ready for outreach on arrival</li>
-          </ul>
-          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-        <div class="tab-visual" aria-hidden="true">
+        <div class="stage-slide" data-slide="delivery" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
               <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed5)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
@@ -1313,6 +1364,8 @@
       <span class="ruled-corner tr" aria-hidden="true"></span>
       <span class="ruled-corner bl" aria-hidden="true"></span>
       <span class="ruled-corner br" aria-hidden="true"></span>
+    </div>
+    <div class="src-runway" aria-hidden="true"></div>
     </div>
   </div>
 </section>
@@ -1646,10 +1699,11 @@
       </div>
       <div class="footer-social">
         <span class="label">FIND US ON</span>
+        <!-- social icons: Hugeicons free set (MIT), Linkedin01Icon / NewTwitterRectangleIcon / InstagramIcon -->
         <div class="social-icons">
-          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 8.98h4v12.02H3zM9.5 8.98h3.83v1.64h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1v6.34h-4V15.4c0-1.5-.03-3.43-2.09-3.43-2.1 0-2.42 1.64-2.42 3.32v5.71h-4z"/></svg></a>
-          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 3H21l-6.55 7.49L22 21h-6.31l-4.94-6.46L5.1 21H3l7.02-8.02L2.4 3h6.47l4.47 5.9L18.9 3zm-1.1 16.17h1.17L7.28 4.75H6.02L17.8 19.17z"/></svg></a>
-          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17.2" cy="6.8" r="1"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 10V17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 13V17M11 13C11 11.3431 12.3431 10 14 10C15.6569 10 17 11.3431 17 13V17M11 13V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.125 6.75H7M7.25 6.75C7.25 6.88807 7.13807 7 7 7C6.86193 7 6.75 6.88807 6.75 6.75C6.75 6.61193 6.86193 6.5 7 6.5C7.13807 6.5 7.25 6.61193 7.25 6.75Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 12C3 7.75736 3 5.63604 4.31802 4.31802C5.63604 3 7.75736 3 12 3C16.2426 3 18.364 3 19.682 4.31802C21 5.63604 21 7.75736 21 12C21 16.2426 21 18.364 19.682 19.682C18.364 21 16.2426 21 12 21C7.75736 21 5.63604 21 4.31802 19.682C3 18.364 3 16.2426 3 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.50012 12C2.50012 7.52166 2.50012 5.28249 3.89136 3.89124C5.28261 2.5 7.52178 2.5 12.0001 2.5C16.4785 2.5 18.7176 2.5 20.1089 3.89124C21.5001 5.28249 21.5001 7.52166 21.5001 12C21.5001 16.4783 21.5001 18.7175 20.1089 20.1088C18.7176 21.5 16.4785 21.5 12.0001 21.5C7.52178 21.5 5.28261 21.5 3.89136 20.1088C2.50012 18.7175 2.50012 16.4783 2.50012 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.00012 17L11.1937 12.8065M17.0001 7L12.8066 11.1935M12.8066 11.1935L9.7779 7H7.00012L11.1937 12.8065M12.8066 11.1935L17.0001 17H14.2223L11.1937 12.8065" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12C3 7.75736 3 5.63604 4.31802 4.31802C5.63604 3 7.75736 3 12 3C16.2426 3 18.364 3 19.682 4.31802C21 5.63604 21 7.75736 21 12C21 16.2426 21 18.364 19.682 19.682C18.364 21 16.2426 21 12 21C7.75736 21 5.63604 21 4.31802 19.682C3 18.364 3 16.2426 3 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M17.3748 6.75024H17.2498M17.4998 6.75024C17.4998 6.88832 17.3878 7.00024 17.2498 7.00024C17.1117 7.00024 16.9998 6.88832 16.9998 6.75024C16.9998 6.61217 17.1117 6.50024 17.2498 6.50024C17.3878 6.50024 17.4998 6.61217 17.4998 6.75024Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
       </div>
     </div>
@@ -1657,28 +1711,140 @@
 </footer>
 
 <script>
-  const tabBtns = [...document.querySelectorAll('.tab-btn')];
-  function selectTab(btn){
-    tabBtns.forEach(b=>{
-      const on = b === btn;
-      b.classList.toggle('active', on);
-      b.setAttribute('aria-selected', on);
-      b.tabIndex = on ? 0 : -1;
+  // sourcing tabs, driven by scroll: while the frame is pinned, the scroll
+  // position through the runway picks the tab and glides the highlight;
+  // clicking a tab (or arrow keys) scrolls to that tab's point
+  (function(){
+    const track  = document.querySelector('.src-track');
+    const frame  = track && track.querySelector('.src-frame');
+    const tabs   = frame && frame.querySelector('.tabs');
+    const btns   = frame ? [...frame.querySelectorAll('.tab-btn')] : [];
+    const panels = frame ? [...frame.querySelectorAll('.tab-panel')] : [];
+    const stage  = frame && frame.querySelector('.tab-stage');
+    const slides = stage ? [...stage.querySelectorAll('.stage-slide')] : [];
+    if (!track || !btns.length) return;
+    const N = btns.length;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // wrap every word of the heading, copy and points in .w for the reveal
+    panels.forEach(panel=>{
+      panel.querySelectorAll('.tab-copy h3, .tab-copy > p, .check-list li').forEach((block, b)=>{
+        [...block.childNodes].forEach(node=>{
+          if (node.nodeType !== 3 || !node.textContent.trim()) return;
+          const frag = document.createDocumentFragment();
+          node.textContent.split(/(\s+)/).forEach(part=>{
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            const w = document.createElement('span');
+            w.className = 'w'; w.textContent = part;
+            frag.appendChild(w);
+          });
+          // points are flex rows with a gap, so keep their words in one box
+          if (block.matches('li')) { const t = document.createElement('span'); t.appendChild(frag); node.replaceWith(t); }
+          else node.replaceWith(frag);
+        });
+      });
     });
-    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active', p.dataset.panel === btn.dataset.tab));
-  }
-  tabBtns.forEach((btn, i)=>{
-    btn.addEventListener('click', ()=>selectTab(btn));
-    // roving focus per the ARIA tabs pattern: arrows / Home / End move between tabs
-    btn.addEventListener('keydown', e=>{
-      const n = tabBtns.length;
-      const to = {ArrowRight:(i+1)%n, ArrowLeft:(i-1+n)%n, Home:0, End:n-1}[e.key];
-      if(to === undefined) return;
-      e.preventDefault();
-      tabBtns[to].focus();
-      selectTab(tabBtns[to]);
+
+    // number the rendered lines of a visible panel, top to bottom
+    function numberLines(panel){
+      let line = -1;
+      panel.querySelectorAll('.tab-copy h3, .tab-copy > p, .check-list li').forEach(block=>{
+        let lastTop = null;
+        block.querySelectorAll('.w').forEach(w=>{
+          const top = Math.round(w.getBoundingClientRect().top);
+          if (lastTop === null || Math.abs(top - lastTop) > 2) { line++; lastTop = top; }
+          w.style.setProperty('--i', line);
+        });
+      });
+    }
+    function replay(panel){
+      panel.classList.remove('reveal');
+      numberLines(panel);                     // measured while nothing is animating
+      panel.offsetWidth;
+      panel.classList.add('reveal');
+    }
+
+    let current = -1, lockTo = -1, lockTimer = 0;
+    function show(i){
+      if (i === current) return;
+      current = i;
+      btns.forEach((b, k)=>{
+        const on = k === i;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-selected', on);
+        b.tabIndex = on ? 0 : -1;
+      });
+      panels.forEach((p, k)=>{
+        p.classList.toggle('active', k === i);
+        p.classList.remove('reveal');
+      });
+      if (stage) {
+        stage.style.setProperty('--stage', i);
+        slides.forEach((sl, k)=>sl.setAttribute('aria-hidden', k === i ? 'false' : 'true'));
+      }
+      if (!still && revealed) replay(panels[i]);
+    }
+    function geometry(){
+      const top = parseFloat(getComputedStyle(frame).top) || 0;
+      const travel = Math.max(1, track.offsetHeight - frame.offsetHeight);
+      return {top, travel};
+    }
+    function progress(){
+      const {top, travel} = geometry();
+      return Math.min(1, Math.max(0, (top - track.getBoundingClientRect().top) / travel));
+    }
+    let ticking = false;
+    function update(){
+      ticking = false;
+      const pos = progress() * (N - 1);
+      tabs.style.setProperty('--tab-pos', pos.toFixed(4));
+      const i = Math.round(pos);
+      if (lockTo >= 0) { if (i === lockTo) lockTo = -1; else return; }
+      show(i);
+    }
+    addEventListener('scroll', ()=>{ if (!ticking) { ticking = true; requestAnimationFrame(update); } }, {passive:true});
+    addEventListener('resize', update);
+
+    function goTo(i){
+      const {top, travel} = geometry();
+      const trackTop = track.getBoundingClientRect().top + scrollY;
+      lockTo = i; clearTimeout(lockTimer); lockTimer = setTimeout(()=>{ lockTo = -1; update(); }, 1500);
+      show(i);
+      scrollTo({top: trackTop - top + travel * i / (N - 1), behavior: still ? 'auto' : 'smooth'});
+    }
+    btns.forEach((btn, i)=>{
+      btn.addEventListener('click', ()=>goTo(i));
+      btn.addEventListener('keydown', e=>{
+        const to = {ArrowRight:(i + 1) % N, ArrowLeft:(i - 1 + N) % N, Home:0, End:N - 1}[e.key];
+        if (to === undefined) return;
+        e.preventDefault();
+        btns[to].focus();
+        goTo(to);
+      });
     });
-  });
+
+    // play the first reveal when the frame first comes into view
+    let revealed = still;
+    const io = 'IntersectionObserver' in window && new IntersectionObserver(([e])=>{
+      if (!e.isIntersecting) return;
+      revealed = true; io.disconnect();
+      if (!still) replay(panels[current]);
+    }, {threshold:0.35});
+    if (io) io.observe(frame); else revealed = true;
+    current = -1; update();
+  })();
+
+  // the FAQ glow sits at a fixed page offset, so re-anchor it to the FAQs
+  // whenever the page's height changes (the sourcing runway moves them)
+  (function(){
+    const glow = document.querySelector('.page-glow-2'), faq = document.getElementById('faq');
+    if (!glow || !faq) return;
+    const place = ()=>{ glow.style.top = Math.round(faq.getBoundingClientRect().top + scrollY) + 'px'; };
+    place();
+    addEventListener('resize', place);
+    if ('ResizeObserver' in window) new ResizeObserver(place).observe(document.body);
+  })();
 
   const faqBtns = document.querySelectorAll('.faq-q-btn');
   faqBtns.forEach(btn=>{
