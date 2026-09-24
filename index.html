@@ -551,9 +551,12 @@
   }
   /* JS clones the set once and adds .running, so the -50% loop is seamless;
      cards carry their spacing as margin (not gap) so both halves are equal */
-  .wom-track.running{animation:wom-scroll 96s linear infinite;}
-  .wom-ticker:hover .wom-track,
-  .wom-ticker:focus-within .wom-track{animation-play-state:paused;}
+  /* held until the ticker scrolls into view (.in-view, set by JS), and
+     paused again while it's off screen, hovered or holding focus */
+  .wom-track.running{animation:wom-scroll 96s linear infinite;animation-play-state:paused;}
+  .wom-ticker.in-view .wom-track.running{animation-play-state:running;}
+  .wom-ticker.in-view:hover .wom-track.running,
+  .wom-ticker.in-view:focus-within .wom-track.running{animation-play-state:paused;}
   @keyframes wom-scroll{
     from{transform:translateX(0);}
     to{transform:translateX(-50%);}
@@ -1381,6 +1384,13 @@
       track.appendChild(copy);
     });
     track.classList.add('running');
+
+    // start moving only once the cards are on screen
+    const ticker = track.parentElement;
+    if (!('IntersectionObserver' in window)) { ticker.classList.add('in-view'); return; }
+    new IntersectionObserver(([entry])=>{
+      ticker.classList.toggle('in-view', entry.isIntersecting);
+    }, {threshold: 0.25}).observe(ticker);
   })();
 
   // the CTA card's SMIL streaks can't be paused from CSS
