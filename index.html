@@ -396,148 +396,174 @@
   }
 
   /* ---------- Sourcing ---------- */
-  .sourcing{
-    position:relative;
-  }
+  /* follows the Figma "AI-native sourcing" frame (Kello revamp, 147:33219),
+     measured from a screenshot: the same ruled frame as pricing, a grey tab
+     bar, then copy on the left and a green product visual on the right */
+  .sourcing{position:relative;}
+  .sourcing .section-head{margin-bottom:56px;}
+  .src-frame{padding:4px;}
   .tabs{
-    display:flex;
-    background:var(--surface-200);
-    border-radius:var(--radius-lg) var(--radius-lg) 0 0;
-    padding:6px 6px 0;
-    border:1px solid var(--line-100);
-    border-bottom:none;
+    display:grid;
+    grid-template-columns:repeat(5, 1fr);
+    gap:12px;
+    padding:12px;
+    background:#f4f4f2;
   }
   .tab-btn{
-    flex:1;
+    height:52px;
     background:transparent;
-    border:none;
-    padding:16px 12px;
-    font-size:15px;
-    font-weight:500;
+    border:1px solid transparent;
+    font-size:20px;
+    font-weight:400;
+    letter-spacing:-0.01em;
     color:var(--ink-400);
-    border-radius:var(--radius-md) var(--radius-md) 0 0;
-    transition:background .15s ease, color .15s ease;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
   }
   .tab-btn:hover{color:var(--ink-800);}
   .tab-btn.active{
     background:#fff;
+    border-color:#ececec;
     color:var(--ink-900);
-    font-weight:700;
-    box-shadow:0 -1px 0 rgba(24,24,27,0.02) inset;
+    font-weight:500;
   }
-  .tab-panel-frame{
-    border:1px solid var(--line-100);
-    border-radius:0 0 var(--radius-lg) var(--radius-lg);
-    background:#fff;
-    box-shadow:var(--shadow-md);
-    overflow:hidden;
-  }
+  .tab-btn:focus-visible{outline:2px solid var(--olive-900);outline-offset:-2px;}
+  .tab-panel-frame{background:#fff;}
   .tab-panel{
     display:none;
-    grid-template-columns:1fr 1fr;
-    min-height:480px;
+    grid-template-columns:470px 1fr;
+    height:569px;
+    padding:12px;
   }
   .tab-panel.active{display:grid;}
   .tab-copy{
-    padding:56px 56px 56px 48px;
     display:flex;
     flex-direction:column;
-    justify-content:center;
+    padding:32px 44px 24px 26px;
   }
   .tab-copy h3{
-    font-size:26px;
-    font-weight:700;
+    font-size:28px;
+    font-weight:500;
+    line-height:1.2;
     letter-spacing:-0.01em;
-    margin-bottom:16px;
+    color:var(--ink-900);
   }
   .tab-copy > p{
-    font-size:15.5px;
-    line-height:1.65;
-    color:var(--ink-500);
-    margin-bottom:32px;
+    margin-top:16px;
+    font-size:18px;
+    line-height:28px;
+    color:var(--ink-700);
   }
-  .check-list{display:flex;flex-direction:column;}
+  .check-list{display:flex;flex-direction:column;margin-top:auto;}
   .check-list li{
     display:flex;
     align-items:center;
-    gap:14px;
-    padding:16px 0;
-    border-bottom:1px dashed var(--line-200);
-    font-size:15px;
-    font-weight:500;
+    gap:12px;
+    padding:18px 0;
+    font-size:18px;
+    line-height:28px;
     color:var(--ink-800);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='1'%3E%3Cline x1='0.5' y1='0.5' x2='7.5' y2='0.5' stroke='%23DCDCDC' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:repeat-x;
+    background-position:left bottom;
+    background-size:16px 1px;
   }
-  .check-list li:last-child{border-bottom:none;}
+  .check-list li:last-child{background:none;}
   .check-dot{
-    width:9px;height:9px;border-radius:50%;
-    background:var(--sage-500);
-    flex-shrink:0;
-    box-shadow:0 0 0 4px rgba(104,129,105,0.15);
+    width:20px;height:20px;border-radius:50%;flex-shrink:0;
+    background:radial-gradient(circle at 35% 30%, #b3c9ae 0%, #7f9b7d 55%, #5d7a5f 100%);
   }
-  .tab-copy .btn{margin-top:32px;align-self:flex-start;}
+  .tab-copy .btn{
+    width:100%;height:48px;margin-top:20px;justify-content:center;gap:6px;
+    font-size:18px;line-height:24px;
+    box-shadow:
+      0 1.128px 1.128px 0 rgba(8,8,8,0.2),
+      0 4.514px 2.257px 0 rgba(8,8,8,0.08),
+      inset 0 1.128px 1.128px 0 rgba(255,255,255,0.2),
+      inset 0 6.771px 13.542px 0 rgba(255,255,255,0.12);
+  }
+  .tab-copy .btn svg{width:24px;height:24px;}
 
+  /* green product visual: soft vertical gradient under rows of faint dashes */
   .tab-visual{
     position:relative;
-    background:var(--surface-100);
-    border-left:1px solid var(--line-100);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:40px;
+    overflow:hidden;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='7'%3E%3Crect x='0' y='3' width='8' height='1' rx='0.5' fill='%23ffffff' fill-opacity='0.38'/%3E%3C/svg%3E") repeat,
+      radial-gradient(90% 70% at 50% 0%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0) 70%),
+      linear-gradient(180deg, #d3e2cf 0%, #b3cfae 50%, #8db886 100%);
   }
   .mock-card{
-    width:100%;
-    max-width:420px;
+    position:absolute;
+    left:40px;right:40px;top:40px;
+    height:calc(100% + 40px);          /* runs off the bottom of the visual */
     background:#fff;
-    border-radius:var(--radius-lg);
-    border:1px solid var(--line-100);
-    box-shadow:var(--shadow-lg);
-    padding:24px;
+    border:1px solid #ececec;
+    border-radius:12px;
+    padding:24px 28px;
+    color:var(--ink-900);
   }
-  .mock-card-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;}
-  .pdf-icon{
-    width:36px;height:36px;border-radius:8px;
-    background:linear-gradient(160deg,#f04a3f,#c8271b);
-    display:flex;align-items:center;justify-content:center;
-    color:#fff;font-size:10px;font-weight:800;flex-shrink:0;
-  }
-  .mock-card-head .title-row{flex:1;display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
-  .mock-card-head h4{font-size:15.5px;font-weight:700;color:var(--ink-900);}
-  .mock-card-head .meta{font-size:12.5px;color:var(--ink-400);margin-top:4px;}
+  .mock-card-head{display:flex;align-items:flex-start;gap:12px;}
+  .doc-icon{width:48px;height:52px;flex-shrink:0;}
+  .mock-card-head .title-row{flex:1;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding-top:4px;}
+  .mock-card-head h4{font-size:20px;font-weight:500;line-height:26px;letter-spacing:-0.01em;}
+  .mock-card-head .meta{display:flex;align-items:center;margin-top:6px;font-size:16px;line-height:24px;color:var(--ink-400);}
+  .mock-card-head .meta .dot{width:24px;display:inline-flex;justify-content:center;}
+  .mock-card-head .meta .dot::before{content:"";width:3px;height:3px;border-radius:50%;background:currentColor;}
   .upload-pill{
-    font-size:10.5px;font-weight:600;color:var(--sage-500);
-    background:rgba(104,129,105,0.12);
-    padding:4px 9px;border-radius:var(--radius-pill);
+    display:inline-flex;align-items:center;gap:4px;
+    padding:2px 8px;border-radius:999px;
+    background:#f1f0f0;
+    font-size:12px;line-height:18px;color:var(--ink-500);
     white-space:nowrap;flex-shrink:0;
   }
+  .upload-pill svg{width:12px;height:12px;}
+  .mock-rule{
+    height:1px;margin-top:22px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='1'%3E%3Cline x1='0.5' y1='0.5' x2='7.5' y2='0.5' stroke='%23ECECEC' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size:16px 1px;
+  }
+  /* stacked insight cards over faint skeleton rows; each card sits lower
+     and wider than the one before, overlapping it */
+  .deck{position:absolute;left:0;right:0;top:120px;bottom:0;}
+  .deck-skeleton{
+    position:absolute;left:22px;right:22px;top:4px;height:190px;
+    background:repeating-linear-gradient(180deg, #f2f2f1 0 11px, transparent 11px 28px);
+    border-radius:6px;
+  }
   .insight-card{
+    position:absolute;
+    display:grid;grid-template-columns:48px 1fr;column-gap:16px;
+    padding:16px;
     background:#fff;
-    border:1px solid var(--line-100);
-    border-radius:14px;
-    padding:14px 16px;
+    border:1px solid #e8e8e8;
+    border-radius:12px;
     box-shadow:0 4px 14px rgba(24,24,27,0.05);
-    margin-bottom:12px;
   }
-  .insight-card:last-child{margin-bottom:0;}
+  .insight-card > div{min-width:0;}
+  .insight-card .signal{overflow:hidden;}
+  .insight-card.c1{left:107px;width:480px;top:0;}
+  .insight-card.c2{left:67px;width:559px;top:72px;}
+  .insight-card.c3{left:35px;width:624px;top:143px;}
+  .ai-mark{width:48px;height:48px;}
   .insight-label{
-    display:flex;align-items:center;gap:8px;
-    font-size:11px;font-weight:700;letter-spacing:0.04em;
-    color:var(--ink-400);margin-bottom:6px;
+    margin-top:4px;
+    font-size:14px;line-height:20px;letter-spacing:0.02em;text-transform:uppercase;
+    color:var(--ink-500);
   }
-  .insight-icon{
-    width:18px;height:18px;border-radius:50%;
-    background:conic-gradient(from 180deg,#6366f1,#a855f7,#6366f1);
-    flex-shrink:0;
-  }
-  .insight-card p{font-size:13.5px;color:var(--ink-800);line-height:1.5;}
-  .tag-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .insight-card p{margin-top:12px;font-size:16px;line-height:24px;color:var(--ink-900);}
+  .insight-card .signal{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:16px;line-height:24px;white-space:nowrap;}
+  .insight-card .signal .check-dot{width:16px;height:16px;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:12px;}
   .tag-chip{
-    font-size:12px;font-weight:500;
-    color:var(--ink-700);
-    background:var(--surface-100);
-    border:1px solid var(--line-100);
-    padding:7px 12px;border-radius:8px;
+    padding:5px 12px;
+    border:1px solid #ececec;
+    border-radius:6px;
+    background:#fff;
+    font-size:16px;line-height:20px;color:var(--ink-900);
   }
+  /* the simpler tabs list their insight cards in a plain column */
+  .deck.plain{display:flex;flex-direction:column;gap:12px;padding:0 22px;}
+  .deck.plain .insight-card{position:static;}
 
   /* ---------- WOM ---------- */
   .wom{position:relative;}
@@ -560,7 +586,7 @@
   .wom-page{flex:0 0 100%;display:grid;grid-template-columns:repeat(3, 1fr);}
   .wom-page[hidden]{display:none;}
   .wom-card{
-    height:560px;
+    height:520px;
     padding:32px;
     display:flex;
     flex-direction:column;
@@ -1091,6 +1117,7 @@
       <h2>Stop searching.<br>Start hiring.</h2>
     </div>
 
+    <div class="src-frame ruled-frame">
     <div class="tabs" role="tablist" aria-label="How Kello sources">
       <button class="tab-btn active" data-tab="understand" role="tab" id="tab-understand" aria-controls="panel-understand" aria-selected="true">Understand</button>
       <button class="tab-btn" data-tab="calibrate" role="tab" id="tab-calibrate" aria-controls="panel-calibrate" aria-selected="false" tabindex="-1">Calibrate</button>
@@ -1105,67 +1132,75 @@
           <h3>We read between the lines</h3>
           <p>Kello goes beyond keywords to understand what the role actually demands — from must-have skills to the experience signals that separate a good match from a great one.</p>
           <ul class="check-list">
-            <li><span class="check-dot"></span>Understands the role beyond the JD</li>
-            <li><span class="check-dot"></span>Identifies critical experience signals</li>
-            <li><span class="check-dot"></span>Expands the search beyond exact keywords</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Understands the role beyond the JD</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Identifies critical experience signals</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Expands the search beyond exact keywords</li>
           </ul>
-          <a href="#" class="btn btn-primary">See it in action
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
-          </a>
+          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
-        <div class="tab-visual">
+        <div class="tab-visual" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
-              <div class="pdf-icon">PDF</div>
+              <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed1)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
               <div class="title-row">
                 <div>
                   <h4>Senior Product Designer</h4>
-                  <div class="meta">Bangalore · 4-6 YOE · Full-time · Hybrid</div>
+                  <div class="meta">Bangalore<span class="dot" aria-hidden="true"></span>4-6 YOE<span class="dot" aria-hidden="true"></span>Full-time<span class="dot" aria-hidden="true"></span>Hybrid</div>
                 </div>
-                <span class="upload-pill">Upload complete ✓</span>
+                <span class="upload-pill">Upload complete<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 6.5l2.2 2.2L9.5 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </div>
             </div>
-            <div class="insight-card">
-              <div class="insight-label"><span class="insight-icon"></span>CORE INTENT</div>
-              <p>Design &amp; own end-to-end consumer experience</p>
-            </div>
-            <div class="insight-card">
-              <div class="insight-label"><span class="insight-icon"></span>KEY SIGNALS</div>
-              <p>End-to-end product design: should be able to handle the full lifecycle</p>
-            </div>
-            <div class="insight-card">
-              <div class="insight-label"><span class="insight-icon"></span>ALSO CONSIDERING</div>
-              <div class="tag-row">
-                <span class="tag-chip">UX Research</span>
-                <span class="tag-chip">Growth</span>
-                <span class="tag-chip">A/B Testing</span>
-                <span class="tag-chip">Product Thinking</span>
-                <span class="tag-chip">Cross-functional collaboration</span>
-                <span class="tag-chip">Stakeholder management</span>
-                <span class="tag-chip">Product Strategy</span>
+            <div class="mock-rule" aria-hidden="true"></div>
+            <div class="deck">
+              <div class="deck-skeleton" aria-hidden="true"></div>
+              <div class="insight-card c1">
+                <svg class="ai-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="aiG1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c63f2"/><stop offset="1" stop-color="#4f46e5"/></linearGradient><clipPath id="aiC1"><circle cx="24" cy="24" r="15"/></clipPath></defs><circle cx="24" cy="24" r="24" fill="url(#aiG1)"/><circle cx="24" cy="24" r="15" fill="#fff"/><g clip-path="url(#aiC1)" stroke="url(#aiG1)" stroke-width="2.2"><path d="M6 14l28 28M10 10l28 28M14 6l28 28M18 2l28 28"/></g></svg>
+                <div>
+                  <div class="insight-label">Core intent:</div>
+                  <p>Design &amp; own end-to-end consumer experience</p>
+                </div>
+              </div>
+              <div class="insight-card c2">
+                <svg class="ai-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="aiG2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c63f2"/><stop offset="1" stop-color="#4f46e5"/></linearGradient><clipPath id="aiC2"><circle cx="24" cy="24" r="15"/></clipPath></defs><circle cx="24" cy="24" r="24" fill="url(#aiG2)"/><circle cx="24" cy="24" r="15" fill="#fff"/><g clip-path="url(#aiC2)" stroke="url(#aiG2)" stroke-width="2.2"><path d="M6 14l28 28M10 10l28 28M14 6l28 28M18 2l28 28"/></g></svg>
+                <div>
+                  <div class="insight-label">Key signals:</div>
+                  <div class="signal"><span class="check-dot" aria-hidden="true"></span>End-to-end product design: should be able to handle the full lifecycle</div>
+                </div>
+              </div>
+              <div class="insight-card c3">
+                <svg class="ai-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="aiG3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c63f2"/><stop offset="1" stop-color="#4f46e5"/></linearGradient><clipPath id="aiC3"><circle cx="24" cy="24" r="15"/></clipPath></defs><circle cx="24" cy="24" r="24" fill="url(#aiG3)"/><circle cx="24" cy="24" r="15" fill="#fff"/><g clip-path="url(#aiC3)" stroke="url(#aiG3)" stroke-width="2.2"><path d="M6 14l28 28M10 10l28 28M14 6l28 28M18 2l28 28"/></g></svg>
+                <div>
+                  <div class="insight-label">Also considering</div>
+                  <div class="tag-row">
+                    <span class="tag-chip">UX Research</span>
+                    <span class="tag-chip">Growth</span>
+                    <span class="tag-chip">A/B Testing</span>
+                    <span class="tag-chip">Product Thinking</span>
+                    <span class="tag-chip">Cross-functional collaboration</span>
+                    <span class="tag-chip">Stakeholder management</span>
+                    <span class="tag-chip">Product Strategy</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
       <div class="tab-panel" data-panel="calibrate" role="tabpanel" id="panel-calibrate" aria-labelledby="tab-calibrate">
         <div class="tab-copy">
           <h3>Calibrated to your bar</h3>
           <p>Kello learns from every candidate you approve or reject, tightening its sense of what "good" looks like for your team with each round.</p>
           <ul class="check-list">
-            <li><span class="check-dot"></span>Learns from your shortlist decisions</li>
-            <li><span class="check-dot"></span>Adjusts weighting on must-have signals</li>
-            <li><span class="check-dot"></span>Keeps every hiring manager aligned</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Learns from your shortlist decisions</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Adjusts weighting on must-have signals</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Keeps every hiring manager aligned</li>
           </ul>
-          <a href="#" class="btn btn-primary">See it in action
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
-          </a>
+          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
-        <div class="tab-visual">
+        <div class="tab-visual" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
-              <div class="pdf-icon">✓</div>
+              <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed2)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
               <div class="title-row">
                 <div>
                   <h4>Calibration in progress</h4>
@@ -1173,29 +1208,41 @@
                 </div>
               </div>
             </div>
-            <div class="insight-card"><p>Matched your bar on 9 / 12 profiles this week.</p></div>
-            <div class="insight-card"><p>Signal weighting updated for "ownership".</p></div>
+            <div class="mock-rule" aria-hidden="true"></div>
+            <div class="deck plain">
+              <div class="insight-card">
+                <svg class="ai-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="aiGcalibrate0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c63f2"/><stop offset="1" stop-color="#4f46e5"/></linearGradient><clipPath id="aiCcalibrate0"><circle cx="24" cy="24" r="15"/></clipPath></defs><circle cx="24" cy="24" r="24" fill="url(#aiGcalibrate0)"/><circle cx="24" cy="24" r="15" fill="#fff"/><g clip-path="url(#aiCcalibrate0)" stroke="url(#aiGcalibrate0)" stroke-width="2.2"><path d="M6 14l28 28M10 10l28 28M14 6l28 28M18 2l28 28"/></g></svg>
+                <div>
+                  <div class="insight-label">Match rate</div>
+                  <p>Matched your bar on 9 / 12 profiles this week.</p>
+                </div>
+              </div>
+              <div class="insight-card">
+                <svg class="ai-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="aiGcalibrate1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c63f2"/><stop offset="1" stop-color="#4f46e5"/></linearGradient><clipPath id="aiCcalibrate1"><circle cx="24" cy="24" r="15"/></clipPath></defs><circle cx="24" cy="24" r="24" fill="url(#aiGcalibrate1)"/><circle cx="24" cy="24" r="15" fill="#fff"/><g clip-path="url(#aiCcalibrate1)" stroke="url(#aiGcalibrate1)" stroke-width="2.2"><path d="M6 14l28 28M10 10l28 28M14 6l28 28M18 2l28 28"/></g></svg>
+                <div>
+                  <div class="insight-label">Weighting</div>
+                  <p>Signal weighting updated for "ownership".</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
       <div class="tab-panel" data-panel="explore" role="tabpanel" id="panel-explore" aria-labelledby="tab-explore">
         <div class="tab-copy">
           <h3>Explores every corner of the web</h3>
           <p>Kello searches across 100M+ profiles and public signals to surface people who fit — including candidates who never show up in a keyword search.</p>
           <ul class="check-list">
-            <li><span class="check-dot"></span>Searches 100M+ candidate profiles</li>
-            <li><span class="check-dot"></span>Finds adjacent, non-obvious matches</li>
-            <li><span class="check-dot"></span>Covers passive candidates too</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Searches 100M+ candidate profiles</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Finds adjacent, non-obvious matches</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Covers passive candidates too</li>
           </ul>
-          <a href="#" class="btn btn-primary">See it in action
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
-          </a>
+          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
-        <div class="tab-visual">
+        <div class="tab-visual" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
-              <div class="pdf-icon">⌕</div>
+              <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed3)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
               <div class="title-row">
                 <div>
                   <h4>Searching profiles</h4>
@@ -1203,29 +1250,41 @@
                 </div>
               </div>
             </div>
-            <div class="insight-card"><p>428 candidates matched core intent.</p></div>
-            <div class="insight-card"><p>62 passive candidates surfaced.</p></div>
+            <div class="mock-rule" aria-hidden="true"></div>
+            <div class="deck plain">
+              <div class="insight-card">
+                <svg class="ai-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="aiGexplore0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c63f2"/><stop offset="1" stop-color="#4f46e5"/></linearGradient><clipPath id="aiCexplore0"><circle cx="24" cy="24" r="15"/></clipPath></defs><circle cx="24" cy="24" r="24" fill="url(#aiGexplore0)"/><circle cx="24" cy="24" r="15" fill="#fff"/><g clip-path="url(#aiCexplore0)" stroke="url(#aiGexplore0)" stroke-width="2.2"><path d="M6 14l28 28M10 10l28 28M14 6l28 28M18 2l28 28"/></g></svg>
+                <div>
+                  <div class="insight-label">Matches</div>
+                  <p>428 candidates matched core intent.</p>
+                </div>
+              </div>
+              <div class="insight-card">
+                <svg class="ai-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="aiGexplore1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c63f2"/><stop offset="1" stop-color="#4f46e5"/></linearGradient><clipPath id="aiCexplore1"><circle cx="24" cy="24" r="15"/></clipPath></defs><circle cx="24" cy="24" r="24" fill="url(#aiGexplore1)"/><circle cx="24" cy="24" r="15" fill="#fff"/><g clip-path="url(#aiCexplore1)" stroke="url(#aiGexplore1)" stroke-width="2.2"><path d="M6 14l28 28M10 10l28 28M14 6l28 28M18 2l28 28"/></g></svg>
+                <div>
+                  <div class="insight-label">Passive talent</div>
+                  <p>62 passive candidates surfaced.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
       <div class="tab-panel" data-panel="review" role="tabpanel" id="panel-review" aria-labelledby="tab-review">
         <div class="tab-copy">
           <h3>Every match, reasoned out</h3>
           <p>No black box scores. Each candidate comes with a clear, readable write-up of why they're a fit — so you can review fast and with confidence.</p>
           <ul class="check-list">
-            <li><span class="check-dot"></span>Plain-language match reasoning</li>
-            <li><span class="check-dot"></span>Strengths and gaps, side by side</li>
-            <li><span class="check-dot"></span>Built for quick human review</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Plain-language match reasoning</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Strengths and gaps, side by side</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Built for quick human review</li>
           </ul>
-          <a href="#" class="btn btn-primary">See it in action
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
-          </a>
+          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
-        <div class="tab-visual">
+        <div class="tab-visual" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
-              <div class="pdf-icon">★</div>
+              <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed4)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
               <div class="title-row">
                 <div>
                   <h4>Review queue</h4>
@@ -1233,42 +1292,74 @@
                 </div>
               </div>
             </div>
-            <div class="insight-card"><p>Strong fit: 6+ yrs owning 0→1 product design.</p></div>
-            <div class="insight-card"><p>Gap: limited B2B experience.</p></div>
+            <div class="mock-rule" aria-hidden="true"></div>
+            <div class="deck plain">
+              <div class="insight-card">
+                <svg class="ai-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="aiGreview0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c63f2"/><stop offset="1" stop-color="#4f46e5"/></linearGradient><clipPath id="aiCreview0"><circle cx="24" cy="24" r="15"/></clipPath></defs><circle cx="24" cy="24" r="24" fill="url(#aiGreview0)"/><circle cx="24" cy="24" r="15" fill="#fff"/><g clip-path="url(#aiCreview0)" stroke="url(#aiGreview0)" stroke-width="2.2"><path d="M6 14l28 28M10 10l28 28M14 6l28 28M18 2l28 28"/></g></svg>
+                <div>
+                  <div class="insight-label">Strength</div>
+                  <p>Strong fit: 6+ yrs owning 0→1 product design.</p>
+                </div>
+              </div>
+              <div class="insight-card">
+                <svg class="ai-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="aiGreview1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c63f2"/><stop offset="1" stop-color="#4f46e5"/></linearGradient><clipPath id="aiCreview1"><circle cx="24" cy="24" r="15"/></clipPath></defs><circle cx="24" cy="24" r="24" fill="url(#aiGreview1)"/><circle cx="24" cy="24" r="15" fill="#fff"/><g clip-path="url(#aiCreview1)" stroke="url(#aiGreview1)" stroke-width="2.2"><path d="M6 14l28 28M10 10l28 28M14 6l28 28M18 2l28 28"/></g></svg>
+                <div>
+                  <div class="insight-label">Gap</div>
+                  <p>Limited B2B experience.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
       <div class="tab-panel" data-panel="delivery" role="tabpanel" id="panel-delivery" aria-labelledby="tab-delivery">
         <div class="tab-copy">
           <h3>Straight to your inbox</h3>
           <p>Your shortlist lands where your team already works — email, Slack, or your ATS — ready to move to outreach.</p>
           <ul class="check-list">
-            <li><span class="check-dot"></span>Delivered in minutes, not weeks</li>
-            <li><span class="check-dot"></span>Syncs with your existing ATS</li>
-            <li><span class="check-dot"></span>Ready for outreach on arrival</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Delivered in minutes, not weeks</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Syncs with your existing ATS</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Ready for outreach on arrival</li>
           </ul>
-          <a href="#" class="btn btn-primary">See it in action
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
-          </a>
+          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
-        <div class="tab-visual">
+        <div class="tab-visual" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
-              <div class="pdf-icon">✉</div>
+              <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed5)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
               <div class="title-row">
                 <div>
                   <h4>Shortlist delivered</h4>
                   <div class="meta">Synced to Greenhouse</div>
                 </div>
-                <span class="upload-pill">Sent ✓</span>
+                <span class="upload-pill">Sent<svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 6.5l2.2 2.2L9.5 3.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
               </div>
             </div>
-            <div class="insight-card"><p>10 profiles delivered to #hiring-design.</p></div>
-            <div class="insight-card"><p>ATS records created automatically.</p></div>
+            <div class="mock-rule" aria-hidden="true"></div>
+            <div class="deck plain">
+              <div class="insight-card">
+                <svg class="ai-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="aiGdelivery0" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c63f2"/><stop offset="1" stop-color="#4f46e5"/></linearGradient><clipPath id="aiCdelivery0"><circle cx="24" cy="24" r="15"/></clipPath></defs><circle cx="24" cy="24" r="24" fill="url(#aiGdelivery0)"/><circle cx="24" cy="24" r="15" fill="#fff"/><g clip-path="url(#aiCdelivery0)" stroke="url(#aiGdelivery0)" stroke-width="2.2"><path d="M6 14l28 28M10 10l28 28M14 6l28 28M18 2l28 28"/></g></svg>
+                <div>
+                  <div class="insight-label">Slack</div>
+                  <p>10 profiles delivered to #hiring-design.</p>
+                </div>
+              </div>
+              <div class="insight-card">
+                <svg class="ai-mark" viewBox="0 0 48 48" fill="none" aria-hidden="true"><defs><linearGradient id="aiGdelivery1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c63f2"/><stop offset="1" stop-color="#4f46e5"/></linearGradient><clipPath id="aiCdelivery1"><circle cx="24" cy="24" r="15"/></clipPath></defs><circle cx="24" cy="24" r="24" fill="url(#aiGdelivery1)"/><circle cx="24" cy="24" r="15" fill="#fff"/><g clip-path="url(#aiCdelivery1)" stroke="url(#aiGdelivery1)" stroke-width="2.2"><path d="M6 14l28 28M10 10l28 28M14 6l28 28M18 2l28 28"/></g></svg>
+                <div>
+                  <div class="insight-label">ATS</div>
+                  <p>ATS records created automatically.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+      <span class="ruled-corner tl" aria-hidden="true"></span>
+      <span class="ruled-corner tr" aria-hidden="true"></span>
+      <span class="ruled-corner bl" aria-hidden="true"></span>
+      <span class="ruled-corner br" aria-hidden="true"></span>
     </div>
   </div>
 </section>
