@@ -453,7 +453,7 @@
     font-weight:500;
   }
   .tab-btn:focus-visible{outline:2px solid var(--olive-900);outline-offset:-2px;}
-  .tab-panel-frame{background:#fff;}
+  .tab-panel-frame{position:relative;background:#fff;}
   /* copy | 48px | visual. The visual keeps 8px to the panel's top, right
      and bottom edges and stays 778 x 549px, the exact size the exported
      tab visuals are drawn for; the copy takes the remaining width */
@@ -467,12 +467,10 @@
   .tab-panel.active{display:grid;}
   /* per-line reveal: JS wraps each word in .w and gives it --i = the index
      of the rendered line it sits on, counting down the whole column
-     (heading, copy, then each point); lines follow each other 0.1s apart */
+     (heading, copy, then each point); lines follow each other 0.08s apart */
   .tab-panel .w{display:inline-block;}
-  .tab-panel.reveal .w{animation:word-in .5s cubic-bezier(.2, .7, .2, 1) both;animation-delay:calc(var(--i, 0) * 0.1s);}
-  .tab-panel.reveal .tab-visual{animation:visual-in .45s ease both;}
+  .tab-panel.reveal .w{animation:word-in .5s cubic-bezier(.2, .7, .2, 1) both;animation-delay:calc(var(--i, 0) * 0.08s);}
   @keyframes word-in{from{opacity:0;transform:translateY(6px);filter:blur(4px);}to{opacity:1;transform:none;filter:none;}}
-  @keyframes visual-in{from{opacity:0;}to{opacity:1;}}
   /* 32px from the panel's left, top and bottom edges (8px of which is the
      panel's own padding); heading + copy sit at the top, the points and
      CTA at the bottom */
@@ -529,8 +527,12 @@
   /* green product visual, sampled from the design export: a vertical
      gradient (lightest at the top, deepest at 80%) under the page's own
      6px-dash grid (10.028 x 7px tile) drawn in 8% black */
-  .tab-visual{
-    position:relative;
+  /* the stage fills the visual cell of whichever panel is showing (8px from
+     the frame's top, right and bottom, 778 x 549px) */
+  .tab-stage{
+    position:absolute;
+    top:8px;right:8px;
+    width:778px;height:549px;
     overflow:hidden;
     background:
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10.028' height='7'%3E%3Crect x='0' y='4' width='6' height='1' rx='0.5' fill='%23000' fill-opacity='0.08'/%3E%3C/svg%3E") 0 0 / 10.028px 7px repeat,
@@ -539,6 +541,15 @@
   /* an exported tab visual: the full panel at 2.57x with a transparent
      surround, laid over the green background edge to edge */
   .visual-shot{position:absolute;left:0;top:0;width:100%;height:auto;max-width:none;}
+  /* each slide is one tab's visual; all of them shift by -100% per tab
+     index, like the reference reel (0.4s, power2.out) */
+  .stage-slide{
+    position:relative;
+    height:100%;
+    overflow:hidden;
+    transform:translateY(calc(var(--stage, 0) * -100%));
+    transition:transform .4s cubic-bezier(.25, .46, .45, .94);
+  }
   .mock-card{
     position:absolute;
     left:40px;right:40px;top:40px;
@@ -1079,7 +1090,8 @@
     .ticker-track{animation:none;}
     .btn, .btn:hover, .btn:active{transform:none;transition:none;}
     .faq-a{transition:none;}
-    .tab-panel.reveal .w, .tab-panel.reveal .tab-visual{animation:none;}
+    .tab-panel.reveal .w{animation:none;}
+    .stage-slide{transition:none;}
   }
 </style>
 </head>
@@ -1169,9 +1181,6 @@
           </ul>
           <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
-        <div class="tab-visual">
-          <img class="visual-shot" src="assets/sourcing-understand.webp" width="2000" height="1412" alt="Kello's read of a Senior Product Designer JD: core intent 'Design and own end-to-end consumer experience', key signal 'end-to-end product design', and adjacent skills such as UX research, growth, A/B testing, product thinking and product strategy.">
-        </div>
       </div>
       <div class="tab-panel" data-panel="calibrate" role="tabpanel" id="panel-calibrate" aria-labelledby="tab-calibrate">
         <div class="tab-copy">
@@ -1184,7 +1193,51 @@
           </ul>
           <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
         </div>
-        <div class="tab-visual" aria-hidden="true">
+      </div>
+      <div class="tab-panel" data-panel="explore" role="tabpanel" id="panel-explore" aria-labelledby="tab-explore">
+        <div class="tab-copy">
+          <h3>It doesn't bet on one type of candidate.</h3>
+          <p>Kello explores multiple ways to solve the role, creating distinct candidate profiles and sending each one on its own sourcing mission.</p>
+          <ul class="check-list">
+            <li><span class="check-dot" aria-hidden="true"></span>Multiple candidate profiles</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Dedicated AI sourcing paths</li>
+            <li><span class="check-dot" aria-hidden="true"></span>100M+ profiles searched</li>
+          </ul>
+          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="tab-panel" data-panel="review" role="tabpanel" id="panel-review" aria-labelledby="tab-review">
+        <div class="tab-copy">
+          <h3>Every candidate comes with a case</h3>
+          <p>Kello doesn't just surface a profile. It builds the case for why someone fits, what could make them a miss, and what you should dig into next.</p>
+          <ul class="check-list">
+            <li><span class="check-dot" aria-hidden="true"></span>Candidate thesis &amp; anti-thesis</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Evidence from their career</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Areas to probe</li>
+          </ul>
+          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <div class="tab-panel" data-panel="delivery" role="tabpanel" id="panel-delivery" aria-labelledby="tab-delivery">
+        <div class="tab-copy">
+          <h3>30 candidates worth calling. In 60 minutes.</h3>
+          <p>Kello turns all that research into a focused shortlist, delivered straight to your inbox — ready for you to start conversations.</p>
+          <ul class="check-list">
+            <li><span class="check-dot" aria-hidden="true"></span>30 candidates worth calling</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Delivered within 60 minutes</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Give feedback directly to Kello</li>
+            <li><span class="check-dot" aria-hidden="true"></span>Next searches get sharper</li>
+          </ul>
+          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+      <!-- one shared stage: the green background stays put while the
+           visuals slide through it as a vertical reel -->
+      <div class="tab-stage">
+        <div class="stage-slide" data-slide="understand">
+          <img class="visual-shot" src="assets/sourcing-understand.webp" width="2000" height="1412" alt="Kello's read of a Senior Product Designer JD: core intent 'Design and own end-to-end consumer experience', key signal 'end-to-end product design', and adjacent skills such as UX research, growth, A/B testing, product thinking and product strategy.">
+        </div>
+        <div class="stage-slide" data-slide="calibrate" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
               <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed2)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
@@ -1214,19 +1267,7 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="tab-panel" data-panel="explore" role="tabpanel" id="panel-explore" aria-labelledby="tab-explore">
-        <div class="tab-copy">
-          <h3>It doesn't bet on one type of candidate.</h3>
-          <p>Kello explores multiple ways to solve the role, creating distinct candidate profiles and sending each one on its own sourcing mission.</p>
-          <ul class="check-list">
-            <li><span class="check-dot" aria-hidden="true"></span>Multiple candidate profiles</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Dedicated AI sourcing paths</li>
-            <li><span class="check-dot" aria-hidden="true"></span>100M+ profiles searched</li>
-          </ul>
-          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-        <div class="tab-visual" aria-hidden="true">
+        <div class="stage-slide" data-slide="explore" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
               <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed3)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
@@ -1256,19 +1297,7 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="tab-panel" data-panel="review" role="tabpanel" id="panel-review" aria-labelledby="tab-review">
-        <div class="tab-copy">
-          <h3>Every candidate comes with a case</h3>
-          <p>Kello doesn't just surface a profile. It builds the case for why someone fits, what could make them a miss, and what you should dig into next.</p>
-          <ul class="check-list">
-            <li><span class="check-dot" aria-hidden="true"></span>Candidate thesis &amp; anti-thesis</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Evidence from their career</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Areas to probe</li>
-          </ul>
-          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-        <div class="tab-visual" aria-hidden="true">
+        <div class="stage-slide" data-slide="review" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
               <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed4)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
@@ -1298,20 +1327,7 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="tab-panel" data-panel="delivery" role="tabpanel" id="panel-delivery" aria-labelledby="tab-delivery">
-        <div class="tab-copy">
-          <h3>30 candidates worth calling. In 60 minutes.</h3>
-          <p>Kello turns all that research into a focused shortlist, delivered straight to your inbox — ready for you to start conversations.</p>
-          <ul class="check-list">
-            <li><span class="check-dot" aria-hidden="true"></span>30 candidates worth calling</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Delivered within 60 minutes</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Give feedback directly to Kello</li>
-            <li><span class="check-dot" aria-hidden="true"></span>Next searches get sharper</li>
-          </ul>
-          <a href="#" class="btn btn-primary">See it in action<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-        <div class="tab-visual" aria-hidden="true">
+        <div class="stage-slide" data-slide="delivery" aria-hidden="true">
           <div class="mock-card">
             <div class="mock-card-head">
               <svg class="doc-icon" viewBox="0 0 48 52" fill="none" aria-hidden="true"><defs><linearGradient id="docRed5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f25a56"/><stop offset="1" stop-color="#d9302c"/></linearGradient></defs><path d="M8 0h22l14 14v34a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V4a4 4 0 0 1 4-4z" fill="url(#docRed5)"/><path d="M30 0v10a4 4 0 0 0 4 4h10z" fill="#fbc9c7"/><rect x="0" y="23" width="30" height="17" rx="8.5" fill="#e23b37" stroke="#fff" stroke-width="1.5"/><text x="15" y="35" text-anchor="middle" font-family="Inclusive Sans, sans-serif" font-size="10" font-weight="600" fill="#fff">PDF</text></svg>
@@ -1704,6 +1720,8 @@
     const tabs   = frame && frame.querySelector('.tabs');
     const btns   = frame ? [...frame.querySelectorAll('.tab-btn')] : [];
     const panels = frame ? [...frame.querySelectorAll('.tab-panel')] : [];
+    const stage  = frame && frame.querySelector('.tab-stage');
+    const slides = stage ? [...stage.querySelectorAll('.stage-slide')] : [];
     if (!track || !btns.length) return;
     const N = btns.length;
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1761,6 +1779,10 @@
         p.classList.toggle('active', k === i);
         p.classList.remove('reveal');
       });
+      if (stage) {
+        stage.style.setProperty('--stage', i);
+        slides.forEach((sl, k)=>sl.setAttribute('aria-hidden', k === i ? 'false' : 'true'));
+      }
       if (!still && revealed) replay(panels[i]);
     }
     function geometry(){
