@@ -53,6 +53,7 @@
 
     --container:1280px;
     --rule-line:#dcdcdc;
+    --section-gap:180px;      /* space between one section's content and the next */
   }
 
   *{box-sizing:border-box;}
@@ -282,7 +283,7 @@
   /* ---------- Hero ---------- */
   .hero{
     position:relative;
-    padding:88px 0 80px;
+    padding:88px 0 calc(var(--section-gap) / 2);
     overflow:hidden;
   }
   .hero-bg{
@@ -387,7 +388,7 @@
   }
 
   /* ---------- Section shared ---------- */
-  section{padding:80px 0;}
+  section{padding:calc(var(--section-gap) / 2) 0;}
   .section-head{margin:0 0 64px;text-align:left;}
   .section-head h2{
     font-family:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -851,7 +852,7 @@
   }
 
   /* ---------- CTA Card ---------- */
-  .cta-band-wrap{padding:80px 0;}
+  .cta-band-wrap{padding:calc(var(--section-gap) / 2) 0 calc(var(--section-gap) - 80px);}
 
   /* --- footer curtain reveal ---------------------------------------
      The whole page (header through the CTA card) is one tall sticky
