@@ -100,8 +100,11 @@
     z-index:-1;
     pointer-events:none;
   }
+  /* sits behind the FAQs, which have no solid boxes. At 2000px it landed
+     right behind the testimonial frame, whose opaque cells cut it off
+     at their edge so the frame looked like it had a drop shadow. */
   .page-glow-2{
-    top:2000px;
+    top:3520px;
     height:600px;
     transform:translateX(-50%) scaleY(-1);
   }
@@ -547,12 +550,15 @@
   .wom-nav{display:flex;gap:12px;flex-shrink:0;}
   /* square versions of .btn-secondary */
   .wom-arrow{width:40px;height:40px;padding:0;justify-content:center;}
-  /* three cards per batch in the same ruled frame as pricing; the arrows
-     step through batches and wrap around at either end */
+  /* three cards per batch in the same ruled frame as pricing. JS groups
+     the cards into pages inside a clipped viewport and slides between
+     them; the arrows wrap around at either end. Without JS the cards
+     simply sit in rows of three. */
   .wom-frame{display:grid;grid-template-columns:repeat(3, 1fr);}
-  .wom-frame.is-leaving{opacity:0;transform:translateX(calc(var(--wom-dir, 1) * -12px));}
-  .wom-frame.is-entering{opacity:0;transform:translateX(calc(var(--wom-dir, 1) * 12px));transition:none;}
-  .wom-frame{transition:opacity .22s ease, transform .22s ease;}
+  .wom-viewport{grid-column:1 / -1;overflow:hidden;}
+  .wom-track{display:flex;}
+  .wom-page{flex:0 0 100%;display:grid;grid-template-columns:repeat(3, 1fr);}
+  .wom-page[hidden]{display:none;}
   .wom-card{
     height:560px;
     padding:32px;
@@ -561,9 +567,11 @@
     gap:32px;
     background:var(--surface-0);
   }
-  .wom-card[hidden]{display:none;}
   /* a divider between the cells of each row of three */
   .wom-card:not(:nth-child(3n+1)){border-left:1px solid var(--rule-line);}
+  /* while sliding, the seam between two batches needs a rule too; the
+     leading card's rule just sits on the frame's own left edge */
+  .wom-page .wom-card{border-left:1px solid var(--rule-line);}
   .wom-avatar{
     width:48px;height:48px;border-radius:50%;
     object-fit:cover;
@@ -1014,7 +1022,6 @@
     .ticker-track{animation:none;}
     .btn, .btn:hover, .btn:active{transform:none;transition:none;}
     .faq-a{transition:none;}
-    .wom-frame, .wom-frame.is-leaving{transition:none;transform:none;}
   }
 </style>
 </head>
@@ -1638,7 +1645,7 @@
     });
   });
 
-  // testimonials: show three at a time; the arrows step a whole batch and
+  // testimonials: three at a time; the arrows slide a whole batch in and
   // wrap around, so "next" alone cycles through every card
   (function(){
     const frame = document.querySelector('.wom-frame');
@@ -1646,33 +1653,57 @@
     const arrows = document.querySelectorAll('.wom-arrow');
     if (!frame || !arrows.length) return;
     const cards = [...frame.querySelectorAll('.wom-card')];
-    const PER = 3, pages = Math.ceil(cards.length / PER);
+    const PER = 3;
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let page = 0, busy = false;
 
-    function show(n){
-      page = (n + pages) % pages;
-      cards.forEach((card, i)=>{ card.hidden = Math.floor(i / PER) !== page; });
+    // group the cards into pages of three inside a clipped, sliding track
+    const viewport = document.createElement('div');
+    const track = document.createElement('div');
+    viewport.className = 'wom-viewport';
+    track.className = 'wom-track';
+    const pages = [];
+    for (let i = 0; i < cards.length; i += PER) {
+      const pg = document.createElement('div');
+      pg.className = 'wom-page';
+      cards.slice(i, i + PER).forEach(c=>pg.appendChild(c));
+      pages.push(pg);
+      track.appendChild(pg);
+    }
+    viewport.appendChild(track);
+    frame.prepend(viewport);
+
+    let page = 0, busy = false;
+    function settle(n){
+      page = n;
+      pages.forEach((pg, i)=>{ pg.hidden = i !== page; pg.style.order = ''; });
+      track.style.transition = 'none';
+      track.style.transform = '';
       const first = page * PER + 1, last = Math.min(cards.length, first + PER - 1);
       status.textContent = 'Showing testimonials ' + first + ' to ' + last + ' of ' + cards.length;
     }
     function go(dir){
-      if (busy) return;
-      if (still) { show(page + dir); return; }
+      if (busy || pages.length < 2) return;
+      const from = pages[page], next = (page + dir + pages.length) % pages.length, to = pages[next];
+      if (still) { settle(next); return; }
       busy = true;
-      frame.style.setProperty('--wom-dir', dir);
-      frame.classList.add('is-leaving');
-      setTimeout(()=>{
-        show(page + dir);
-        frame.classList.remove('is-leaving');
-        frame.classList.add('is-entering');
-        frame.offsetWidth;                       // commit the start state
-        frame.classList.remove('is-entering');
-        setTimeout(()=>{ busy = false; }, 220);
-      }, 220);
+      // lay the two batches side by side in travel order, then slide one page
+      to.hidden = false;
+      from.style.order = dir > 0 ? 0 : 1;
+      to.style.order   = dir > 0 ? 1 : 0;
+      track.style.transition = 'none';
+      track.style.transform = dir > 0 ? 'translateX(0)' : 'translateX(-100%)';
+      track.offsetWidth;                       // commit the start position
+      track.style.transition = 'transform .6s cubic-bezier(.65, 0, .35, 1)';
+      track.style.transform = dir > 0 ? 'translateX(-100%)' : 'translateX(0)';
+      track.addEventListener('transitionend', function done(e){
+        if (e.target !== track) return;
+        track.removeEventListener('transitionend', done);
+        settle(next);
+        busy = false;
+      });
     }
     arrows.forEach(btn=>btn.addEventListener('click', ()=>go(Number(btn.dataset.dir))));
-    show(0);
+    settle(0);
   })();
 
   // the CTA card's SMIL streaks can't be paused from CSS
