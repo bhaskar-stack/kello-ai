@@ -647,6 +647,142 @@
   .wom-card.video .wom-sig{color:#fff;}
   .wom-card.video .wom-role{color:rgba(255,255,255,0.75);}
 
+  /* ---------- Pricing ---------- */
+  /* follows the Figma "Pricing" frame (Kello revamp, 142:17287) */
+  .pricing{
+    --price-line:#dcdcdc;
+    --price-ink:#202939;
+    --price-label:#414651;
+    --price-muted:#717680;
+  }
+  .pricing .section-head{margin-bottom:56px;}
+  /* three plans in one ruled frame; the outer rules run 32px past each
+     edge and a small cross marks every corner */
+  .price-frame{
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+  }
+  .price-frame::before,
+  .price-frame::after{content:"";position:absolute;pointer-events:none;}
+  .price-frame::before{
+    inset:0 -32px;
+    border-top:1px solid var(--price-line);
+    border-bottom:1px solid var(--price-line);
+  }
+  .price-frame::after{
+    inset:-32px 0;
+    border-left:1px solid var(--price-line);
+    border-right:1px solid var(--price-line);
+  }
+  .price-corner{
+    position:absolute;
+    width:24px;height:24px;
+    margin:-12px 0 0 -12px;
+    z-index:1;
+    background:
+      linear-gradient(var(--price-mark), var(--price-mark)) center / 1px 100% no-repeat,
+      linear-gradient(var(--price-mark), var(--price-mark)) center / 100% 1px no-repeat;
+    --price-mark:#b4b4b4;
+  }
+  .price-corner.tl{left:0;top:0;}
+  .price-corner.tr{left:100%;top:0;}
+  .price-corner.bl{left:0;top:100%;}
+  .price-corner.br{left:100%;top:100%;}
+
+  .plan{
+    padding:24px;
+    background:var(--surface-0);
+    color:var(--price-ink);
+  }
+  .plan + .plan{border-left:1px solid var(--price-line);}
+  .plan-tags{display:flex;align-items:center;gap:12px;}
+  .plan-chip{
+    padding:4px 8px;
+    border-radius:8px;
+    background:linear-gradient(180deg, #f5f4f4, #efeeee);
+    font-size:14px;line-height:16px;letter-spacing:-0.02em;
+  }
+  .plan-tags .rule{width:1px;height:16px;background:var(--price-line);}
+  .plan-for{
+    font-size:14px;line-height:20px;letter-spacing:-0.02em;
+    text-transform:uppercase;
+    color:var(--price-label);
+  }
+  .plan-price{
+    display:flex;align-items:flex-end;gap:12px;
+    margin-top:24px;
+  }
+  .plan-price strong{
+    font-size:48px;line-height:56px;font-weight:500;letter-spacing:-0.02em;
+  }
+  .plan-unit{
+    margin-bottom:11px;
+    font-size:16px;line-height:24px;font-weight:500;letter-spacing:-0.02em;
+    color:var(--price-muted);
+  }
+  .plan-save{
+    margin-bottom:11px;
+    padding:4px 8px;
+    border-radius:72px;
+    background:#e5e6df;
+    color:var(--olive-900);
+    font-size:14px;line-height:16px;letter-spacing:-0.02em;
+  }
+  .plan-btn{
+    display:flex;align-items:center;justify-content:center;
+    height:48px;
+    margin-top:24px;
+    border-radius:8px;
+    font-size:16px;line-height:24px;letter-spacing:-0.02em;
+    transform:translateY(0) scale(1);
+    transition:transform .16s ease, box-shadow .16s ease, background .16s ease;
+  }
+  .plan-btn:hover{transform:translateY(-2px) scale(1.0025);}
+  .plan-btn:active{transform:translateY(0) scale(0.98);}
+  .plan-btn svg{width:24px;height:24px;flex-shrink:0;}
+  /* light button: a hairline outer ring, 1px of air, then the gradient face */
+  .plan-btn.light{
+    padding:1px;
+    border:1px solid #e2e2e3;
+    color:var(--ink-900);
+  }
+  .plan-btn.light .face{
+    flex:1;align-self:stretch;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    border:1px solid #fefeff;
+    border-radius:7px;
+    background:linear-gradient(180deg, #f5f4f4, #efeeee);
+    filter:drop-shadow(0 1px 1.5px rgba(51,51,51,0.2));
+    transition:background .16s ease;
+  }
+  .plan-btn.light:hover .face{background:linear-gradient(180deg, #efeeee, #e9e8e8);}
+  .plan-btn.dark{
+    gap:6px;
+    padding:0 8px 0 12px;
+    background:var(--olive-900);
+    color:#fff;
+    box-shadow:
+      0 1.128px 1.128px 0 rgba(8,8,8,0.2),
+      0 4.514px 2.257px 0 rgba(8,8,8,0.08),
+      inset 0 1.128px 1.128px 0 rgba(255,255,255,0.2),
+      inset 0 6.771px 13.542px 0 rgba(255,255,255,0.12);
+  }
+  /* same 8px dash / 8px gap round-capped rule as the FAQ list */
+  .plan-rule{
+    height:1px;
+    margin:24px 0 23px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='1'%3E%3Cline x1='0.5' y1='0.5' x2='7.5' y2='0.5' stroke='%23DCDCDC' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:repeat-x;
+    background-size:16px 1px;
+  }
+  .plan-features{display:flex;flex-direction:column;gap:16px;}
+  .plan-features li{
+    display:flex;align-items:center;gap:8px;
+    font-size:14px;line-height:20px;
+  }
+  .plan-features svg{width:16px;height:16px;flex-shrink:0;}
+
   /* ---------- FAQ ---------- */
   .faq{position:relative;}
   .faq-grid{display:grid;grid-template-columns:0.85fr 1.4fr;gap:80px;}
@@ -914,7 +1050,7 @@
     <nav class="main-nav">
       <a href="#sourcing">How it works</a>
       <a href="#">MCP</a>
-      <a href="#">Pricing</a>
+      <a href="#pricing">Pricing</a>
       <a href="#">Meet Kello<svg class="nav-star" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M6.7135 4.04198C6.40035 2.92136 6.1613 2 5.5002 2C4.83912 2 4.59982 2.92137 4.28655 4.042C4.15927 4.49733 4.09562 4.72499 3.91021 4.91039C3.7248 5.0958 3.49717 5.1594 3.0419 5.2866C1.92136 5.59975 1 5.83875 1 6.5C1 7.16125 1.92136 7.40025 3.0419 7.7134C3.49717 7.8406 3.7248 7.9042 3.91021 8.0896C4.09562 8.275 4.15927 8.5027 4.28655 8.958C4.59982 10.0787 4.83912 11 5.5002 11C6.1613 11 6.40035 10.0787 6.7135 8.958C6.84075 8.5027 6.90435 8.27505 7.08975 8.08965C7.2752 7.90425 7.5028 7.8406 7.9581 7.7134C9.07865 7.40025 10 7.16125 10 6.5C10 5.83875 9.07865 5.59975 7.9581 5.2866C7.5028 5.1594 7.2752 5.09575 7.08975 4.91035C6.90435 4.72493 6.84075 4.49728 6.7135 4.04198Z" fill="currentColor" stroke="currentColor" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.75 1.46875V2.25M9.75 2.25V3.03125M9.75 2.25H9.125M9.75 2.25H10.375M11 2.25L10.774 2.17467C10.4249 2.05829 10.2503 2.00009 10.1251 1.8749C9.9999 1.74971 9.9417 1.57514 9.82535 1.22599L9.75 1L9.67465 1.22599C9.5583 1.57514 9.5001 1.74971 9.3749 1.8749C9.2497 2.00009 9.07515 2.05829 8.726 2.17467L8.5 2.25L8.726 2.32533C9.07515 2.44171 9.2497 2.4999 9.3749 2.62509C9.5001 2.75029 9.5583 2.92486 9.67465 3.27401L9.75 3.5L9.82535 3.27401C9.9417 2.92486 9.9999 2.75029 10.1251 2.62509C10.2503 2.4999 10.4249 2.44171 10.774 2.32533L11 2.25Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </nav>
     <div class="header-actions">
@@ -1228,6 +1364,85 @@
   </div>
 </section>
 
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">PRICING</div>
+      <h2>Find the plan<br>that suits your hiring needs</h2>
+    </div>
+
+    <div class="price-frame">
+      <div class="plan">
+        <div class="plan-tags">
+          <span class="plan-chip">PAY PER JOB</span>
+          <span class="rule" aria-hidden="true"></span>
+          <span class="plan-for">For occasional hiring</span>
+        </div>
+        <p class="plan-price">
+          <strong>$100</strong>
+          <span class="plan-unit">/ JOB</span>
+        </p>
+        <a href="#" class="plan-btn light"><span class="face">Get started<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <div class="plan-rule" aria-hidden="true"></div>
+        <ul class="plan-features">
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>1 sourcing job</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>30 candidates worth calling</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>100M+ profiles searched</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Candidate reasoning</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>60-minute delivery</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Email support</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <div class="plan-tags">
+          <span class="plan-chip">JOB BUNDLE</span>
+          <span class="rule" aria-hidden="true"></span>
+          <span class="plan-for">For multiple hiring</span>
+        </div>
+        <p class="plan-price">
+          <strong>$70</strong>
+          <span class="plan-unit">/ JOB</span>
+          <span class="plan-save">SAVE 30% ON EVERY HIRING</span>
+        </p>
+        <a href="#" class="plan-btn dark">Try Kello for free<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="plan-rule" aria-hidden="true"></div>
+        <ul class="plan-features">
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>10 Jobs + 2 Free Jobs</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>30 candidates worth calling</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>100M+ profiles searched</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Candidate thesis + anti-thesis</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Better value per job</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority email support</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <div class="plan-tags">
+          <span class="plan-chip">CUSTOM</span>
+          <span class="rule" aria-hidden="true"></span>
+          <span class="plan-for">For high-volume hiring</span>
+        </div>
+        <p class="plan-price">
+          <strong>Let’s talk</strong>
+        </p>
+        <a href="#" class="plan-btn light"><span class="face">Request a callback<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <div class="plan-rule" aria-hidden="true"></div>
+        <ul class="plan-features">
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom volume pricing</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Multiple roles</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Team workflows</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>ATS / integrations</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom requirements</li>
+          <li><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 12l3 3 6-6M22 12c0 5.523-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2s10 4.477 10 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated support manager</li>
+        </ul>
+      </div>
+      <span class="price-corner tl" aria-hidden="true"></span>
+      <span class="price-corner tr" aria-hidden="true"></span>
+      <span class="price-corner bl" aria-hidden="true"></span>
+      <span class="price-corner br" aria-hidden="true"></span>
+    </div>
+  </div>
+</section>
+
 <section class="faq" id="faq">
   <div class="wrap">
     <div class="faq-grid">
@@ -1340,7 +1555,7 @@
           <li><a href="#">How Kello Works</a></li>
           <li><a href="#">Sourcing</a></li>
           <li><a href="#">Candidate Reviews</a></li>
-          <li><a href="#">Pricing</a></li>
+          <li><a href="#pricing">Pricing</a></li>
           <li><a href="#">FAQs</a></li>
         </ul>
       </div>
