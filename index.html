@@ -431,20 +431,27 @@
   }
   .tab-btn:focus-visible{outline:2px solid var(--olive-900);outline-offset:-2px;}
   .tab-panel-frame{background:#fff;}
+  /* copy | 48px | visual. The visual keeps 8px to the panel's top, right
+     and bottom edges and stays 778 x 549px, the exact size the exported
+     tab visuals are drawn for; the copy takes the remaining width */
   .tab-panel{
     display:none;
-    grid-template-columns:470px 1fr;
-    height:569px;
-    padding:12px;
+    grid-template-columns:1fr 778px;
+    column-gap:48px;
+    height:565px;
+    padding:8px 8px 8px 0;
   }
   .tab-panel.active{display:grid;}
+  /* 32px from the panel's left, top and bottom edges (8px of which is the
+     panel's own padding); heading + copy sit at the top, the points and
+     CTA at the bottom */
   .tab-copy{
     display:flex;
     flex-direction:column;
-    padding:32px 44px 24px 26px;
+    padding:24px 0 24px 32px;
   }
   .tab-copy h3{
-    font-size:28px;
+    font-size:24px;
     font-weight:500;
     line-height:1.2;
     letter-spacing:-0.02em;
@@ -452,7 +459,7 @@
   }
   .tab-copy > p{
     margin-top:16px;
-    font-size:20px;
+    font-size:18px;
     line-height:28px;
     letter-spacing:-0.02em;
     color:var(--ink-700);
