@@ -1425,7 +1425,8 @@
 
   /* footer curtain reveal: freeze the whole page once the CTA card sits
      200px above the viewport bottom, then blur it back as the footer
-     scrolls up over the top. */
+     scrolls up over the top -- starting only once half the footer is on
+     screen, and reaching full blur when all of it is. */
   (function(){
     const stack  = document.querySelector('.page-stack');
     const card   = document.querySelector('.cta-band');
@@ -1433,7 +1434,7 @@
     const footer = document.querySelector('.site-footer');
     if(!stack || !card || !blur || !footer) return;
 
-    const GAP = 200, MAX_BLUR = 10;
+    const GAP = 200, MAX_BLUR = 10, BLUR_FROM = 0.5;
     let ticking = false;
 
     function measure(){
@@ -1450,8 +1451,11 @@
     function paint(){
       ticking = false;
       const vh = window.innerHeight;
-      const travel = Math.max(1, vh - card.getBoundingClientRect().top);
-      const p = Math.min(1, Math.max(0, (vh - footer.getBoundingClientRect().top) / travel));
+      const fr = footer.getBoundingClientRect();
+      const shown = vh - fr.top;                 // px of footer on screen
+      const start = fr.height * BLUR_FROM;
+      const end = Math.min(fr.height, vh);       // all of it, or a full screen of it
+      const p = Math.min(1, Math.max(0, (shown - start) / Math.max(1, end - start)));
       const css = p ? 'blur(' + (p * MAX_BLUR).toFixed(2) + 'px)' : '';
       blur.style.backdropFilter = css;
       blur.style.webkitBackdropFilter = css;
