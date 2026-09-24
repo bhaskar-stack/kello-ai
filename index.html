@@ -100,8 +100,11 @@
     z-index:-1;
     pointer-events:none;
   }
+  /* sits behind the FAQs, which have no solid boxes. At 2000px it landed
+     right behind the testimonial frame, whose opaque cells cut it off
+     at their edge so the frame looked like it had a drop shadow. */
   .page-glow-2{
-    top:2000px;
+    top:3520px;
     height:600px;
     transform:translateX(-50%) scaleY(-1);
   }
