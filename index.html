@@ -536,37 +536,43 @@
 
   /* ---------- WOM ---------- */
   .wom{position:relative;}
-  /* full-bleed running ticker; slower than the logo ticker (~30px/s vs
-     ~46px/s) and it pauses while hovered or while a card has focus */
-  .wom-ticker{
-    overflow:hidden;
-    -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
-    mask-image:linear-gradient(to right, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  .wom-head{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:32px;
   }
+  .wom-nav{display:flex;gap:12px;flex-shrink:0;}
+  /* square versions of .btn-secondary */
+  .wom-arrow{width:40px;height:40px;padding:0;justify-content:center;}
+  .wom-arrow:disabled{opacity:0.4;cursor:default;}
+  .wom-arrow:disabled:hover,
+  .wom-arrow:disabled:active{transform:none;background-color:#f5f4f4;}
+  /* full-bleed scroller; --edge lines the first and last card up with
+     .wrap's edges (it resolves against the scroller's width) */
+  .wom-carousel{
+    --edge:calc((100% - min(var(--container), 100% - 2 * var(--space-8))) / 2);
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:var(--edge);
+    scrollbar-width:none;
+  }
+  .wom-carousel::-webkit-scrollbar{display:none;}
+  .wom-carousel:focus-visible{outline:2px solid var(--olive-900);outline-offset:-2px;}
   .wom-track{
     display:flex;
+    gap:24px;
     width:max-content;
-    /* room for the cards' shadow inside the clipped ticker */
-    padding:4px 0 24px;
-  }
-  /* JS clones the set once and adds .running, so the -50% loop is seamless;
-     cards carry their spacing as margin (not gap) so both halves are equal */
-  /* held until the ticker scrolls into view (.in-view, set by JS), and
-     paused again while it's off screen, hovered or holding focus */
-  .wom-track.running{animation:wom-scroll 96s linear infinite;animation-play-state:paused;}
-  .wom-ticker.in-view .wom-track.running{animation-play-state:running;}
-  .wom-ticker.in-view:hover .wom-track.running,
-  .wom-ticker.in-view:focus-within .wom-track.running{animation-play-state:paused;}
-  @keyframes wom-scroll{
-    from{transform:translateX(0);}
-    to{transform:translateX(-50%);}
+    /* room for the cards' shadow inside the clipped scroller */
+    padding:4px var(--edge) 24px;
   }
   .wom-card{
     flex:0 0 460px;
     width:460px;
     height:560px;
-    margin-right:24px;
     padding:32px;
+    scroll-snap-align:start;
     border:1px solid var(--line-100);
     border-radius:var(--radius-lg);
     display:flex;
@@ -841,7 +847,6 @@
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
     .ticker-track{animation:none;}
-    .wom-ticker{overflow-x:auto;}
     .btn, .btn:hover, .btn:active{transform:none;transition:none;}
     .faq-a{transition:none;}
   }
@@ -1094,13 +1099,23 @@
 
 <section class="wom" id="wom">
   <div class="wrap">
-    <div class="section-head">
-      <div class="eyebrow">WORD OF MOUTH</div>
-      <h2>Don't take our word for it.<br>Hear it from our partners.</h2>
+    <div class="section-head wom-head">
+      <div>
+        <div class="eyebrow">WORD OF MOUTH</div>
+        <h2>Don't take our word for it.<br>Hear it from our partners.</h2>
+      </div>
+      <div class="wom-nav">
+        <button type="button" class="btn btn-secondary wom-arrow" data-dir="-1" aria-label="Previous testimonial" aria-controls="wom-carousel" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+        </button>
+        <button type="button" class="btn btn-secondary wom-arrow" data-dir="1" aria-label="Next testimonial" aria-controls="wom-carousel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 
-  <div class="wom-ticker">
+  <div class="wom-carousel" id="wom-carousel" tabindex="0" role="region" aria-label="Customer testimonials">
     <div class="wom-track">
       <div class="wom-card">
         <img class="wom-avatar" src="assets/avatar-ananya.jpg" alt="Ananya Iyer">
@@ -1371,26 +1386,35 @@
     });
   });
 
-  // testimonial ticker: append one aria-hidden copy of the cards so the
-  // -50% loop is seamless. Skipped for reduced motion (the row just scrolls).
+  // testimonial carousel: arrows step one card at a time and grey out at
+  // either end; trackpad, touch and arrow keys scroll it natively too
   (function(){
-    const track = document.querySelector('.wom-track');
-    if (!track || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    [...track.children].forEach(card=>{
-      const copy = card.cloneNode(true);
-      copy.setAttribute('aria-hidden', 'true');
-      copy.querySelectorAll('img').forEach(img=>img.alt = '');
-      copy.querySelectorAll('[role="img"]').forEach(el=>el.removeAttribute('aria-label'));
-      track.appendChild(copy);
-    });
-    track.classList.add('running');
+    const scroller = document.querySelector('.wom-carousel');
+    const arrows = document.querySelectorAll('.wom-arrow');
+    if (!scroller || !arrows.length) return;
+    const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // start moving only once the cards are on screen
-    const ticker = track.parentElement;
-    if (!('IntersectionObserver' in window)) { ticker.classList.add('in-view'); return; }
-    new IntersectionObserver(([entry])=>{
-      ticker.classList.toggle('in-view', entry.isIntersecting);
-    }, {threshold: 0.25}).observe(ticker);
+    function step(){
+      const cards = scroller.querySelectorAll('.wom-card');
+      return cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : scroller.clientWidth;
+    }
+    function update(){
+      const max = scroller.scrollWidth - scroller.clientWidth;
+      arrows.forEach(btn=>{
+        btn.disabled = btn.dataset.dir < 0 ? scroller.scrollLeft <= 1 : scroller.scrollLeft >= max - 1;
+      });
+    }
+    arrows.forEach(btn=>btn.addEventListener('click', ()=>{
+      scroller.scrollBy({left: btn.dataset.dir * step(), behavior: smooth ? 'smooth' : 'auto'});
+    }));
+    let queued = false;
+    scroller.addEventListener('scroll', ()=>{
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(()=>{ queued = false; update(); });
+    }, {passive:true});
+    addEventListener('resize', update);
+    update();
   })();
 
   // the CTA card's SMIL streaks can't be paused from CSS
