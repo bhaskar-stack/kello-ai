@@ -155,45 +155,6 @@
    surround, laid over the green background edge to edge */
 .visual-shot{position:absolute;left:0;top:0;width:100%;height:auto;max-width:none;}
 
-/* placeholder JD card for tabs still waiting on their exported visual */
-.mock-card{
-  position:absolute;
-  left:var(--space-10);right:var(--space-10);top:var(--space-10);
-  height:calc(100% + 40px);          /* runs off the bottom of the visual */
-  background:var(--color-bg-raised);
-  border:1px solid var(--color-border-subtle);
-  border-radius:var(--radius-lg);
-  padding:var(--space-6) 28px;
-  color:var(--color-text-primary);
-}
-.mock-card-head{display:flex;align-items:flex-start;gap:var(--space-3);}
-.doc-icon{width:48px;height:52px;flex-shrink:0;}
-.mock-card-head .title-row{flex:1;display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-3);padding-top:var(--space-1);}
-.mock-card-head h4{font-size:var(--text-card-size);font-weight:var(--weight-medium);line-height:var(--text-card-lh);letter-spacing:var(--tracking-snug);}
-.mock-card-head .meta{display:flex;align-items:center;margin-top:6px;font-size:var(--text-body-size);line-height:var(--text-body-lh);letter-spacing:var(--tracking-tight);color:var(--color-text-muted);}
-.mock-rule{
-  height:1px;margin-top:22px;
-  background-image:var(--texture-dash-rule-soft);
-  background-size:16px 1px;
-}
-.insight-card{
-  display:grid;grid-template-columns:48px 1fr;column-gap:var(--space-4);
-  padding:var(--space-4);
-  background:var(--color-bg-raised);
-  border:1px solid var(--line-200);
-  border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-card);
-}
-.insight-card > div{min-width:0;}
-.ai-mark{width:48px;height:48px;}
-.insight-label{
-  margin-top:var(--space-1);
-  font-size:var(--text-small-size);line-height:var(--text-small-lh);letter-spacing:var(--tracking-caps);text-transform:uppercase;
-  color:var(--color-text-secondary);
-}
-.insight-card p{margin-top:var(--space-3);font-size:var(--text-body-size);line-height:var(--text-body-lh);letter-spacing:var(--tracking-tight);color:var(--color-text-primary);}
-.deck{display:flex;flex-direction:column;gap:var(--space-3);margin-top:22px;}
-
 /* ---- Testimonials ---------------------------------------------------------
    Three cards per batch in a ruled frame. JS groups the cards into pages
    inside a clipped viewport and slides between them; the arrows wrap
