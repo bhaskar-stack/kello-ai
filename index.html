@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
 <style>
   :root{
     --olive-900:#2B3200;
@@ -127,7 +127,7 @@
     font-size:16px;
     font-weight:400;
     line-height:20px;
-    letter-spacing:0;
+    letter-spacing:0.05em;
     text-transform:uppercase;
     color:var(--olive-900);
     margin-bottom:var(--space-4);
@@ -316,7 +316,7 @@
     font-size:14px;
     font-weight:400;
     line-height:20px;
-    letter-spacing:normal;
+    letter-spacing:0.05em;
     padding:2px 4px;
     border-radius:2px;
   }
@@ -587,7 +587,7 @@
   .ai-mark{width:48px;height:48px;}
   .insight-label{
     margin-top:4px;
-    font-size:14px;line-height:20px;letter-spacing:-0.02em;text-transform:uppercase;
+    font-size:14px;line-height:20px;letter-spacing:0.05em;text-transform:uppercase;
     color:var(--ink-500);
   }
   .insight-card p{margin-top:12px;font-size:16px;line-height:24px;letter-spacing:-0.02em;color:var(--ink-900);}
@@ -650,8 +650,9 @@
   /* signature + designation sit on the card's bottom edge */
   .wom-author{margin-top:auto;}
   .wom-sig{
-    font-family:'Segoe Script','Brush Script MT',cursive;
-    font-size:20px;
+    font-family:'Dancing Script','Segoe Script','Brush Script MT',cursive;
+    font-size:24px;                 /* the script's small x-height reads like ~20px sans */
+    font-weight:500;
     line-height:28px;
     color:var(--ink-900);
     margin-bottom:4px;
@@ -736,7 +737,7 @@
   .pricing{
     --price-ink:#202939;
     --price-label:#414651;
-    --price-muted:#717680;
+    --price-muted:var(--ink-400);   /* was #717680 (4.36:1), under AA */
   }
   .pricing .section-head,
   .wom .section-head{margin-bottom:56px;}
@@ -754,11 +755,11 @@
     padding:4px 8px;
     border-radius:8px;
     background:linear-gradient(180deg, #f5f4f4, #efeeee);
-    font-size:14px;line-height:16px;letter-spacing:-0.02em;
+    font-size:14px;line-height:16px;letter-spacing:0.05em;
   }
   .plan-tags .rule{width:1px;height:16px;background:var(--rule-line);}
   .plan-for{
-    font-size:14px;line-height:20px;letter-spacing:-0.02em;
+    font-size:14px;line-height:20px;letter-spacing:0.05em;
     text-transform:uppercase;
     color:var(--price-label);
   }
@@ -771,7 +772,7 @@
   }
   .plan-unit{
     margin-bottom:11px;
-    font-size:16px;line-height:24px;font-weight:500;letter-spacing:-0.02em;
+    font-size:16px;line-height:24px;font-weight:500;letter-spacing:0.05em;
     color:var(--price-muted);
   }
   .plan-save{
@@ -780,7 +781,7 @@
     border-radius:72px;
     background:#e5e6df;
     color:var(--olive-900);
-    font-size:14px;line-height:16px;letter-spacing:-0.02em;
+    font-size:14px;line-height:16px;letter-spacing:0.05em;
   }
   .plan-btn{
     display:flex;align-items:center;justify-content:center;
@@ -887,12 +888,37 @@
   .faq-item.open .faq-icon svg.plus{display:none;}
   .faq-item:not(.open) .faq-icon svg.minus{display:none;}
 
+  /* a real question field: typing then Enter / the arrow opens an email to
+     support with the question filled in */
   .faq-ask{
     margin-top:8px;
-    display:flex;align-items:center;
-    font-size:16px;line-height:24px;letter-spacing:-0.02em;color:var(--ink-400);
+    display:flex;align-items:center;gap:12px;
     padding:16px 0 0;
   }
+  .faq-ask input{
+    flex:1;min-width:0;
+    padding:8px 0;
+    border:none;border-bottom:1px solid transparent;
+    background:transparent;
+    font:inherit;font-size:16px;line-height:24px;letter-spacing:-0.02em;
+    color:var(--ink-900);
+    transition:border-color .15s ease;
+  }
+  .faq-ask input::placeholder{color:var(--ink-400);opacity:1;}
+  .faq-ask input:focus{outline:none;border-bottom-color:var(--olive-900);}
+  .faq-ask button{
+    width:40px;height:40px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line-200);border-radius:8px;
+    background:#fff;color:var(--ink-800);
+    opacity:0.5;
+    transition:opacity .15s ease, background-color .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .faq-ask button svg{width:20px;height:20px;}
+  .faq-ask.has-text button{opacity:1;}
+  .faq-ask.has-text button:hover{background:var(--olive-900);border-color:var(--olive-900);color:#fff;}
+  .faq-ask button:focus-visible{outline:2px solid var(--olive-900);outline-offset:2px;}
+  .faq-ask input:focus-visible{outline:none;}   /* the olive underline marks focus */
 
   /* ---------- CTA Card ---------- */
   .cta-band-wrap{padding:calc(var(--section-gap) / 2) 0 calc(var(--footer-gap) - 80px);}
@@ -1021,7 +1047,7 @@
     border:1px solid var(--footer-line);
     /* sits on the rule below it rather than doubling it */
     margin-bottom:-1px;
-    font-size:16px;letter-spacing:-0.02em;
+    font-size:16px;letter-spacing:0.05em;
     color:var(--footer-text);
     transition:border-color .15s ease, color .15s ease;
   }
@@ -1040,6 +1066,7 @@
   .footer-col h5{
     font-size:inherit;font-weight:400;text-transform:uppercase;
     margin:0 0 12px;
+    letter-spacing:0.05em;
   }
   .footer-col ul{display:flex;flex-direction:column;gap:12px;}
   .footer-col a{transition:color .15s ease;}
@@ -1069,7 +1096,7 @@
   .footer-copy{gap:4px;font-size:16px;letter-spacing:-0.02em;}
   .footer-copy .dot{width:27px;}
   .footer-social{display:flex;flex-direction:column;align-items:flex-end;gap:12px;}
-  .footer-social .label{font-size:16px;letter-spacing:-0.02em;}
+  .footer-social .label{font-size:16px;letter-spacing:0.05em;}
   .social-icons{display:flex;gap:24px;}
   .social-icons a{
     width:40px;height:40px;
@@ -1569,7 +1596,13 @@
           <div class="faq-a" id="faq-a-5" role="region" aria-labelledby="faq-q-5">Kello learns your bar from the job description and from every candidate you approve or reject, calibrating its sense of a "good match" to your team over time.</div>
         </div>
 
-        <div class="faq-ask">Anything else you'd like to ask? Type it here...</div>
+        <form class="faq-ask" id="faq-ask" action="#" novalidate>
+          <label class="sr-only" for="faq-ask-input">Ask Kello a question</label>
+          <input id="faq-ask-input" name="question" type="text" autocomplete="off" placeholder="Anything else you'd like to ask? Type it here…">
+          <button type="submit" aria-label="Send your question">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18.5 12L4.99997 12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/><path d="M13 18C13 18 19 13.5811 19 12C19 10.4188 13 6 13 6" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>
+          </button>
+        </form>
       </div>
     </div>
   </div>
@@ -1809,6 +1842,20 @@
     place();
     addEventListener('resize', place);
     if ('ResizeObserver' in window) new ResizeObserver(place).observe(document.body);
+  })();
+
+  // FAQ question field: no backend, so a question opens a prefilled email
+  (function(){
+    const form = document.getElementById('faq-ask');
+    if (!form) return;
+    const input = form.querySelector('input');
+    input.addEventListener('input', ()=>form.classList.toggle('has-text', input.value.trim() !== ''));
+    form.addEventListener('submit', e=>{
+      e.preventDefault();
+      const q = input.value.trim();
+      if (!q) { input.focus(); return; }
+      location.href = 'mailto:support@kello.ai?subject=' + encodeURIComponent('Question about Kello') + '&body=' + encodeURIComponent(q);
+    });
   })();
 
   const faqBtns = document.querySelectorAll('.faq-q-btn');
