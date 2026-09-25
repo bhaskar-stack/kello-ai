@@ -154,13 +154,13 @@
 
   /* ---- Motion ------------------------------------------------------------- */
   --ease-standard:ease;
-  --ease-out:cubic-bezier(.25, .46, .45, .94);         /* reel, glider (power2.out) */
-  --ease-in-out:cubic-bezier(.65, 0, .35, 1);          /* batch slides */
+  --ease-out:cubic-bezier(.25, .46, .45, .94);         /* glider (power2.out) */
+  --ease-in-out:cubic-bezier(.65, 0, .35, 1);          /* batch slides, visual morph */
   --ease-reveal:cubic-bezier(.2, .7, .2, 1);           /* text reveals */
   --duration-fast:.15s;          /* colour / border hovers */
   --duration-press:.16s;         /* button lift */
-  --duration-move:.4s;           /* highlights, reels */
-  --duration-slide:.6s;          /* whole-batch slides */
+  --duration-move:.4s;           /* highlights, the tab glider */
+  --duration-slide:.6s;          /* whole-batch slides, the visual morph */
   --stagger-line:.08s;           /* line-by-line reveal step */
 
   /* ---- Layering ----------------------------------------------------------- */

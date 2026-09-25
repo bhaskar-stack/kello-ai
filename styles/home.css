@@ -137,7 +137,9 @@
 .tab-copy .btn{margin-top:var(--space-8);}
 
 /* one shared stage: the green visual background stays put while the tab
-   visuals slide through it as a vertical reel (0.4s, power2.out) */
+   visuals morph into each other on top of it. All slides sit in the same
+   place; the outgoing one blurs, swells and dissolves while the incoming
+   one sharpens into place, and for a moment the two overlap. */
 .tab-stage{
   position:absolute;
   top:var(--space-2);right:var(--space-2);
@@ -146,12 +148,19 @@
   background:var(--texture-dash-grid) 0 0 / 10.028px 7px repeat, var(--gradient-visual);
 }
 .stage-slide{
-  position:relative;
-  height:100%;
+  position:absolute;
+  inset:0;
   overflow:hidden;
-  transform:translateY(calc(var(--stage, 0) * -100%));
-  transition:transform var(--duration-move) var(--ease-out);
+  opacity:0;
+  transform:scale(1.04);
+  filter:blur(14px);
+  transition:
+    opacity var(--duration-slide) var(--ease-in-out),
+    transform var(--duration-slide) var(--ease-in-out),
+    filter var(--duration-slide) var(--ease-in-out);
+  will-change:opacity, transform, filter;
 }
+.stage-slide.is-active{opacity:1;transform:none;filter:none;z-index:1;}
 /* an exported tab visual: the full panel at 2.57x with a transparent
    surround, laid over the green background edge to edge */
 .visual-shot{position:absolute;left:0;top:0;width:100%;height:auto;max-width:none;}

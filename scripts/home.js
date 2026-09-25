@@ -72,8 +72,10 @@
       });
       tabs.style.setProperty('--tab-pos', i);
       if (stage) {
-        stage.style.setProperty('--stage', i);
-        slides.forEach((sl, k)=>sl.setAttribute('aria-hidden', k === i ? 'false' : 'true'));
+        slides.forEach((sl, k)=>{
+          sl.classList.toggle('is-active', k === i);
+          sl.setAttribute('aria-hidden', k === i ? 'false' : 'true');
+        });
       }
       if (!still && revealed) replay(panels[i]);
     }
