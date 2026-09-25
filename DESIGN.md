@@ -137,11 +137,11 @@ rules, the texture and the glow.
 |---|---|---|
 | `--duration-fast` | .15s | Colour and border hovers |
 | `--duration-press` | .16s | Button lift and press |
-| `--duration-move` | .4s | Highlights, reels |
-| `--duration-slide` | .6s | Whole-batch slides |
+| `--duration-move` | .4s | Highlights, the tab glider |
+| `--duration-slide` | .6s | Whole-batch slides, the sourcing visual morph |
 | `--stagger-line` | .08s | Line-by-line text reveal |
-| `--ease-out` | power2.out | Reels, glider |
-| `--ease-in-out` | | Batch slides |
+| `--ease-out` | power2.out | Glider |
+| `--ease-in-out` | | Batch slides, the visual morph |
 | `--ease-reveal` | | Text reveals |
 
 Everything that moves has a `prefers-reduced-motion` fallback. Keep
