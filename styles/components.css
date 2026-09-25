@@ -159,6 +159,17 @@
   background:radial-gradient(circle at 35% 30%, #b3c9ae 0%, #7f9b7d 55%, #5d7a5f 100%);
 }
 
+/* ---- Sample tag: marks illustrative or placeholder content ----------------
+   <span class="sample-tag">Sample</span> */
+.sample-tag{
+  display:inline-block;
+  padding:var(--space-1) var(--space-2);
+  border-radius:var(--radius-sm);
+  background:var(--sage-100);color:var(--color-text-brand);
+  font-size:var(--text-tag-size);line-height:var(--text-tag-lh);font-weight:var(--weight-medium);letter-spacing:var(--tracking-caps);text-transform:uppercase;
+  white-space:nowrap;
+}
+
 /* ---- Copy field -----------------------------------------------------------
    A value to paste somewhere else (a URL, a key) with a copy button.
    <div class="copy-field"><code id="x">..</code>

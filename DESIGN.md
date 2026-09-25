@@ -327,8 +327,11 @@ concept bar, above the header. It scrolls away and the header then sticks.
 </div>
 ```
 
-Put `<span class="sample-tag">Sample</span>` on any placeholder content
-(invented testimonials, for example) until real content replaces it.
+Put `<span class="sample-tag">Sample</span>` on illustrative or placeholder
+content until real content replaces it. It's an inline tag. Inside a
+testimonial card it pins to the top-right corner, and under the logo-row
+label it reads "Placeholder". Everything on the landing page except the
+Sourcing and MCP sections is illustrative, and the concept bar says so.
 
 ### Page chrome: header, CTA card, footer curtain
 

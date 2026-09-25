@@ -54,6 +54,7 @@
   flex-shrink:0;
   width:150px;
 }
+.trust-label .sample-tag{display:table;margin-top:var(--space-2);}
 .ticker{
   flex:1;
   min-width:0;
@@ -202,14 +203,8 @@
   letter-spacing:var(--tracking-tight);
   color:var(--color-text-strong);
 }
-/* marks a placeholder testimonial until a real customer's replaces it */
-.sample-tag{
-  position:absolute;top:var(--space-8);right:var(--space-8);z-index:3;
-  padding:var(--space-1) var(--space-2);
-  border-radius:var(--radius-sm);
-  background:var(--sage-100);color:var(--color-text-brand);
-  font-size:var(--text-tag-size);line-height:var(--text-tag-lh);font-weight:var(--weight-medium);letter-spacing:var(--tracking-caps);text-transform:uppercase;
-}
+/* the sample tag sits in the card's top-right corner */
+.wom-card .sample-tag{position:absolute;top:var(--space-8);right:var(--space-8);z-index:3;}
 /* signature + designation sit on the card's bottom edge */
 .wom-author{margin-top:auto;}
 .wom-sig{
