@@ -38,8 +38,9 @@ assets/                 images, logos, SVG backgrounds
 
 ## Adding a page
 
-1. Copy `page-template.html` to a new file and set its title and
-   description. Remove its `noindex` tag.
+1. Copy `page-template.html` to a new file and set its title,
+   description and social-preview tags (`og:*` / `twitter:*`; the shared
+   image is `assets/og-image.jpg`, 1200×630). Remove its `noindex` tag.
 2. Build the page from the components in `DESIGN.md`.
 3. Put layout only this page needs in `styles/<page>.css`, using tokens
    only (no raw colours or pixel font sizes). Behaviour goes in
