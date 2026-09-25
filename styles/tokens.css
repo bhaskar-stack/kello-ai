@@ -85,6 +85,7 @@
   /* type scale: size / line-height pairs (px) */
   --text-display-size:56px;  --text-display-lh:1.2;   /* hero headline */
   --text-heading-size:40px;  --text-heading-lh:1.2;   /* section headings, prices */
+  --text-heading-sm-size:36px; --text-heading-sm-lh:1.2; /* footer pitch */
   --text-subhead-size:24px;  --text-subhead-lh:32px;  /* lead lines, wordmark */
   --text-title-size:24px;    --text-title-lh:1.2;     /* panel titles */
   --text-card-size:20px;     --text-card-lh:26px;     /* card titles */

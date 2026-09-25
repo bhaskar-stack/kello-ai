@@ -472,13 +472,13 @@
 }
 .footer-pitch{width:640px;padding-bottom:var(--space-6);}
 .footer-pitch h2{
-  font-size:var(--text-heading-size);font-weight:var(--weight-medium);line-height:var(--text-heading-lh);letter-spacing:var(--tracking-tight);
+  font-size:var(--text-heading-sm-size);font-weight:var(--weight-medium);line-height:var(--text-heading-sm-lh);letter-spacing:var(--tracking-tight);
   color:var(--color-text-primary);
   white-space:nowrap;
 }
 .footer-pitch .sub{
   margin-top:var(--space-4);
-  font-size:var(--text-subhead-size);line-height:var(--text-subhead-lh);letter-spacing:var(--tracking-tight);
+  font-size:var(--text-card-size);line-height:var(--text-card-lh);letter-spacing:var(--tracking-tight);
 }
 .footer-cta{margin-top:var(--space-6);display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-4);}
 /* Figma: a fixed 160 x 48 button with 18px text */
@@ -517,7 +517,7 @@
 }
 .footer-divider{background:var(--color-border-soft);}
 .footer-col h5{
-  font-size:inherit;font-weight:var(--weight-regular);text-transform:uppercase;
+  font-size:var(--text-body-size);line-height:var(--text-body-lh);font-weight:var(--weight-regular);text-transform:uppercase;
   margin:0 0 var(--space-3);
   letter-spacing:var(--tracking-caps);
 }

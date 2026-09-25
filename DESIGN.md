@@ -77,9 +77,10 @@ weights: 400 regular, 500 medium. Running text is tracked
 |---|---|---|---|---|---|
 | Display | `.t-display` | 56 / 1.2 | 500 | −0.02em | The hero headline (one per page) |
 | Heading | `.t-heading` or `.section-head h2` | 40 / 1.2 | 500 | −0.04em | Section headings, prices |
-| Subhead | `.t-subhead` | 24 / 32 | 400 | −0.02em | Lead line under a heading, footer pitch |
+| Heading small | (`.footer-pitch h2`) | 36 / 1.2 | 500 | −0.02em | Footer pitch |
+| Subhead | `.t-subhead` | 24 / 32 | 400 | −0.02em | Lead line under a heading |
 | Title | `.t-title` | 24 / 1.2 | 500 | −0.02em | Panel titles |
-| Card title | `.t-card-title` | 20 / 26 | 500 | −0.01em | Card and mock titles |
+| Card title | `.t-card-title` | 20 / 26 | 500 | −0.01em | Card titles; the footer sub-line uses this size at 400 |
 | Lead | `.t-lead` | 18 / 28 | 400 | −0.02em | Paragraphs, point lists, quotes |
 | UI large | `.t-ui-lg` | 18 / 24 | 400 | −0.02em | Tabs, FAQ questions, footer |
 | Body | `.t-body` | 16 / 24 | 400 | −0.02em | Body copy, nav, 48px buttons |
