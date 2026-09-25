@@ -355,7 +355,7 @@ it.
 
 ### Footer wordmark
 
-The footer ends with an oversized "kello" (`.footer-giant`). It is sized
+The footer ends with an oversized "kello.ai" (`.footer-giant`). It is sized
 from its container, so its ink spans the content column exactly, and the
 bottom 20% of the letters is cropped by the page edge. A sage gradient
 runs from `--sage-500` at the top of the letters to `--sage-100` at the

@@ -627,14 +627,14 @@
 }
 .social-icons a:hover{color:var(--color-text-brand);}
 
-/* oversized "kello" at the foot of the page: its ink spans the content
+/* oversized "kello.ai" at the foot of the page: its ink spans the content
    width exactly and the bottom 20% of the letters is cropped off.
-   Inclusive Sans 500 at -0.04em: ink is 1.901em wide starting 0.087em in;
+   Inclusive Sans 500 at -0.04em: "kello.ai" ink is 2.883em wide starting 0.087em in;
    with line-height 1 the letters run from 0.131em to 0.85em (0.719em tall),
    so 80% of them is 0.575em. */
 .footer-giant{container-type:inline-size;margin-top:var(--space-16);}
 .footer-giant-crop{
-  font-size:calc(100cqw / 1.901);
+  font-size:calc(100cqw / 2.883);
   height:0.575em;
   overflow:hidden;
 }
