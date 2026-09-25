@@ -179,6 +179,9 @@
   overflow-x:auto;white-space:nowrap;
 }
 .copy-field .btn{flex-shrink:0;}
+/* sits inside the field, so no lift: hover only shades the fill */
+.copy-field .btn:hover,
+.copy-field .btn:active{transform:none;}
 .copy-field .btn.is-copied{color:var(--color-text-brand);}
 
 /* ---- Prompt card: an example of something to ask, with an accent bar ------
