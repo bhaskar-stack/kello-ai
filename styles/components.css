@@ -478,7 +478,7 @@
 }
 .footer-pitch .sub{
   margin-top:var(--space-4);
-  font-size:var(--text-subhead-size);line-height:var(--text-subhead-lh);letter-spacing:var(--tracking-tight);
+  font-size:var(--text-card-size);line-height:var(--text-card-lh);letter-spacing:var(--tracking-tight);
 }
 .footer-cta{margin-top:var(--space-6);display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-4);}
 /* Figma: a fixed 160 x 48 button with 18px text */
