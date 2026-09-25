@@ -155,6 +155,23 @@
    surround, laid over the green background edge to edge */
 .visual-shot{position:absolute;left:0;top:0;width:100%;height:auto;max-width:none;}
 
+/* ---- MCP ------------------------------------------------------------------
+   One ruled cell: the pitch on the left, the connect button and its
+   reassurance line on the right. */
+.mcp-frame{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:var(--space-12);
+  padding:var(--space-8);
+  background:var(--color-bg-page);
+}
+.mcp-copy{
+  max-width:560px;
+  font-size:var(--text-lead-size);line-height:var(--text-lead-lh);letter-spacing:var(--tracking-tight);
+  color:var(--color-text-secondary);
+}
+.mcp-action{display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-3);flex-shrink:0;}
+.mcp-meta{font-size:var(--text-small-size);line-height:var(--text-small-lh);letter-spacing:var(--tracking-tight);color:var(--color-text-muted);}
+
 /* ---- Testimonials ---------------------------------------------------------
    Three cards per batch in a ruled frame. JS groups the cards into pages
    inside a clipped viewport and slides between them; the arrows wrap
