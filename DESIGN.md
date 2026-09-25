@@ -210,7 +210,7 @@ Markup for each is below. `design-system.html` shows them rendered.
 
 ```html
 <span class="chip">PAY PER JOB</span>
-<span class="pill">SAVE 30% ON EVERY HIRING</span>
+<span class="pill">SAVE 30%</span>
 <span class="badge"><span class="badge-tag">NEW</span> 100M+ profiles reviewed</span>
 ```
 
