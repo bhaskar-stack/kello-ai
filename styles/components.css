@@ -628,14 +628,14 @@
 .social-icons a:hover{color:var(--color-text-brand);}
 
 /* oversized "kello" at the foot of the page: its ink spans the content
-   width exactly and the bottom 40% of the letters is cropped off.
+   width exactly and the bottom 20% of the letters is cropped off.
    Inclusive Sans 500 at -0.04em: ink is 1.901em wide starting 0.087em in;
    with line-height 1 the letters run from 0.131em to 0.85em (0.719em tall),
-   so 60% of them is 0.431em. */
+   so 80% of them is 0.575em. */
 .footer-giant{container-type:inline-size;margin-top:var(--space-16);}
 .footer-giant-crop{
   font-size:calc(100cqw / 1.901);
-  height:0.431em;
+  height:0.575em;
   overflow:hidden;
 }
 .footer-giant span{
@@ -646,7 +646,7 @@
   letter-spacing:var(--tracking-tighter);
   white-space:nowrap;
   /* sage, dark at the top of the letters to pale at the crop */
-  background:linear-gradient(180deg, var(--sage-500) 13%, var(--sage-200) 42%, var(--sage-100) 56%);
+  background:linear-gradient(180deg, var(--sage-500) 13%, var(--sage-200) 50%, var(--sage-100) 71%);
   -webkit-background-clip:text;background-clip:text;
   color:transparent;
   user-select:none;
