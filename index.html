@@ -21,7 +21,7 @@
     --ink-800:#212121;
     --ink-700:#333333;
     --ink-500:#505050;
-    --ink-400:#747476;
+    --ink-400:#6b6b6d;        /* 5.1:1 on the page, 4.8:1 on the tab bar */
     --line-200:#e2e2e3;
     --line-100:#ececec;
     --surface-0:#FAFAF8;
@@ -259,10 +259,10 @@
   .main-nav{display:flex;align-items:center;justify-self:center;gap:32px;}
   .main-nav a{
     font-family:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
-    font-size:18px;
+    font-size:16px;
     font-weight:400;
-    line-height:normal;
-    letter-spacing:0;
+    line-height:24px;
+    letter-spacing:-0.02em;
     color:var(--ink-800);
     display:inline-flex;
     align-items:center;
@@ -355,8 +355,8 @@
   .trust-label{
     font-family:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
     font-weight:400;
-    font-size:20px;
-    line-height:28px;
+    font-size:18px;
+    line-height:24px;
     letter-spacing:-0.02em;
     color:var(--ink-900);
     flex-shrink:0;
@@ -651,8 +651,8 @@
   .wom-author{margin-top:auto;}
   .wom-sig{
     font-family:'Segoe Script','Brush Script MT',cursive;
-    font-size:24px;
-    line-height:32px;
+    font-size:20px;
+    line-height:28px;
     color:var(--ink-900);
     margin-bottom:4px;
   }
@@ -850,7 +850,7 @@
      repeating 16px tile (dash inset by 0.5px each side so the round caps
      land exactly on the 8px boundary rather than being clipped). */
   .faq-item{
-    padding:22px 0;
+    padding:24px 0;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='1'%3E%3Cline x1='0.5' y1='0.5' x2='7.5' y2='0.5' stroke='%23DCDCDC' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
     background-repeat:repeat-x;
     background-position:left bottom;
@@ -951,7 +951,7 @@
     max-width:560px;margin:18px auto 0;
     font-size:18px;line-height:28px;letter-spacing:-0.02em;color:var(--ink-500);
   }
-  .cta-band .btn{margin-top:32px;height:46px;padding:0 26px;}
+  .cta-band .btn{margin-top:32px;height:48px;padding:0 24px;}
 
   /* ---------- Footer ---------- */
   /* opaque so it reads as a layer sliding over the card; it carries its own
