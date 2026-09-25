@@ -1,0 +1,170 @@
+/* ==========================================================================
+   Kello design tokens
+   --------------------------------------------------------------------------
+   Every value the design language uses lives here. Components and pages
+   read the SEMANTIC tokens (--color-text-muted, --text-body-size, ...);
+   the PRIMITIVE palette underneath is only referenced from this file.
+   See DESIGN.md for when to use what, and design-system.html for a live
+   view of every token.
+   ========================================================================== */
+
+:root{
+  /* ---- Primitive palette ------------------------------------------------ */
+  /* brand olive */
+  --olive-900:#2B3200;          /* primary action, brand mark */
+  --olive-800:#37400a;
+  /* sage greens (supporting) */
+  --sage-500:#688169;
+  --sage-200:#c9d9c4;
+  --sage-100:#e3ecdd;
+  --green-500:#5C9655;          /* CTA depth-art lines */
+  --green-300:#9DC099;          /* CTA depth-art glow */
+  /* warm neutrals (text) */
+  --ink-900:#18181B;
+  --ink-850:#1e1e1e;
+  --ink-800:#212121;
+  --ink-700:#333333;
+  --ink-500:#505050;
+  --ink-400:#6b6b6d;            /* 5.1:1 on the page, 4.8:1 on sunken surfaces */
+  /* cool neutrals (pricing, from the Figma pricing frame) */
+  --slate-900:#202939;
+  --slate-700:#414651;
+  /* warm neutrals (surfaces and lines) */
+  --paper-50:#FAFAF8;
+  --paper-100:#f5f4f4;
+  --paper-150:#f4f4f2;
+  --paper-200:#f1f0f0;
+  --paper-250:#efeeee;
+  --paper-300:#eceaea;
+  --paper-350:#e9e8e8;
+  --line-300:#dcdcdc;
+  --line-250:#e2e2e3;
+  --line-225:#e4e4e2;
+  --line-200:#e8e8e8;
+  --line-150:#ececec;
+  --white:#ffffff;
+  --near-white:#fefeff;         /* button highlight edge */
+  --olive-tint:#e5e6df;         /* olive-on-light pill */
+
+  /* ---- Semantic colour ---------------------------------------------------- */
+  --color-bg-page:var(--paper-50);          /* canvas */
+  --color-bg-raised:var(--white);           /* panels, cards, fields */
+  --color-bg-sunken:var(--paper-150);       /* tab bars, trays */
+  --color-bg-muted:var(--paper-200);        /* placeholders, avatars */
+  --color-bg-brand:var(--olive-900);
+  --color-bg-brand-tint:var(--olive-tint);
+
+  --color-text-primary:var(--ink-900);      /* headings, key copy */
+  --color-text-strong:var(--ink-800);       /* nav, list items, quotes */
+  --color-text-body:var(--ink-700);         /* long-form paragraphs */
+  --color-text-secondary:var(--ink-500);    /* supporting copy, footer */
+  --color-text-muted:var(--ink-400);        /* meta, placeholders, inactive */
+  --color-text-inverse:var(--white);
+  --color-text-brand:var(--olive-900);      /* eyebrows, links, hover */
+
+  --color-border-rule:var(--line-300);      /* ruled frames, dashed rules */
+  --color-border:var(--line-250);           /* controls */
+  --color-border-soft:var(--line-225);      /* footer rules */
+  --color-border-subtle:var(--line-150);    /* raised cards */
+  --color-mark:var(--ink-900);              /* ruled-frame corner crosses */
+
+  --color-focus:var(--olive-900);
+
+  /* ---- Typography --------------------------------------------------------- */
+  --font-sans:'Inclusive Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-script:'Dancing Script', 'Segoe Script', 'Brush Script MT', cursive;
+
+  --weight-regular:400;
+  --weight-medium:500;
+
+  --tracking-tighter:-0.04em;   /* section headings */
+  --tracking-tight:-0.02em;     /* default for all running text */
+  --tracking-snug:-0.01em;      /* tabs, card titles, wordmark */
+  --tracking-caps:0.05em;       /* every ALL-CAPS label */
+
+  /* type scale: size / line-height pairs (px) */
+  --text-display-size:56px;  --text-display-lh:1.2;   /* hero headline */
+  --text-heading-size:40px;  --text-heading-lh:1.2;   /* section headings, prices */
+  --text-subhead-size:24px;  --text-subhead-lh:32px;  /* lead lines, wordmark */
+  --text-title-size:24px;    --text-title-lh:1.2;     /* panel titles */
+  --text-card-size:20px;     --text-card-lh:26px;     /* card titles */
+  --text-lead-size:18px;     --text-lead-lh:28px;     /* paragraphs, lists, quotes */
+  --text-ui-lg-size:18px;    --text-ui-lg-lh:24px;    /* nav-scale UI, FAQ questions, footer */
+  --text-body-size:16px;     --text-body-lh:24px;     /* body, buttons (48px) */
+  --text-control-size:16px;  --text-control-lh:20px;  /* buttons (40px), eyebrows */
+  --text-small-size:14px;    --text-small-lh:20px;    /* meta, features, labels */
+  --text-tag-size:14px;      --text-tag-lh:16px;      /* chips, pills */
+
+  /* ---- Spacing (4px base; --space-N = N x 4px) ---------------------------- */
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+  --space-8:32px;
+  --space-10:40px;
+  --space-12:48px;
+  --space-14:56px;
+  --space-16:64px;
+  --space-20:80px;
+  --space-30:120px;
+
+  /* ---- Layout ------------------------------------------------------------- */
+  --container:1280px;
+  --gutter:var(--space-8);                  /* min side margin below the container */
+  --page-min-width:1120px;                  /* desktop-only layout */
+  --header-height:72px;
+  --section-gap:180px;                      /* content-to-content between sections */
+  --section-head-gap:var(--space-14);       /* heading block to its content */
+  --footer-gap:200px;                       /* last section to the footer's content */
+  --footer-pin:200px;                       /* card height above the fold when the curtain freezes the page */
+  --frame-overhang:32px;                    /* ruled frames: rules run this far past the box */
+  --src-step:60vh;                          /* scroll distance per sourcing tab */
+
+  /* ---- Radius ------------------------------------------------------------- */
+  --radius-xs:2px;              /* tiny tags */
+  --radius-sm:4px;              /* badges */
+  --radius-md:8px;              /* buttons, chips, fields */
+  --radius-lg:12px;             /* cards inside visuals */
+  --radius-full:999px;          /* pills, avatars */
+  /* ruled frames, sections and panels are deliberately square (0) */
+
+  /* ---- Elevation ---------------------------------------------------------- */
+  --shadow-control:0 1px 2px rgba(24,24,27,0.06), 0 1px 1px rgba(24,24,27,0.04);   /* secondary buttons */
+  --shadow-raised:0 1.128px 1.128px 0 rgba(8,8,8,0.2), 0 4.514px 2.257px 0 rgba(8,8,8,0.08); /* primary button, logo tile */
+  --shadow-sheen:inset 0 1.128px 1.128px 0 rgba(255,255,255,0.2), inset 0 6.771px 13.542px 0 rgba(255,255,255,0.12); /* glossy top edge on dark fills */
+  --shadow-card:0 4px 14px rgba(24,24,27,0.05);                                     /* cards inside visuals */
+  --shadow-soft-drop:0 1px 1.5px rgba(51,51,51,0.2);                                /* light button face (filter) */
+
+  /* ---- Gradients & textures ---------------------------------------------- */
+  --gradient-control:linear-gradient(180deg, var(--paper-100), var(--paper-250));   /* light button face, chips */
+  --gradient-control-hover:linear-gradient(180deg, var(--paper-250), var(--paper-350));
+  --gradient-visual:linear-gradient(180deg, #eff5ee 0%, #cfe0cd 50%, #bfd6bc 80%, #c7dbc4 100%); /* green product visuals */
+  --texture-dash-grid:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10.028' height='7'%3E%3Crect x='0' y='4' width='6' height='1' rx='0.5' fill='%23000' fill-opacity='0.08'/%3E%3C/svg%3E");
+  --texture-dash-rule:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='1'%3E%3Cline x1='0.5' y1='0.5' x2='7.5' y2='0.5' stroke='%23DCDCDC' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
+  --texture-dash-rule-soft:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='1'%3E%3Cline x1='0.5' y1='0.5' x2='7.5' y2='0.5' stroke='%23ECECEC' stroke-width='1' stroke-linecap='round'/%3E%3C/svg%3E");
+
+  /* ---- Icons -------------------------------------------------------------- */
+  --icon-sm:16px;               /* inside 40px buttons, list bullets */
+  --icon-md:20px;               /* inside fields */
+  --icon-lg:24px;               /* inside 48px buttons, footer */
+
+  /* ---- Motion ------------------------------------------------------------- */
+  --ease-standard:ease;
+  --ease-out:cubic-bezier(.25, .46, .45, .94);         /* reel, glider (power2.out) */
+  --ease-in-out:cubic-bezier(.65, 0, .35, 1);          /* batch slides */
+  --ease-reveal:cubic-bezier(.2, .7, .2, 1);           /* text reveals */
+  --duration-fast:.15s;          /* colour / border hovers */
+  --duration-press:.16s;         /* button lift */
+  --duration-move:.4s;           /* highlights, reels */
+  --duration-slide:.6s;          /* whole-batch slides */
+  --stagger-line:.08s;           /* line-by-line reveal step */
+
+  /* ---- Layering ----------------------------------------------------------- */
+  --z-behind:-1;
+  --z-rule:1;
+  --z-rule-mark:2;
+  --z-footer:2;
+  --z-header:50;
+}
