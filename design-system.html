@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Design system — Kello.ai</title>
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles/tokens.css">
+<link rel="stylesheet" href="styles/base.css">
+<link rel="stylesheet" href="styles/components.css">
+<style>
+  /* style-guide layout only; everything it shows comes from the shared CSS */
+  .ds-top{padding:var(--space-16) 0 var(--space-10);}
+  .ds-top p{margin-top:var(--space-4);max-width:720px;}
+  .ds-nav{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-8);}
+  .ds-nav a{padding:var(--space-1) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-full);font-size:var(--text-small-size);line-height:var(--text-small-lh);color:var(--color-text-secondary);background:var(--color-bg-raised);}
+  .ds-nav a:hover{color:var(--color-text-brand);border-color:var(--color-text-brand);}
+  .ds section{padding:var(--space-12) 0;border-top:1px solid var(--color-border-rule);}
+  .ds .section-head{margin-bottom:var(--space-8);}
+  .ds-note{margin-top:var(--space-2);}
+  .ds-grid{display:grid;gap:var(--space-4);}
+  .ds-grid.c4{grid-template-columns:repeat(4, 1fr);}
+  .ds-grid.c6{grid-template-columns:repeat(6, 1fr);}
+  .ds-swatch{border:1px solid var(--color-border-subtle);background:var(--color-bg-raised);}
+  .ds-swatch .chipcol{height:72px;border-bottom:1px solid var(--color-border-subtle);}
+  .ds-swatch .meta{padding:var(--space-3);}
+  .ds-code{font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:12px;line-height:18px;color:var(--color-text-muted);letter-spacing:0;word-break:break-all;}
+  .ds-row{display:grid;grid-template-columns:200px 1fr 280px;gap:var(--space-6);align-items:baseline;padding:var(--space-4) 0;background-image:var(--texture-dash-rule);background-repeat:repeat-x;background-position:left bottom;background-size:16px 1px;}
+  .ds-row:last-child{background:none;}
+  .ds-space{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-1) 0;}
+  .ds-space .bar{height:12px;background:var(--color-bg-brand);}
+  .ds-space .ds-code{width:160px;}
+  .ds-box{height:96px;display:flex;align-items:flex-end;padding:var(--space-3);background:var(--color-bg-raised);border:1px solid var(--color-border);}
+  .ds-icons{display:grid;grid-template-columns:repeat(6, 1fr);border-top:1px solid var(--color-border-rule);border-left:1px solid var(--color-border-rule);}
+  .ds-icons > div{display:flex;flex-direction:column;align-items:center;gap:var(--space-3);padding:var(--space-6) var(--space-2);border-right:1px solid var(--color-border-rule);border-bottom:1px solid var(--color-border-rule);background:var(--color-bg-page);color:var(--color-text-primary);}
+  .ds-icons .sizes{display:flex;align-items:center;gap:var(--space-4);}
+  .ds-stack{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-4);}
+  .ds-stack + .ds-stack{margin-top:var(--space-6);}
+  .ds-label{width:160px;flex-shrink:0;}
+  .ds-frame-demo{display:grid;grid-template-columns:repeat(3, 1fr);background:var(--color-bg-page);}
+  .ds-frame-demo > div{padding:var(--space-8);min-height:160px;}
+  .ds-frame-demo > div + div{border-left:1px solid var(--color-border-rule);}
+  .ds-tabs{max-width:640px;}
+  .ds-faq{max-width:760px;}
+</style>
+</head>
+<body class="ds">
+<script src="scripts/icons.js"></script>
+<div class="bg-pattern"></div>
+
+<div class="wrap">
+  <header class="ds-top">
+    <div class="eyebrow">Kello.ai</div>
+    <h1 class="t-display">Design system</h1>
+    <p class="t-lead">A live reference built from <code>styles/tokens.css</code>, <code>base.css</code>, <code>components.css</code> and <code>scripts/icons.js</code>. Values below are read from the CSS at load, so this page always matches the site. How and when to use each piece is in <code>DESIGN.md</code>; new pages start from <code>page-template.html</code>.</p>
+    <nav class="ds-nav" aria-label="Sections">
+      <a href="#colour">Colour</a><a href="#type">Type</a><a href="#spacing">Spacing</a><a href="#radius">Radius &amp; elevation</a><a href="#icons">Icons</a><a href="#buttons">Buttons</a><a href="#tags">Chips &amp; badges</a><a href="#lists">Lists &amp; rules</a><a href="#frame">Ruled frame</a><a href="#tabs">Tabs</a><a href="#faq">FAQ</a><a href="#motion">Motion</a>
+    </nav>
+  </header>
+</div>
+
+<main>
+<section id="colour">
+  <div class="wrap">
+    <div class="section-head"><div class="eyebrow">Colour</div><h2>Semantic colours</h2>
+      <p class="t-body ds-note">Components use these roles. The primitive palette underneath appears after them for reference; use it only in <code>tokens.css</code>.</p></div>
+    <h3 class="t-card-title">Surfaces</h3>
+    <div class="ds-grid c6" data-swatches="--color-bg-page --color-bg-raised --color-bg-sunken --color-bg-muted --color-bg-brand --color-bg-brand-tint" style="margin:var(--space-4) 0 var(--space-8)"></div>
+    <h3 class="t-card-title">Text</h3>
+    <div class="ds-grid c6" data-swatches="--color-text-primary --color-text-strong --color-text-body --color-text-secondary --color-text-muted --color-text-brand" style="margin:var(--space-4) 0 var(--space-8)"></div>
+    <h3 class="t-card-title">Lines &amp; marks</h3>
+    <div class="ds-grid c6" data-swatches="--color-border-rule --color-border --color-border-soft --color-border-subtle --color-mark --color-focus" style="margin:var(--space-4) 0 var(--space-8)"></div>
+    <h3 class="t-card-title">Primitive palette</h3>
+    <div class="ds-grid c6" data-swatches="--olive-900 --olive-800 --sage-500 --sage-200 --sage-100 --green-500 --green-300 --ink-900 --ink-850 --ink-800 --ink-700 --ink-500 --ink-400 --slate-900 --slate-700 --paper-50 --paper-100 --paper-150 --paper-200 --paper-250 --paper-300 --paper-350 --line-300 --line-250 --line-225 --line-200 --line-150 --olive-tint" style="margin-top:var(--space-4)"></div>
+  </div>
+</section>
+
+<section id="type">
+  <div class="wrap">
+    <div class="section-head"><div class="eyebrow">Typography</div><h2>Type scale</h2>
+      <p class="t-body ds-note">Inclusive Sans, 400 and 500. The spec column is measured from the rendered sample.</p></div>
+    <div id="type-rows">
+      <div class="ds-row"><span class="ds-code">.t-display</span><span class="t-display">Your next hire</span><span class="ds-code" data-spec></span></div>
+      <div class="ds-row"><span class="ds-code">.t-heading</span><span class="t-heading">Find the plan</span><span class="ds-code" data-spec></span></div>
+      <div class="ds-row"><span class="ds-code">.t-subhead</span><span class="t-subhead">Send Kello a JD. Get a shortlist.</span><span class="ds-code" data-spec></span></div>
+      <div class="ds-row"><span class="ds-code">.t-title</span><span class="t-title">We read between the lines</span><span class="ds-code" data-spec></span></div>
+      <div class="ds-row"><span class="ds-code">.t-card-title</span><span class="t-card-title">Senior backend engineer</span><span class="ds-code" data-spec></span></div>
+      <div class="ds-row"><span class="ds-code">.t-lead</span><span class="t-lead">Kello finds the candidates worth calling, so your team can spend more time hiring.</span><span class="ds-code" data-spec></span></div>
+      <div class="ds-row"><span class="ds-code">.t-ui-lg</span><span class="t-ui-lg">How does Kello work?</span><span class="ds-code" data-spec></span></div>
+      <div class="ds-row"><span class="ds-code">.t-body</span><span class="t-body">You send Kello a job description or a quick brief, and it returns a reasoned shortlist.</span><span class="ds-code" data-spec></span></div>
+      <div class="ds-row"><span class="ds-code">.eyebrow</span><span class="eyebrow" style="margin:0">Pricing</span><span class="ds-code" data-spec></span></div>
+      <div class="ds-row"><span class="ds-code">.t-small</span><span class="t-small">30 candidates worth calling</span><span class="ds-code" data-spec></span></div>
+      <div class="ds-row"><span class="ds-code">.t-label</span><span class="t-label">For occasional hiring</span><span class="ds-code" data-spec></span></div>
+      <div class="ds-row"><span class="ds-code">--font-script</span><span style="font-family:var(--font-script);font-size:28px;line-height:32px;color:var(--color-text-primary)">Karan Mehta</span><span class="ds-code" data-spec></span></div>
+    </div>
+  </div>
+</section>
+
+<section id="spacing">
+  <div class="wrap">
+    <div class="section-head"><div class="eyebrow">Spacing</div><h2>4px scale and page rhythm</h2></div>
+    <div id="space-rows" data-space="--space-1 --space-2 --space-3 --space-4 --space-5 --space-6 --space-8 --space-10 --space-12 --space-14 --space-16 --space-20 --space-30"></div>
+    <h3 class="t-card-title" style="margin:var(--space-8) 0 var(--space-4)">Layout</h3>
+    <div id="layout-rows" data-tokens="--container --gutter --page-min-width --header-height --section-gap --section-head-gap --footer-gap --footer-pin --frame-overhang"></div>
+  </div>
+</section>
+
+<section id="radius">
+  <div class="wrap">
+    <div class="section-head"><div class="eyebrow">Shape</div><h2>Radius &amp; elevation</h2>
+      <p class="t-body ds-note">Section containers are square with no shadow. Radius and shadow belong to controls.</p></div>
+    <div class="ds-grid c6" id="radius-boxes" data-radius="--radius-xs --radius-sm --radius-md --radius-lg --radius-full"></div>
+    <div class="ds-grid c4" id="shadow-boxes" style="margin-top:var(--space-6)"></div>
+  </div>
+</section>
+
+<section id="icons">
+  <div class="wrap">
+    <div class="section-head"><div class="eyebrow">Icons</div><h2>Sprite (scripts/icons.js)</h2>
+      <p class="t-body ds-note">Each icon at <code>.icon-sm</code> 16, <code>.icon-md</code> 20 and <code>.icon</code> 24. <code>&lt;svg class="icon icon-sm" aria-hidden="true"&gt;&lt;use href="#i-NAME"/&gt;&lt;/svg&gt;</code></p></div>
+    <div class="ds-icons" id="icon-grid"></div>
+  </div>
+</section>
+
+<section id="buttons">
+  <div class="wrap">
+    <div class="section-head"><div class="eyebrow">Components</div><h2>Buttons</h2></div>
+    <div class="ds-stack"><span class="ds-code ds-label">default · 40px</span>
+      <a href="#" class="btn btn-primary">Try Kello for free <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+      <a href="#" class="btn btn-primary">Login</a>
+      <a href="#" class="btn btn-secondary">See how it works</a>
+      <button class="btn btn-secondary btn-icon" aria-label="Previous"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
+      <button class="btn btn-secondary btn-icon" aria-label="Next"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+    </div>
+    <div class="ds-stack"><span class="ds-code ds-label">.btn-lg · 48px</span>
+      <a href="#" class="btn btn-primary btn-lg">Try Kello for free <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+      <a href="#" class="btn btn-primary btn-lg">Send us the JD</a>
+      <a href="#" class="btn btn-lg btn-soft" style="width:240px"><span class="btn-face">Get started <svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron-right"/></svg></span></a>
+    </div>
+    <div class="ds-stack" style="max-width:400px"><span class="ds-code ds-label">.btn-block</span></div>
+    <div class="ds-grid" style="max-width:400px;margin-top:var(--space-3)">
+      <a href="#" class="btn btn-primary btn-lg btn-block">Try Kello for free <svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg></a>
+      <a href="#" class="btn btn-lg btn-soft btn-block"><span class="btn-face">Request a callback <svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron-right"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<section id="tags">
+  <div class="wrap">
+    <div class="section-head"><h2>Chips, pills, badges, avatars</h2></div>
+    <div class="ds-stack">
+      <span class="chip">PAY PER JOB</span>
+      <span class="pill">SAVE 30% ON EVERY HIRING</span>
+      <span class="badge"><span class="badge-tag">NEW</span> 100M+ profiles reviewed</span>
+      <img class="avatar" src="assets/avatar-ananya.jpg" alt="">
+      <span class="avatar initials" aria-hidden="true">AN</span>
+    </div>
+  </div>
+</section>
+
+<section id="lists">
+  <div class="wrap">
+    <div class="section-head"><h2>Section head, point list, dashed rule</h2></div>
+    <div class="ds-grid c4" style="grid-template-columns:1fr 1fr;gap:var(--space-12)">
+      <div>
+        <div class="section-head" style="margin:0"><div class="eyebrow">Eyebrow</div><h2>Section heading<br>on two lines</h2></div>
+      </div>
+      <div>
+        <ul class="point-list">
+          <li><span class="point-dot" aria-hidden="true"></span>Reads the JD like a recruiter</li>
+          <li><span class="point-dot" aria-hidden="true"></span>Separates must-haves from nice-to-haves</li>
+          <li><span class="point-dot" aria-hidden="true"></span>Flags what the JD leaves out</li>
+        </ul>
+        <div class="rule-dashed" style="margin-top:var(--space-6)"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="frame">
+  <div class="wrap">
+    <div class="section-head"><h2>Ruled frame</h2>
+      <p class="t-body ds-note">Rules overhang by <code>--frame-overhang</code>, with <code>--color-mark</code> crosses on the corners. Used for testimonials, pricing and the CTA card.</p></div>
+    <div class="ruled-frame ds-frame-demo">
+      <div><span class="chip">CELL</span><p class="t-heading" style="margin-top:var(--space-6)">$100</p></div>
+      <div><span class="chip">CELL</span><p class="t-body" style="margin-top:var(--space-6)">Cells are square and divided by 1px rules.</p></div>
+      <div><span class="chip">CELL</span><p class="t-body" style="margin-top:var(--space-6)">Put the four corner spans last inside the frame.</p></div>
+      <span class="ruled-corner tl" aria-hidden="true"></span>
+      <span class="ruled-corner tr" aria-hidden="true"></span>
+      <span class="ruled-corner bl" aria-hidden="true"></span>
+      <span class="ruled-corner br" aria-hidden="true"></span>
+    </div>
+  </div>
+</section>
+
+<section id="tabs">
+  <div class="wrap">
+    <div class="section-head"><h2>Tabs</h2>
+      <p class="t-body ds-note">The highlight glides to <code>--tab-pos</code>. Click to try it.</p></div>
+    <div class="tabs ds-tabs" role="tablist" aria-label="Demo" style="--tab-count:3">
+      <span class="tab-glider" aria-hidden="true"></span>
+      <button class="tab-btn active" role="tab" aria-selected="true">Understand</button>
+      <button class="tab-btn" role="tab" aria-selected="false">Calibrate</button>
+      <button class="tab-btn" role="tab" aria-selected="false">Deliver</button>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head"><h2>FAQ and ask field</h2></div>
+    <div class="ds-faq">
+      <div class="faq-item open">
+        <button class="faq-q-btn" aria-expanded="true" aria-controls="ds-a-1">
+          <span class="faq-q" id="ds-q-1">What is Kello?</span>
+          <span class="faq-icon" aria-hidden="true">
+            <svg class="icon icon-sm i-plus" aria-hidden="true"><use href="#i-plus"/></svg>
+            <svg class="icon icon-sm i-minus" aria-hidden="true"><use href="#i-minus"/></svg>
+          </span>
+        </button>
+        <div class="faq-a" id="ds-a-1" role="region" aria-labelledby="ds-q-1">An AI-native sourcing platform that delivers a focused shortlist from a job description.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q-btn" aria-expanded="false" aria-controls="ds-a-2">
+          <span class="faq-q" id="ds-q-2">How does Kello work?</span>
+          <span class="faq-icon" aria-hidden="true">
+            <svg class="icon icon-sm i-plus" aria-hidden="true"><use href="#i-plus"/></svg>
+            <svg class="icon icon-sm i-minus" aria-hidden="true"><use href="#i-minus"/></svg>
+          </span>
+        </button>
+        <div class="faq-a" id="ds-a-2" role="region" aria-labelledby="ds-q-2">It reads between the lines, searches 100M+ profiles and returns a reasoned shortlist.</div>
+      </div>
+      <form class="ask-field" action="#" novalidate>
+        <label class="sr-only" for="ds-ask">Ask Kello a question</label>
+        <input id="ds-ask" type="text" autocomplete="off" placeholder="Anything else you'd like to ask? Type it here…">
+        <button type="submit" aria-label="Send your question"><svg class="icon icon-md" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="motion">
+  <div class="wrap">
+    <div class="section-head"><div class="eyebrow">Motion</div><h2>Durations &amp; easing</h2>
+      <p class="t-body ds-note">Everything that moves has a reduced-motion fallback.</p></div>
+    <div id="motion-rows" data-tokens="--duration-fast --duration-press --duration-move --duration-slide --stagger-line --ease-standard --ease-out --ease-in-out --ease-reveal"></div>
+  </div>
+</section>
+</main>
+
+<script src="scripts/site.js"></script>
+<script>
+(function(){
+  const root = getComputedStyle(document.documentElement);
+  const val = t => root.getPropertyValue(t).trim();
+  const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+
+  // colour swatches
+  document.querySelectorAll('[data-swatches]').forEach(grid=>{
+    grid.dataset.swatches.split(' ').forEach(t=>{
+      const s = el('div', 'ds-swatch');
+      const c = el('div', 'chipcol'); c.style.background = 'var(' + t + ')';
+      s.append(c, el('div', 'meta', '<div class="t-small" style="color:var(--color-text-primary)">' + t + '</div><div class="ds-code">' + val(t) + '</div>'));
+      grid.append(s);
+    });
+  });
+
+  // type specs, measured from each sample
+  document.querySelectorAll('#type-rows .ds-row').forEach(row=>{
+    const c = getComputedStyle(row.children[1]);
+    const ls = parseFloat(c.letterSpacing) / parseFloat(c.fontSize);
+    row.querySelector('[data-spec]').textContent =
+      parseFloat(c.fontSize) + ' / ' + parseFloat(c.lineHeight) + 'px · ' + c.fontWeight +
+      (isNaN(ls) || !ls ? '' : ' · ' + ls.toFixed(2) + 'em') + (c.textTransform === 'uppercase' ? ' · caps' : '');
+  });
+
+  // spacing bars
+  const sp = document.getElementById('space-rows');
+  sp.dataset.space.split(' ').forEach(t=>{
+    const r = el('div', 'ds-space');
+    const b = el('div', 'bar'); b.style.width = 'var(' + t + ')';
+    r.append(el('span', 'ds-code', t + ' · ' + val(t)), b);
+    sp.append(r);
+  });
+  document.querySelectorAll('#layout-rows, #motion-rows').forEach(box=>{
+    box.dataset.tokens.split(' ').forEach(t=>{
+      box.append(el('div', 'ds-space', '<span class="ds-code" style="width:200px">' + t + '</span><span class="ds-code" style="width:auto;color:var(--color-text-primary)">' + val(t) + '</span>'));
+    });
+  });
+
+  // radius + shadows
+  const rb = document.getElementById('radius-boxes');
+  rb.dataset.radius.split(' ').concat(['0 (sections)']).forEach(t=>{
+    const b = el('div', 'ds-box');
+    b.style.borderRadius = t.startsWith('--') ? 'var(' + t + ')' : '0';
+    b.append(el('span', 'ds-code', t + (t.startsWith('--') ? ' · ' + val(t) : '')));
+    rb.append(b);
+  });
+  const sb = document.getElementById('shadow-boxes');
+  [['--shadow-raised', 'var(--shadow-raised), var(--shadow-sheen)', true], ['--shadow-control', 'var(--shadow-control)'], ['--shadow-card', 'var(--shadow-card)'], ['--shadow-soft-drop', null]].forEach(([t, sh, dark])=>{
+    const b = el('div', 'ds-box');
+    b.style.borderRadius = 'var(--radius-md)'; b.style.border = '0';
+    if (sh) b.style.boxShadow = sh; else b.style.filter = 'drop-shadow(var(--shadow-soft-drop))';
+    if (dark) { b.style.background = 'var(--color-bg-brand)'; }
+    const l = el('span', 'ds-code', t + (dark ? ' + --shadow-sheen' : '') + (sh ? '' : ' (filter)'));
+    if (dark) l.style.color = 'var(--color-text-inverse)';
+    b.append(l); sb.append(b);
+  });
+
+  // icons
+  const ig = document.getElementById('icon-grid');
+  (window.KELLO_ICONS || []).forEach(n=>{
+    const use = '<use href="#i-' + n + '"/>';
+    const c = el('div', '', '<div class="sizes">' +
+      '<svg class="icon icon-sm" aria-hidden="true">' + use + '</svg>' +
+      '<svg class="icon icon-md" aria-hidden="true">' + use + '</svg>' +
+      '<svg class="icon" aria-hidden="true">' + use + '</svg></div><span class="ds-code">' + n + '</span>');
+    ig.append(c);
+  });
+
+  // demo tabs: click glides the highlight
+  document.querySelectorAll('.ds-tabs').forEach(tabs=>{
+    const btns = [...tabs.querySelectorAll('.tab-btn')];
+    btns.forEach((b, i)=>b.addEventListener('click', ()=>{
+      tabs.style.setProperty('--tab-pos', i);
+      btns.forEach((x, j)=>{ x.classList.toggle('active', i === j); x.setAttribute('aria-selected', i === j); });
+    }));
+  });
+})();
+</script>
+</body>
+</html>

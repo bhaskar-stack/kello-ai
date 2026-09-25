@@ -1,0 +1,295 @@
+/* ==========================================================================
+   Home page: section layouts that only the landing page uses.
+   Everything shared (buttons, frames, tabs, FAQ, footer...) lives in
+   components.css; everything here is built from tokens.css.
+   ========================================================================== */
+
+/* ---- Hero ---------------------------------------------------------------- */
+.hero{
+  position:relative;
+  padding:88px 0 calc(var(--section-gap) / 2);
+  overflow:hidden;
+}
+.hero-inner{max-width:880px;margin:0 auto;text-align:center;
+  display:flex;flex-direction:column;align-items:center;}
+.hero .badge{margin-bottom:var(--space-5);}
+.hero h1{
+  font-family:var(--font-sans);
+  font-size:var(--text-display-size);
+  line-height:var(--text-display-lh);
+  font-weight:var(--weight-medium);
+  letter-spacing:var(--tracking-tight);
+  color:var(--color-text-primary);
+}
+.hero-sub{
+  margin:var(--space-5) auto 0;
+  max-width:600px;
+  font-size:var(--text-lead-size);
+  line-height:var(--text-lead-lh);
+  letter-spacing:var(--tracking-tight);
+  color:var(--color-text-secondary);
+}
+.hero-ctas{
+  display:flex;
+  justify-content:center;
+  gap:var(--space-5);
+  margin-top:var(--space-12);
+}
+.hero-ctas .btn-primary{width:180px;}
+.hero-ctas .btn-secondary{width:160px;}
+
+.trust-row{
+  margin-top:var(--space-30);
+  display:flex;
+  align-items:center;
+  gap:var(--space-10);
+}
+.trust-label{
+  font-family:var(--font-sans);
+  font-weight:var(--weight-regular);
+  font-size:var(--text-ui-lg-size);
+  line-height:var(--text-ui-lg-lh);
+  letter-spacing:var(--tracking-tight);
+  color:var(--color-text-primary);
+  flex-shrink:0;
+  width:150px;
+}
+.ticker{
+  flex:1;
+  min-width:0;
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  mask-image:linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+}
+.ticker-track{
+  display:flex;
+  align-items:center;
+  width:max-content;
+  animation:ticker-scroll 26s linear infinite;
+}
+.ticker-track img{
+  height:56px;
+  width:auto;
+  display:block;
+  flex-shrink:0;
+  opacity:0.85;
+  filter:grayscale(1);
+}
+@keyframes ticker-scroll{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+
+/* ---- Sourcing -------------------------------------------------------------
+   Follows the Figma "AI-native sourcing" frame (Kello revamp, 147:33219).
+   Scroll-driven tabs: the frame pins in the middle of the screen while a
+   runway below it scrolls past (one --src-step per tab change); only after
+   the last tab does the page move on. */
+.sourcing{position:relative;}
+.src-track{position:relative;}
+.src-track .src-frame{
+  position:sticky;
+  top:max(88px, calc(50vh - 315px));      /* centred (frame is 629px); never under the header */
+  z-index:1;
+}
+.src-runway{height:calc(4 * var(--src-step));}
+.tab-panel-frame{position:relative;background:var(--color-bg-raised);}
+/* copy | 48px | visual. The visual keeps 8px to the panel's top, right
+   and bottom edges and stays 778 x 549px, the exact size the exported
+   tab visuals are drawn for; the copy takes the remaining width */
+.tab-panel{
+  display:none;
+  grid-template-columns:1fr 778px;
+  column-gap:var(--space-12);
+  height:565px;
+  padding:var(--space-2) var(--space-2) var(--space-2) 0;
+}
+.tab-panel.active{display:grid;}
+/* per-line reveal: JS wraps each word in .w and gives it --i = the index
+   of the rendered line it sits on, counting down the whole column
+   (heading, copy, then each point) */
+.tab-panel .w{display:inline-block;}
+.tab-panel.reveal .w{animation:word-in .5s var(--ease-reveal) both;animation-delay:calc(var(--i, 0) * var(--stagger-line));}
+@keyframes word-in{from{opacity:0;transform:translateY(6px);filter:blur(4px);}to{opacity:1;transform:none;filter:none;}}
+/* 32px from the panel's left, top and bottom edges (8px of which is the
+   panel's own padding); heading + copy at the top, points + CTA at the bottom */
+.tab-copy{
+  display:flex;
+  flex-direction:column;
+  padding:var(--space-6) 0 var(--space-6) var(--space-8);
+}
+.tab-copy h3{
+  font-size:var(--text-title-size);
+  font-weight:var(--weight-medium);
+  line-height:var(--text-title-lh);
+  letter-spacing:var(--tracking-tight);
+  color:var(--color-text-primary);
+}
+.tab-copy > p{
+  margin-top:var(--space-4);
+  font-size:var(--text-lead-size);
+  line-height:var(--text-lead-lh);
+  letter-spacing:var(--tracking-tight);
+  color:var(--color-text-body);
+}
+.tab-copy .point-list{margin-top:auto;}
+.tab-copy .btn{margin-top:var(--space-8);}
+
+/* one shared stage: the green visual background stays put while the tab
+   visuals slide through it as a vertical reel (0.4s, power2.out) */
+.tab-stage{
+  position:absolute;
+  top:var(--space-2);right:var(--space-2);
+  width:778px;height:549px;
+  overflow:hidden;
+  background:var(--texture-dash-grid) 0 0 / 10.028px 7px repeat, var(--gradient-visual);
+}
+.stage-slide{
+  position:relative;
+  height:100%;
+  overflow:hidden;
+  transform:translateY(calc(var(--stage, 0) * -100%));
+  transition:transform var(--duration-move) var(--ease-out);
+}
+/* an exported tab visual: the full panel at 2.57x with a transparent
+   surround, laid over the green background edge to edge */
+.visual-shot{position:absolute;left:0;top:0;width:100%;height:auto;max-width:none;}
+
+/* ---- Testimonials ---------------------------------------------------------
+   Three cards per batch in a ruled frame. JS groups the cards into pages
+   inside a clipped viewport and slides between them; the arrows wrap
+   around. Without JS the cards simply sit in rows of three. */
+.wom{position:relative;}
+.wom-nav{display:flex;gap:var(--space-3);flex-shrink:0;}
+.wom-frame{display:grid;grid-template-columns:repeat(3, 1fr);}
+.wom-viewport{grid-column:1 / -1;overflow:hidden;}
+.wom-track{display:flex;}
+.wom-page{flex:0 0 100%;display:grid;grid-template-columns:repeat(3, 1fr);}
+.wom-page[hidden]{display:none;}
+.wom-card{
+  height:520px;
+  padding:var(--space-8);
+  display:flex;
+  flex-direction:column;
+  gap:var(--space-8);
+  background:var(--color-bg-page);
+}
+/* a divider between the cells of each row of three; while sliding, the
+   seam between two batches needs one too (the leading card's rule just
+   sits on the frame's own left edge) */
+.wom-card:not(:nth-child(3n+1)){border-left:1px solid var(--color-border-rule);}
+.wom-page .wom-card{border-left:1px solid var(--color-border-rule);}
+.wom-quote{
+  font-size:var(--text-lead-size);
+  line-height:var(--text-lead-lh);
+  letter-spacing:var(--tracking-tight);
+  color:var(--color-text-strong);
+}
+/* signature + designation sit on the card's bottom edge */
+.wom-author{margin-top:auto;}
+.wom-sig{
+  font-family:var(--font-script);
+  font-size:24px;                 /* the script's small x-height reads like ~20px sans */
+  font-weight:var(--weight-medium);
+  line-height:28px;
+  color:var(--color-text-primary);
+  margin-bottom:var(--space-1);
+}
+.wom-role{font-size:var(--text-small-size);line-height:var(--text-small-lh);letter-spacing:var(--tracking-tight);color:var(--color-text-muted);}
+
+.wom-card.video{
+  position:relative;
+  overflow:hidden;
+  color:var(--color-text-inverse);
+  background:var(--color-bg-brand);
+}
+.wom-card.video img,
+.wom-poster{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;
+}
+/* stand-in video poster until a real photo is added */
+.wom-poster{
+  background:
+    radial-gradient(120% 80% at 30% 20%, rgba(201,217,196,0.35) 0%, rgba(201,217,196,0) 60%),
+    linear-gradient(160deg, var(--sage-500) 0%, var(--olive-800) 70%, var(--olive-900) 100%);
+}
+.wom-card.video::after{
+  content:"";
+  position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(24,24,27,0.05) 0%, rgba(24,24,27,0.15) 55%, rgba(24,24,27,0.65) 100%);
+  z-index:1;
+}
+.play-btn{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:56px;height:56px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.22);
+  backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,0.5);
+  display:flex;align-items:center;justify-content:center;
+  z-index:2;
+  color:var(--color-text-inverse);
+}
+.play-btn .icon{width:18px;height:18px;margin-left:2px;}
+.wom-card.video .wom-author{position:relative;z-index:2;}
+.wom-card.video .wom-sig{color:var(--color-text-inverse);}
+.wom-card.video .wom-role{color:rgba(255,255,255,0.75);}
+
+/* ---- Pricing --------------------------------------------------------------
+   Follows the Figma "Pricing" frame (Kello revamp, 142:17287). */
+.pricing{
+  --price-ink:var(--slate-900);
+  --price-label:var(--slate-700);
+}
+.price-frame{display:grid;grid-template-columns:1fr 1fr 1fr;}
+.plan{
+  padding:var(--space-6);
+  background:var(--color-bg-page);
+  color:var(--price-ink);
+}
+.plan + .plan{border-left:1px solid var(--color-border-rule);}
+.plan-tags{display:flex;align-items:center;gap:var(--space-3);}
+.plan-tags .rule{width:1px;height:16px;background:var(--color-border-rule);}
+.plan-for{
+  font-size:var(--text-small-size);line-height:var(--text-small-lh);letter-spacing:var(--tracking-caps);
+  text-transform:uppercase;
+  color:var(--price-label);
+}
+/* "/ JOB" and the save pill sit on the price's text baseline */
+.plan-price{
+  display:flex;align-items:baseline;gap:var(--space-3);
+  margin-top:var(--space-6);
+}
+.plan-price strong{
+  font-size:var(--text-heading-size);line-height:48px;font-weight:var(--weight-medium);letter-spacing:var(--tracking-tight);
+}
+.plan-unit{
+  font-size:var(--text-body-size);line-height:var(--text-body-lh);font-weight:var(--weight-medium);letter-spacing:var(--tracking-caps);
+  color:var(--color-text-muted);
+}
+.plan .btn{margin-top:var(--space-6);}
+/* Figma's optical padding for a label + trailing chevron (12 / 8) */
+.plan .btn-primary{padding:0 var(--space-2) 0 var(--space-3);}
+.plan-rule{margin:var(--space-6) 0 23px;}
+.plan-features{display:flex;flex-direction:column;gap:var(--space-4);}
+.plan-features li{
+  display:flex;align-items:center;gap:var(--space-2);
+  font-size:var(--text-small-size);line-height:var(--text-small-lh);
+}
+
+/* ---- FAQ ----------------------------------------------------------------- */
+.faq{position:relative;}
+.faq-grid{display:grid;grid-template-columns:0.85fr 1.4fr;gap:var(--space-20);}
+.faq-left h2{font-family:var(--font-sans);font-size:var(--text-heading-size);font-weight:var(--weight-medium);letter-spacing:var(--tracking-tighter);line-height:var(--text-heading-lh);margin-bottom:var(--space-6);}
+.faq-left p{font-size:var(--text-body-size);line-height:var(--text-body-lh);letter-spacing:var(--tracking-tight);color:var(--color-text-secondary);margin-bottom:var(--space-5);}
+/* scoped to the paragraph so it can't override the .btn styling below it */
+.faq-left p a{color:var(--color-text-brand);font-weight:var(--weight-medium);text-decoration:underline;text-underline-offset:2px;}
+.faq-left .btn{margin-top:var(--space-2);}
+
+@media (prefers-reduced-motion: reduce){
+  .ticker-track{animation:none;}
+  .tab-panel.reveal .w{animation:none;}
+  .stage-slide{transition:none;}
+}
