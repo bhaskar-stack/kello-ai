@@ -58,7 +58,7 @@
     <h1 class="t-display">Design system</h1>
     <p class="t-lead">A live reference built from <code>styles/tokens.css</code>, <code>base.css</code>, <code>components.css</code> and <code>scripts/icons.js</code>. Values below are read from the CSS at load, so this page always matches the site. How and when to use each piece is in <code>DESIGN.md</code>; new pages start from <code>page-template.html</code>.</p>
     <nav class="ds-nav" aria-label="Sections">
-      <a href="#colour">Colour</a><a href="#type">Type</a><a href="#spacing">Spacing</a><a href="#radius">Radius &amp; elevation</a><a href="#icons">Icons</a><a href="#buttons">Buttons</a><a href="#tags">Chips &amp; badges</a><a href="#lists">Lists &amp; rules</a><a href="#frame">Ruled frame</a><a href="#tabs">Tabs</a><a href="#faq">FAQ</a><a href="#motion">Motion</a>
+      <a href="#colour">Colour</a><a href="#type">Type</a><a href="#spacing">Spacing</a><a href="#radius">Radius &amp; elevation</a><a href="#icons">Icons</a><a href="#buttons">Buttons</a><a href="#tags">Chips &amp; badges</a><a href="#lists">Lists &amp; rules</a><a href="#frame">Ruled frame</a><a href="#tabs">Tabs</a><a href="#faq">FAQ</a><a href="#copy">Copy field</a><a href="#motion">Motion</a>
     </nav>
   </header>
 </div>
@@ -239,6 +239,21 @@
         <input id="ds-ask" type="text" autocomplete="off" placeholder="Anything else you'd like to ask? Type it here…">
         <button type="submit" aria-label="Send your question"><svg class="icon icon-md" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
       </form>
+    </div>
+  </div>
+</section>
+
+<section id="copy">
+  <div class="wrap">
+    <div class="section-head"><h2>Copy field and prompt card</h2></div>
+    <div class="ds-grid c4" style="grid-template-columns:1fr 1fr;gap:var(--space-12);align-items:start">
+      <div class="copy-field">
+        <code id="ds-url">https://kello.ai/mcp</code>
+        <button class="btn btn-secondary" type="button" data-copy="#ds-url"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-copy"/></svg><span>Copy</span></button>
+      </div>
+      <ul class="prompt-list">
+        <li class="prompt-card">“Who are the eng leaders at CRED? I’m looking to onboard them as customers.”</li>
+      </ul>
     </div>
   </div>
 </section>

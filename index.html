@@ -202,17 +202,31 @@
 <section class="mcp" id="mcp">
   <div class="wrap">
     <div class="section-head">
-      <div class="eyebrow">KELLO, WHEREVER YOU WORK</div>
+      <div class="eyebrow">KELLO MCP</div>
       <h2>Find anyone.<br>Right from your favourite AI.</h2>
     </div>
 
     <div class="mcp-frame ruled-frame">
-      <p class="mcp-copy">Connect Kello to Claude or ChatGPT and search 100M+ profiles using plain English. No dashboards. No API keys.</p>
-      <div class="mcp-action">
-        <a href="#" class="btn btn-primary btn-lg">Connect Kello
-          <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
-        </a>
-        <p class="dot-list mcp-meta">OAuth<span class="dot" aria-hidden="true"></span>No API keys<span class="dot" aria-hidden="true"></span>Claude + ChatGPT</p>
+      <div class="mcp-cell mcp-setup">
+        <p class="mcp-copy">Connect Kello to Claude or ChatGPT and search 100M+ profiles using plain English. No dashboards. No API keys.</p>
+        <div class="mcp-connect">
+          <div class="t-label">Add a custom connector</div>
+          <div class="copy-field">
+            <code id="mcp-url">https://kello.ai/mcp</code>
+            <button class="btn btn-secondary" type="button" data-copy="#mcp-url">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-copy"/></svg><span>Copy</span>
+            </button>
+          </div>
+          <p class="dot-list mcp-meta">OAuth<span class="dot" aria-hidden="true"></span>No API keys<span class="dot" aria-hidden="true"></span>Claude + ChatGPT</p>
+        </div>
+      </div>
+      <div class="mcp-cell mcp-prompts">
+        <div class="t-label">Try asking</div>
+        <ul class="prompt-list">
+          <li class="prompt-card">“Find senior product designers in Bangalore who’ve led B2C design at a consumer startup.”</li>
+          <li class="prompt-card">“Tell me everything about Rajan Anandan: fun, work, investments. I’m looking to fundraise.”</li>
+          <li class="prompt-card">“Who are the eng leaders at CRED? I’m looking to onboard them as customers for my AI dev tool.”</li>
+        </ul>
       </div>
       <span class="ruled-corner tl" aria-hidden="true"></span>
       <span class="ruled-corner tr" aria-hidden="true"></span>

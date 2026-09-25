@@ -156,21 +156,20 @@
 .visual-shot{position:absolute;left:0;top:0;width:100%;height:auto;max-width:none;}
 
 /* ---- MCP ------------------------------------------------------------------
-   One ruled cell: the pitch on the left, the connect button and its
-   reassurance line on the right. */
-.mcp-frame{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:var(--space-12);
-  padding:var(--space-8);
-  background:var(--color-bg-page);
-}
+   Two ruled cells: the pitch and connector URL on the left, example
+   prompts on the right. */
+.mcp-frame{display:grid;grid-template-columns:1fr 1fr;background:var(--color-bg-page);}
+.mcp-cell{padding:var(--space-8);}
+.mcp-cell + .mcp-cell{border-left:1px solid var(--color-border-rule);}
+.mcp-setup{display:flex;flex-direction:column;justify-content:space-between;gap:var(--space-8);}
 .mcp-copy{
-  max-width:560px;
+  max-width:520px;
   font-size:var(--text-lead-size);line-height:var(--text-lead-lh);letter-spacing:var(--tracking-tight);
   color:var(--color-text-secondary);
 }
-.mcp-action{display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-3);flex-shrink:0;}
+.mcp-connect{display:flex;flex-direction:column;gap:var(--space-3);}
 .mcp-meta{font-size:var(--text-small-size);line-height:var(--text-small-lh);letter-spacing:var(--tracking-tight);color:var(--color-text-muted);}
+.mcp-prompts .prompt-list{margin-top:var(--space-3);}
 
 /* ---- Testimonials ---------------------------------------------------------
    Three cards per batch in a ruled frame. JS groups the cards into pages

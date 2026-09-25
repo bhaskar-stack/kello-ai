@@ -3,6 +3,7 @@
    Each block only runs if its component is on the page.
      - FAQ accordion (.faq-item / .faq-q-btn)
      - question field (.ask-field)
+     - copy buttons ([data-copy])
      - CTA card art: pause when reduced motion is on
      - page glow anchoring ([data-glow-anchor])
      - footer curtain reveal (.page-stack / .page-blur / .site-footer)
@@ -50,6 +51,36 @@
       note.textContent = form.dataset.note || 'Thanks! Your question has been noted.';
       input.value = '';
       form.classList.remove('has-text');
+    });
+  });
+
+
+  // copy buttons ([data-copy="#target"]): copy the target's text, then show
+  // "Copied" for a moment
+  document.querySelectorAll('[data-copy]').forEach(btn=>{
+    const target = document.querySelector(btn.dataset.copy);
+    const label = btn.querySelector('span');
+    const use = btn.querySelector('use');
+    if (!target) return;
+    let timer;
+    btn.addEventListener('click', async ()=>{
+      const text = target.textContent.trim();
+      try { await navigator.clipboard.writeText(text); }
+      catch (e) {
+        const r = document.createRange(); r.selectNodeContents(target);
+        const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        try { document.execCommand('copy'); } catch (e2) {}
+        sel.removeAllRanges();
+      }
+      btn.classList.add('is-copied');
+      if (label) label.textContent = 'Copied';
+      if (use) use.setAttribute('href', '#i-check');
+      clearTimeout(timer);
+      timer = setTimeout(()=>{
+        btn.classList.remove('is-copied');
+        if (label) label.textContent = 'Copy';
+        if (use) use.setAttribute('href', '#i-copy');
+      }, 1600);
     });
   });
 

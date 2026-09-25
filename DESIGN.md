@@ -68,7 +68,8 @@ chrome.
 
 ### Typography
 
-Inclusive Sans for everything. Dancing Script only for signatures. Two
+Inclusive Sans for everything. Dancing Script only for signatures, and
+`--font-mono` (the system monospace) only for URLs and code. Two
 weights: 400 regular, 500 medium. Running text is tracked
 `--tracking-tight` (−0.02em), and every ALL-CAPS label is
 `--tracking-caps` (+0.05em).
@@ -165,7 +166,7 @@ optical weight. Icons take `currentColor`.
 
 The sprite holds: `arrow-right`, `chevron-right`, `chevron-left`,
 `check-circle`, `plus`, `minus`, `play`, `linkedin`, `x`, `instagram`,
-`sparkle`, `kello-mark`. `design-system.html` lists whatever is in the
+`sparkle`, `kello-mark`, `copy`, `check`. `design-system.html` lists whatever is in the
 file.
 
 **Adding an icon.** Use Hugeicons (stroke-rounded, the free set is MIT)
@@ -293,6 +294,27 @@ can set it on click.
 `site.js` opens one answer at a time. For the question field, add
 `data-mailto` (plus an optional `data-subject`) to turn a question into a
 prefilled email. Without it, the field clears and shows `data-note` below.
+
+### Copy field and prompt card
+
+A value people paste somewhere else (a connector URL, a key), with a copy
+button. `site.js` copies the target's text and briefly swaps the label to
+"Copied" with a tick. The value uses `--font-mono`.
+
+```html
+<div class="copy-field">
+  <code id="mcp-url">https://kello.ai/mcp</code>
+  <button class="btn btn-secondary" type="button" data-copy="#mcp-url">
+    <svg class="icon icon-sm" aria-hidden="true"><use href="#i-copy"/></svg><span>Copy</span>
+  </button>
+</div>
+```
+
+Example prompts ("Try asking") sit in square cards with a green accent bar:
+
+```html
+<ul class="prompt-list"><li class="prompt-card">“Who are the eng leaders at CRED?”</li></ul>
+```
 
 ### Concept bar and sample tag
 
