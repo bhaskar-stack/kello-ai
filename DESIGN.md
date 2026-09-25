@@ -353,6 +353,16 @@ page once half the footer is on screen. The CTA's animated depth art
 (`.cta-depth-svg`) is optional; copy it from `index.html` if you want
 it.
 
+### Footer wordmark
+
+The footer ends with an oversized "kello.ai" (`.footer-giant`). It is sized
+from its container, so its ink spans the content column exactly, and the
+bottom 10% of the letters is cropped by the page edge (enough to
+bleed, while the top half of the full stop still shows). A sage gradient
+runs from `--sage-500` at the top of the letters to `--sage-100` at the
+crop. It's in `page-template.html` already. The metrics in the CSS
+comment are for Inclusive Sans 500, so recheck them if the font changes.
+
 ### Page glow
 
 `.page-glows` holds soft green light behind the page. Put

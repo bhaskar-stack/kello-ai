@@ -522,7 +522,7 @@
 .site-footer{
   position:relative;
   z-index:var(--z-footer);
-  padding:var(--space-20) 0 var(--space-20);
+  padding:var(--space-20) 0 0;   /* the giant wordmark meets the bottom edge */
   background-color:var(--color-bg-page);
   background-image:url('../assets/bg-pattern-tile.svg');
   background-repeat:repeat;
@@ -626,6 +626,34 @@
   transition:color var(--duration-fast) var(--ease-standard);
 }
 .social-icons a:hover{color:var(--color-text-brand);}
+
+/* oversized "kello.ai" at the foot of the page: its ink spans the content
+   width exactly and the bottom 10% of the letters is cropped off (the
+   full stop is 20% of the letter height, so its top half still shows).
+   Inclusive Sans 500 at -0.04em: "kello.ai" ink (to the i's dot) is 2.904em wide starting 0.087em in;
+   with line-height 1 the letters run from 0.131em to 0.85em (0.719em tall),
+   so 90% of them is 0.647em. */
+.footer-giant{container-type:inline-size;margin-top:var(--space-16);}
+.footer-giant-crop{
+  font-size:calc(100cqw / 2.904);
+  height:0.647em;
+  display:flow-root;                  /* keeps the span's negative top margin inside */
+  overflow-x:visible;overflow-y:clip;  /* crop the bottom only, so the i's dot can overhang */
+}
+.footer-giant span{
+  display:block;
+  margin:-0.131em 0 0 -0.087em;
+  width:max-content;padding-right:0.1em;   /* the gradient paints only inside this box, so it must cover every glyph */
+  font-weight:var(--weight-medium);
+  line-height:1;
+  letter-spacing:var(--tracking-tighter);
+  white-space:nowrap;
+  /* sage, dark at the top of the letters to pale at the crop */
+  background:linear-gradient(180deg, var(--sage-500) 13%, var(--sage-200) 52%, var(--sage-100) 78%);
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;
+  user-select:none;
+}
 
 @media (prefers-reduced-motion: reduce){
   .btn, .btn:hover, .btn:active{transform:none;transition:none;}
