@@ -281,7 +281,7 @@ can set it on click.
   <div class="faq-a" id="faq-a-1" role="region" aria-labelledby="faq-q-1">Answer</div>
 </div>
 
-<form class="ask-field" action="#" novalidate data-mailto="support@kello.ai" data-subject="Question about Kello">
+<form class="ask-field" action="#" novalidate data-note="Thanks! This is a design concept, so questions aren't sent anywhere.">
   <label class="sr-only" for="ask-input">Ask Kello a question</label>
   <input id="ask-input" name="question" type="text" autocomplete="off" placeholder="Anything else you'd like to ask? Type it here…">
   <button type="submit" aria-label="Send your question">
@@ -290,8 +290,23 @@ can set it on click.
 </form>
 ```
 
-`site.js` handles opening one answer at a time and turning a question
-into a prefilled email.
+`site.js` opens one answer at a time. For the question field, add
+`data-mailto` (plus an optional `data-subject`) to turn a question into a
+prefilled email. Without it, the field clears and shows `data-note` below.
+
+### Concept bar and sample tag
+
+This site is an unofficial redesign concept, so every page opens with the
+concept bar, above the header. It scrolls away and the header then sticks.
+
+```html
+<div class="concept-bar dot-list">
+  <span>Redesign concept by <strong>Bhaskar Tiwari</strong></span><span class="dot" aria-hidden="true"></span><span>Not affiliated with Kello</span><span class="dot" aria-hidden="true"></span><a href="design-system.html">See the design system …</a>
+</div>
+```
+
+Put `<span class="sample-tag">Sample</span>` on any placeholder content
+(invented testimonials, for example) until real content replaces it.
 
 ### Page chrome: header, CTA card, footer curtain
 

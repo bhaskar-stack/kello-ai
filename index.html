@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kello.ai - Your AI sourcer, on demand.</title>
 <meta name="description" content="Email a job description and get 30 ranked candidates back in a Google Sheet within hours, not days.">
-<link rel="canonical" href="https://bhaskar-stack.github.io/kello-ai/">
-<!-- social preview (Open Graph + X). Crawlers need absolute URLs: these point
-     at the GitHub Pages site; switch them to https://kello.ai/ once the custom
-     domain is live -->
+<!-- a redesign concept, not Kello's site: keep it out of search results -->
+<meta name="robots" content="noindex, nofollow">
+<!-- social preview (Open Graph + X). Crawlers need absolute URLs, so these
+     point at the GitHub Pages site -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kello.ai">
 <meta property="og:url" content="https://bhaskar-stack.github.io/kello-ai/">
@@ -42,6 +42,11 @@
 <div class="page-glows" aria-hidden="true">
   <div class="page-glow"></div>
   <div class="page-glow page-glow-2"></div>
+</div>
+
+<!-- concept bar: this page is an unofficial redesign, not Kello's site -->
+<div class="concept-bar dot-list">
+  <span>Redesign concept by <strong>Bhaskar Tiwari</strong></span><span class="dot" aria-hidden="true"></span><span>Not affiliated with Kello</span><span class="dot" aria-hidden="true"></span><a href="design-system.html">See the design system<svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
 </div>
 
 <header class="site-header">
@@ -244,6 +249,7 @@
 
       <!-- placeholder testimonial: swap in a real customer's name, role, quote and photo -->
       <div class="wom-card video">
+        <span class="sample-tag">Sample</span>
         <div class="wom-poster" role="img" aria-label="Arjun Nair"></div>
         <span class="play-btn" aria-hidden="true">
           <svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>
@@ -256,6 +262,7 @@
 
       <!-- placeholder testimonial: swap in a real customer's name, role, quote and photo -->
       <div class="wom-card">
+        <span class="sample-tag">Sample</span>
         <span class="avatar initials" aria-hidden="true">MK</span>
         <p class="wom-quote">"We filled two senior engineering roles in our first month. Kello surfaced people our team had never come across, and every profile came with reasoning we could forward straight to the hiring manager."</p>
         <div class="wom-author">
@@ -266,6 +273,7 @@
 
       <!-- placeholder testimonial: swap in a real customer's name, role, quote and photo -->
       <div class="wom-card video">
+        <span class="sample-tag">Sample</span>
         <div class="wom-poster" role="img" aria-label="Vikram Rao"></div>
         <span class="play-btn" aria-hidden="true">
           <svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>
@@ -428,7 +436,7 @@
           <div class="faq-a" id="faq-a-5" role="region" aria-labelledby="faq-q-5">Kello learns your bar from the job description and from every candidate you approve or reject, calibrating its sense of a "good match" to your team over time.</div>
         </div>
 
-        <form class="ask-field" id="faq-ask" action="#" novalidate>
+        <form class="ask-field" id="faq-ask" action="#" novalidate data-note="Thanks! This is a design concept, so questions aren't sent anywhere.">
           <label class="sr-only" for="faq-ask-input">Ask Kello a question</label>
           <input id="faq-ask-input" name="question" type="text" autocomplete="off" placeholder="Anything else you'd like to ask? Type it here…">
           <button type="submit" aria-label="Send your question">

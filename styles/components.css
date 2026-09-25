@@ -233,6 +233,22 @@
 .tab-btn.active{color:var(--color-text-primary);font-weight:var(--weight-medium);}
 .tab-btn:focus-visible{outline:2px solid var(--color-focus);outline-offset:-2px;}
 
+/* ---- Concept bar -----------------------------------------------------------
+   A slim olive strip above the header that scrolls away with the page.
+   <div class="concept-bar dot-list"><span>..</span><span class="dot"></span>..<a>..</a></div> */
+.concept-bar{
+  justify-content:center;
+  min-height:40px;
+  padding:var(--space-2) var(--gutter);
+  background:var(--color-bg-brand);
+  color:var(--color-text-inverse);
+  font-size:var(--text-small-size);line-height:var(--text-small-lh);letter-spacing:var(--tracking-tight);
+}
+.concept-bar strong{font-weight:var(--weight-medium);}
+.concept-bar a{display:inline-flex;align-items:center;gap:var(--space-1);text-decoration:underline;text-underline-offset:3px;}
+.concept-bar a:hover{text-decoration:none;}
+.concept-bar a:focus-visible{outline:2px solid var(--color-text-inverse);outline-offset:2px;}
+
 /* ---- Header -------------------------------------------------------------- */
 .site-header{
   position:sticky;
@@ -389,6 +405,7 @@
 .ask-field.has-text button{opacity:1;}
 .ask-field.has-text button:hover{background:var(--color-bg-brand);border-color:var(--color-bg-brand);color:var(--color-text-inverse);}
 .ask-field button:focus-visible{outline:2px solid var(--color-focus);outline-offset:2px;}
+.ask-note{margin-top:var(--space-2);font-size:var(--text-small-size);line-height:var(--text-small-lh);letter-spacing:var(--tracking-tight);color:var(--color-text-brand);}
 
 /* ---- CTA card -------------------------------------------------------------
    The last block before the footer: a white ruled-frame card with the
