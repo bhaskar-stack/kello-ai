@@ -472,7 +472,7 @@
 }
 .footer-pitch{width:640px;padding-bottom:var(--space-6);}
 .footer-pitch h2{
-  font-size:var(--text-heading-size);font-weight:var(--weight-medium);line-height:var(--text-heading-lh);letter-spacing:var(--tracking-tight);
+  font-size:var(--text-heading-sm-size);font-weight:var(--weight-medium);line-height:var(--text-heading-sm-lh);letter-spacing:var(--tracking-tight);
   color:var(--color-text-primary);
   white-space:nowrap;
 }
