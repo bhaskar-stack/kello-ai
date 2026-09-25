@@ -26,17 +26,30 @@
   });
 
 
-  // question field (.ask-field): no backend, so a question opens a prefilled
-  // email to data-mailto (default support@kello.ai)
+  // question field (.ask-field): no backend. With data-mailto a question
+  // opens a prefilled email; without it the field just shows data-note.
   document.querySelectorAll('.ask-field').forEach(form=>{
     const input = form.querySelector('input');
+    let note = null;
     input.addEventListener('input', ()=>form.classList.toggle('has-text', input.value.trim() !== ''));
     form.addEventListener('submit', e=>{
       e.preventDefault();
       const q = input.value.trim();
       if (!q) { input.focus(); return; }
-      const to = form.dataset.mailto || 'support@kello.ai', subject = form.dataset.subject || 'Question about Kello';
-      location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(q);
+      if (form.dataset.mailto) {
+        const subject = form.dataset.subject || 'Question about Kello';
+        location.href = 'mailto:' + form.dataset.mailto + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(q);
+        return;
+      }
+      if (!note) {
+        note = document.createElement('p');
+        note.className = 'ask-note';
+        note.setAttribute('role', 'status');
+        form.after(note);
+      }
+      note.textContent = form.dataset.note || 'Thanks! Your question has been noted.';
+      input.value = '';
+      form.classList.remove('has-text');
     });
   });
 
