@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kello.ai - Your AI sourcer, on demand.</title>
-<meta name="description" content="Email a job description and get 30 ranked candidates back in a Google Sheet within hours, not days.">
+<meta name="description" content="Email a job description and get 30 ranked candidates back within 60 minutes.">
 <!-- a redesign concept, not Kello's site: keep it out of search results -->
 <meta name="robots" content="noindex, nofollow">
 <!-- social preview (Open Graph + X). Crawlers need absolute URLs, so these
@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="Kello.ai">
 <meta property="og:url" content="https://bhaskar-stack.github.io/kello-ai/">
 <meta property="og:title" content="Kello.ai - Your AI sourcer, on demand.">
-<meta property="og:description" content="Email a job description and get 30 ranked candidates back in a Google Sheet within hours, not days.">
+<meta property="og:description" content="Email a job description and get 30 ranked candidates back within 60 minutes.">
 <meta property="og:image" content="https://bhaskar-stack.github.io/kello-ai/assets/og-image.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
@@ -21,7 +21,7 @@
 <meta property="og:image:alt" content="Kello.ai logo with the tagline: Your AI sourcing agent">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Kello.ai - Your AI sourcer, on demand.">
-<meta name="twitter:description" content="Email a job description and get 30 ranked candidates back in a Google Sheet within hours, not days.">
+<meta name="twitter:description" content="Email a job description and get 30 ranked candidates back within 60 minutes.">
 <meta name="twitter:image" content="https://bhaskar-stack.github.io/kello-ai/assets/og-image.jpg">
 <meta name="twitter:image:alt" content="Kello.ai logo with the tagline: Your AI sourcing agent">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -46,7 +46,7 @@
 
 <!-- concept bar: this page is an unofficial redesign, not Kello's site -->
 <div class="concept-bar dot-list">
-  <span>Redesign concept by <strong>Bhaskar Tiwari</strong></span><span class="dot" aria-hidden="true"></span><span>Not affiliated with Kello</span><span class="dot" aria-hidden="true"></span><a href="design-system.html">See the design system<svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+  <span>Redesign concept by <strong>Bhaskar Tiwari</strong></span><span class="dot" aria-hidden="true"></span><span>Not affiliated with Kello</span><span class="dot" aria-hidden="true"></span><span>Content is illustrative</span><span class="dot" aria-hidden="true"></span><a href="design-system.html">See the design system<svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
 </div>
 
 <header class="site-header">
@@ -57,7 +57,7 @@
     </a>
     <nav class="main-nav">
       <a href="#sourcing">How it works</a>
-      <a href="#">MCP</a>
+      <a href="#mcp">MCP</a>
       <a href="#pricing">Pricing</a>
       <a href="#">Meet Kello<svg class="nav-star" fill="none" aria-hidden="true"><use href="#i-sparkle"/></svg></a>
     </nav>
@@ -86,10 +86,10 @@
     </div>
 
     <div class="trust-row">
-      <span class="trust-label">Already<br>trusted by</span>
+      <div class="trust-label"><span>Already<br>trusted by</span><span class="sample-tag">Placeholder</span></div>
       <div class="ticker">
         <div class="ticker-track">
-          <img src="assets/logos.svg" alt="Trusted by JUSPAY, Tesla, Snapmint, Razorpay, Microsoft, Swiggy, Instagram, navi and Google">
+          <img src="assets/logos.svg" alt="Placeholder customer logos: JUSPAY, Tesla, Snapmint, Razorpay, Microsoft, Swiggy, Instagram, navi and Google">
           <img src="assets/logos.svg" alt="" aria-hidden="true">
         </div>
       </div>
@@ -199,6 +199,43 @@
   </div>
 </section>
 
+<section class="mcp" id="mcp">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">KELLO MCP</div>
+      <h2>Find anyone.<br>Right from your favourite AI.</h2>
+    </div>
+
+    <div class="mcp-frame ruled-frame">
+      <div class="mcp-cell mcp-setup">
+        <p class="mcp-copy">Connect Kello to Claude or ChatGPT and search 100M+ profiles using plain English. No dashboards. No API keys.</p>
+        <div class="mcp-connect">
+          <div class="t-label">Add a custom connector</div>
+          <div class="copy-field">
+            <code id="mcp-url">https://kello.ai/mcp</code>
+            <button class="btn btn-secondary" type="button" data-copy="#mcp-url">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-copy"/></svg><span>Copy</span>
+            </button>
+          </div>
+          <p class="dot-list mcp-meta">OAuth<span class="dot" aria-hidden="true"></span>No API keys<span class="dot" aria-hidden="true"></span>Claude + ChatGPT</p>
+        </div>
+      </div>
+      <div class="mcp-cell mcp-prompts">
+        <div class="t-label">Try asking</div>
+        <ul class="prompt-list">
+          <li class="prompt-card">“Find senior product designers in Bangalore who’ve led B2C design at a consumer startup.”</li>
+          <li class="prompt-card">“Tell me everything about Rajan Anandan: fun, work, investments. I’m looking to fundraise.”</li>
+          <li class="prompt-card">“Who are the eng leaders at CRED? I’m looking to onboard them as customers for my AI dev tool.”</li>
+        </ul>
+      </div>
+      <span class="ruled-corner tl" aria-hidden="true"></span>
+      <span class="ruled-corner tr" aria-hidden="true"></span>
+      <span class="ruled-corner bl" aria-hidden="true"></span>
+      <span class="ruled-corner br" aria-hidden="true"></span>
+    </div>
+  </div>
+</section>
+
 <section class="wom" id="wom">
   <div class="wrap">
     <div class="section-head has-actions">
@@ -218,36 +255,42 @@
 
     <p class="sr-only" id="wom-status" aria-live="polite"></p>
     <div class="wom-frame ruled-frame" id="wom-frame" role="region" aria-label="Customer testimonials">
+      <!-- illustrative testimonial: swap in a real customer's name, role, quote and photo -->
       <div class="wom-card">
+        <span class="sample-tag">Sample</span>
         <img class="avatar" src="assets/avatar-ananya.jpg" alt="Ananya Iyer">
         <p class="wom-quote">"Kello gives us back our time. I can focus on conversations and closing hires instead of endless searches. The candidate write-ups are incredibly helpful and make it easy to prioritize."</p>
         <div class="wom-author">
           <div class="wom-sig">Ananya Iyer</div>
-          <div class="wom-role">Recruiting Manager at Zepto</div>
+          <div class="wom-role">Recruiting Manager, quick-commerce startup</div>
         </div>
       </div>
 
+      <!-- illustrative testimonial: swap in a real customer's name, role, quote and photo -->
       <div class="wom-card video">
+        <span class="sample-tag">Sample</span>
         <img src="assets/photo-karan.jpg" alt="Karan Mehta">
         <span class="play-btn" aria-hidden="true">
           <svg class="icon" aria-hidden="true"><use href="#i-play"/></svg>
         </span>
         <div class="wom-author">
           <div class="wom-sig">Karan Mehta</div>
-          <div class="wom-role">Head of Talent at PhysicsWallah</div>
+          <div class="wom-role">Head of Talent, edtech scale-up</div>
         </div>
       </div>
 
+      <!-- illustrative testimonial: swap in a real customer's name, role, quote and photo -->
       <div class="wom-card">
+        <span class="sample-tag">Sample</span>
         <img class="avatar" src="assets/avatar-riya.jpg" alt="Riya Sharma">
         <p class="wom-quote">"Kello has completely changed the way we source. What used to take weeks of manual search now lands in our inbox in under an hour, with high-quality candidates and clear reasoning."</p>
         <div class="wom-author">
           <div class="wom-sig">Riya Sharma</div>
-          <div class="wom-role">Talent Acquisition Lead at Razorpay</div>
+          <div class="wom-role">Talent Acquisition Lead, fintech</div>
         </div>
       </div>
 
-      <!-- placeholder testimonial: swap in a real customer's name, role, quote and photo -->
+      <!-- illustrative testimonial: swap in a real customer's name, role, quote and photo -->
       <div class="wom-card video">
         <span class="sample-tag">Sample</span>
         <div class="wom-poster" role="img" aria-label="Arjun Nair"></div>
@@ -256,22 +299,22 @@
         </span>
         <div class="wom-author">
           <div class="wom-sig">Arjun Nair</div>
-          <div class="wom-role">Director of Talent at Swiggy</div>
+          <div class="wom-role">Director of Talent, consumer tech</div>
         </div>
       </div>
 
-      <!-- placeholder testimonial: swap in a real customer's name, role, quote and photo -->
+      <!-- illustrative testimonial: swap in a real customer's name, role, quote and photo -->
       <div class="wom-card">
         <span class="sample-tag">Sample</span>
         <span class="avatar initials" aria-hidden="true">MK</span>
         <p class="wom-quote">"We filled two senior engineering roles in our first month. Kello surfaced people our team had never come across, and every profile came with reasoning we could forward straight to the hiring manager."</p>
         <div class="wom-author">
           <div class="wom-sig">Meera Kapoor</div>
-          <div class="wom-role">HR Business Partner at Snapmint</div>
+          <div class="wom-role">HR Business Partner, consumer-finance startup</div>
         </div>
       </div>
 
-      <!-- placeholder testimonial: swap in a real customer's name, role, quote and photo -->
+      <!-- illustrative testimonial: swap in a real customer's name, role, quote and photo -->
       <div class="wom-card video">
         <span class="sample-tag">Sample</span>
         <div class="wom-poster" role="img" aria-label="Vikram Rao"></div>
@@ -280,7 +323,7 @@
         </span>
         <div class="wom-author">
           <div class="wom-sig">Vikram Rao</div>
-          <div class="wom-role">VP of People at JUSPAY</div>
+          <div class="wom-role">VP of People, payments company</div>
         </div>
       </div>
       <span class="ruled-corner tl" aria-hidden="true"></span>

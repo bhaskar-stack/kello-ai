@@ -54,6 +54,7 @@
   flex-shrink:0;
   width:150px;
 }
+.trust-label .sample-tag{display:table;margin-top:var(--space-2);}
 .ticker{
   flex:1;
   min-width:0;
@@ -155,6 +156,22 @@
    surround, laid over the green background edge to edge */
 .visual-shot{position:absolute;left:0;top:0;width:100%;height:auto;max-width:none;}
 
+/* ---- MCP ------------------------------------------------------------------
+   Two ruled cells: the pitch and connector URL on the left, example
+   prompts on the right. */
+.mcp-frame{display:grid;grid-template-columns:1fr 1fr;background:var(--color-bg-page);}
+.mcp-cell{padding:var(--space-8);}
+.mcp-cell + .mcp-cell{border-left:1px solid var(--color-border-rule);}
+.mcp-setup{display:flex;flex-direction:column;justify-content:space-between;gap:var(--space-8);}
+.mcp-copy{
+  max-width:520px;
+  font-size:var(--text-lead-size);line-height:var(--text-lead-lh);letter-spacing:var(--tracking-tight);
+  color:var(--color-text-secondary);
+}
+.mcp-connect{display:flex;flex-direction:column;gap:var(--space-3);}
+.mcp-meta{font-size:var(--text-small-size);line-height:var(--text-small-lh);letter-spacing:var(--tracking-tight);color:var(--color-text-muted);}
+.mcp-prompts .prompt-list{margin-top:var(--space-3);}
+
 /* ---- Testimonials ---------------------------------------------------------
    Three cards per batch in a ruled frame. JS groups the cards into pages
    inside a clipped viewport and slides between them; the arrows wrap
@@ -186,14 +203,8 @@
   letter-spacing:var(--tracking-tight);
   color:var(--color-text-strong);
 }
-/* marks a placeholder testimonial until a real customer's replaces it */
-.sample-tag{
-  position:absolute;top:var(--space-8);right:var(--space-8);z-index:3;
-  padding:var(--space-1) var(--space-2);
-  border-radius:var(--radius-sm);
-  background:var(--sage-100);color:var(--color-text-brand);
-  font-size:var(--text-tag-size);line-height:var(--text-tag-lh);font-weight:var(--weight-medium);letter-spacing:var(--tracking-caps);text-transform:uppercase;
-}
+/* the sample tag sits in the card's top-right corner */
+.wom-card .sample-tag{position:absolute;top:var(--space-8);right:var(--space-8);z-index:3;}
 /* signature + designation sit on the card's bottom edge */
 .wom-author{margin-top:auto;}
 .wom-sig{

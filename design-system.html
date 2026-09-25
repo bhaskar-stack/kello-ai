@@ -14,7 +14,8 @@
 <link rel="stylesheet" href="styles/components.css">
 <style>
   /* style-guide layout only; everything it shows comes from the shared CSS */
-  .ds-top{padding:var(--space-16) 0 var(--space-10);}
+  .ds-top{padding:var(--space-8) 0 var(--space-10);}
+  .ds-back{margin-bottom:var(--space-12);}
   .ds-top p{margin-top:var(--space-4);max-width:720px;}
   .ds-nav{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-8);}
   .ds-nav a{padding:var(--space-1) var(--space-3);border:1px solid var(--color-border);border-radius:var(--radius-full);font-size:var(--text-small-size);line-height:var(--text-small-lh);color:var(--color-text-secondary);background:var(--color-bg-raised);}
@@ -54,11 +55,12 @@
 
 <div class="wrap">
   <header class="ds-top">
+    <a class="btn btn-secondary ds-back" href="index.html" id="ds-back"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron-left"/></svg>Back to site</a>
     <div class="eyebrow">Kello.ai</div>
     <h1 class="t-display">Design system</h1>
     <p class="t-lead">A live reference built from <code>styles/tokens.css</code>, <code>base.css</code>, <code>components.css</code> and <code>scripts/icons.js</code>. Values below are read from the CSS at load, so this page always matches the site. How and when to use each piece is in <code>DESIGN.md</code>; new pages start from <code>page-template.html</code>.</p>
     <nav class="ds-nav" aria-label="Sections">
-      <a href="#colour">Colour</a><a href="#type">Type</a><a href="#spacing">Spacing</a><a href="#radius">Radius &amp; elevation</a><a href="#icons">Icons</a><a href="#buttons">Buttons</a><a href="#tags">Chips &amp; badges</a><a href="#lists">Lists &amp; rules</a><a href="#frame">Ruled frame</a><a href="#tabs">Tabs</a><a href="#faq">FAQ</a><a href="#motion">Motion</a>
+      <a href="#colour">Colour</a><a href="#type">Type</a><a href="#spacing">Spacing</a><a href="#radius">Radius &amp; elevation</a><a href="#icons">Icons</a><a href="#buttons">Buttons</a><a href="#tags">Chips &amp; badges</a><a href="#lists">Lists &amp; rules</a><a href="#frame">Ruled frame</a><a href="#tabs">Tabs</a><a href="#faq">FAQ</a><a href="#copy">Copy field</a><a href="#motion">Motion</a>
     </nav>
   </header>
 </div>
@@ -243,6 +245,21 @@
   </div>
 </section>
 
+<section id="copy">
+  <div class="wrap">
+    <div class="section-head"><h2>Copy field and prompt card</h2></div>
+    <div class="ds-grid c4" style="grid-template-columns:1fr 1fr;gap:var(--space-12);align-items:start">
+      <div class="copy-field">
+        <code id="ds-url">https://kello.ai/mcp</code>
+        <button class="btn btn-secondary" type="button" data-copy="#ds-url"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-copy"/></svg><span>Copy</span></button>
+      </div>
+      <ul class="prompt-list">
+        <li class="prompt-card">“Who are the eng leaders at CRED? I’m looking to onboard them as customers.”</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section id="motion">
   <div class="wrap">
     <div class="section-head"><div class="eyebrow">Motion</div><h2>Durations &amp; easing</h2>
@@ -255,6 +272,15 @@
 <script src="scripts/site.js"></script>
 <script>
 (function(){
+  // back link: return to wherever the visitor came from on this site (keeps
+  // their scroll position); opened directly, it goes to the landing page
+  const back = document.getElementById('ds-back');
+  back.addEventListener('click', e=>{
+    let sameSite = false;
+    try { sameSite = document.referrer && new URL(document.referrer).origin === location.origin; } catch (err) {}
+    if (sameSite && history.length > 1) { e.preventDefault(); history.back(); }
+  });
+
   const root = getComputedStyle(document.documentElement);
   const val = t => root.getPropertyValue(t).trim();
   const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
